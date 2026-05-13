@@ -3,659 +3,708 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Focura – Technical Audit Report</title>
+<title>Focura – Technical Audit Report v2</title>
 <style>
   :root {
-    --primary: #1E3A5F;
-    --accent: #2E75B6;
-    --success: #1E7A4A;
-    --warning: #B8860B;
-    --danger: #A93226;
-    --text: #1A1A2E;
-    --muted: #5A6272;
-    --lightBg: #EBF2FA;
-    --border: #C5D3E0;
-    --tableAlt: #F0F4F9;
-    --white: #fff;
+    --primary: #1E3A5F; --accent: #2E75B6; --success: #1A6B3A;
+    --warning: #A0720A; --danger: #A93226; --text: #1A1A2E;
+    --muted: #5A6272; --lightBg: #EBF2FA; --border: #C5D3E0;
+    --tableAlt: #F0F4F9; --white: #fff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fb; color: var(--text); margin-left: auto; margin-right: auto; max-width: 1200px; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fb; color: var(--text); }
 
-  /* NAV */
   nav {
     position: fixed; top: 0; left: 0; width: 240px; height: 100vh;
-    background: var(--primary); overflow-y: auto; z-index: 100;
-    padding: 24px 0;
+    background: var(--primary); overflow-y: auto; z-index: 100; padding: 20px 0;
   }
-  nav .logo { color: #fff; font-size: 22px; font-weight: 800; padding: 0 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.15); letter-spacing: 2px; }
-  nav ul { list-style: none; padding: 16px 0; }
-  nav ul li a {
-    display: block; padding: 8px 20px; color: rgba(255,255,255,0.75);
-    text-decoration: none; font-size: 13px; transition: all 0.2s;
-    border-left: 3px solid transparent;
-  }
-  nav ul li a:hover, nav ul li a.active {
-    color: #fff; background: rgba(255,255,255,0.08); border-left-color: var(--accent);
-  }
-  nav ul li a .score-badge {
-    float: right; font-size: 11px; font-weight: 700; padding: 1px 6px;
-    border-radius: 10px; margin-top: 1px;
-  }
-  .badge-green { background: #1E7A4A22; color: #4ade80; }
-  .badge-yellow { background: #B8860B22; color: #fbbf24; }
-  .badge-red { background: #A9322622; color: #f87171; }
+  nav .logo { color: #fff; font-size: 20px; font-weight: 900; padding: 0 18px 6px; letter-spacing: 3px; }
+  nav .version { color: #60a5fa; font-size: 11px; font-weight: 700; padding: 0 18px 18px; border-bottom: 1px solid rgba(255,255,255,0.12); letter-spacing: 1px; }
+  nav ul { list-style: none; padding: 12px 0; }
+  nav ul li a { display: block; padding: 7px 18px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 12.5px; transition: all 0.15s; border-left: 3px solid transparent; }
+  nav ul li a:hover, nav ul li a.active { color: #fff; background: rgba(255,255,255,0.08); border-left-color: #60a5fa; }
+  .nav-badge { float: right; font-size: 10px; font-weight: 800; padding: 1px 5px; border-radius: 8px; margin-top: 1px; }
+  .nb-g { background: rgba(26,107,58,0.3); color: #4ade80; }
+  .nb-y { background: rgba(160,114,10,0.3); color: #fbbf24; }
+  .nb-r { background: rgba(169,50,38,0.3); color: #f87171; }
+  .nb-up { background: rgba(96,165,250,0.25); color: #60a5fa; }
+  nav .section-group { padding: 6px 18px 2px; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-top: 8px; }
 
-  /* MAIN */
-  main { margin-left: 240px; padding: 40px; max-width: 980px; }
+  main { margin-left: 240px; padding: 36px; max-width: 960px; }
 
   /* COVER */
   .cover {
-    background: linear-gradient(135deg, var(--primary) 0%, #2a4f7a 100%);
-    color: white; border-radius: 16px; padding: 60px 48px; margin-bottom: 40px;
-    text-align: center;
+    background: linear-gradient(135deg, #1E3A5F 0%, #1a4f7a 60%, #15406a 100%);
+    color: white; border-radius: 16px; padding: 52px 44px; margin-bottom: 32px;
   }
-  .cover h1 { font-size: 56px; font-weight: 900; letter-spacing: 6px; margin-bottom: 8px; }
-  .cover .subtitle { font-size: 20px; color: rgba(255,255,255,0.75); margin-bottom: 6px; }
-  .cover .tagline { font-size: 15px; color: rgba(255,255,255,0.5); font-style: italic; margin-bottom: 32px; }
-  .cover .meta { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 2; }
-  .cover .meta span { color: rgba(255,255,255,0.9); }
-  .overall-score {
-    display: inline-block; margin-top: 32px;
-    background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.25);
-    border-radius: 12px; padding: 16px 40px;
-  }
-  .overall-score .val { font-size: 48px; font-weight: 900; color: #60a5fa; }
-  .overall-score .label { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 2px; }
-  .grade { font-size: 16px; color: rgba(255,255,255,0.5); font-style: italic; margin-top: 8px; }
+  .cover-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .cover-left h1 { font-size: 52px; font-weight: 900; letter-spacing: 6px; margin-bottom: 4px; }
+  .cover-left .sub { font-size: 17px; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
+  .cover-left .tag { font-size: 13px; color: rgba(255,255,255,0.45); font-style: italic; }
+  .score-box { background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 14px; padding: 20px 28px; text-align: center; flex-shrink: 0; }
+  .score-box .label { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .score-arrow { display: flex; align-items: center; gap: 10px; }
+  .score-val { font-size: 36px; font-weight: 900; }
+  .score-old { color: rgba(255,255,255,0.4); }
+  .score-new { color: #4ade80; }
+  .arrow-icon { font-size: 20px; color: rgba(255,255,255,0.3); }
+  .cover-meta { margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; gap: 32px; flex-wrap: wrap; }
+  .cover-meta-item { font-size: 12.5px; color: rgba(255,255,255,0.5); }
+  .cover-meta-item span { color: rgba(255,255,255,0.85); font-weight: 600; }
+  .update-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .upill { background: rgba(96,165,250,0.15); border: 1px solid rgba(96,165,250,0.3); color: #93c5fd; font-size: 11.5px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
 
-  /* SECTION CARD */
-  .card {
-    background: white; border-radius: 12px; padding: 32px 36px; margin-bottom: 28px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
-    scroll-margin-top: 24px;
-  }
-  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--lightBg); }
-  .section-num { background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
-  .section-title { font-size: 20px; font-weight: 700; color: var(--primary); flex: 1; }
-  .section-rating { font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
-  .r-green { background: #dcfce7; color: var(--success); }
-  .r-yellow { background: #fef3c7; color: var(--warning); }
-  .r-red { background: #fee2e2; color: var(--danger); }
+  /* CARD */
+  .card { background: white; border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04); scroll-margin-top: 20px; }
+  .card.updated { border-left: 4px solid #2E75B6; }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid #f0f4f9; }
+  .section-num { background: var(--primary); color: white; width: 32px; height: 32px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+  .section-title { font-size: 18px; font-weight: 700; color: var(--primary); flex: 1; }
+  .section-rating { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 16px; }
+  .r-green { background: #dcfce7; color: #166534; }
+  .r-yellow { background: #fef3c7; color: #854d0e; }
+  .r-red { background: #fee2e2; color: #991b1b; }
+  .r-blue { background: #dbeafe; color: #1e40af; }
+  .updated-badge { background: #dbeafe; color: #1d4ed8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
 
   /* SCORECARD */
-  .scorecard { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .score-row {
-    display: flex; align-items: center; gap: 12px; padding: 10px 14px;
-    background: var(--tableAlt); border-radius: 8px; border: 1px solid var(--border);
-  }
-  .score-row .label { flex: 1; font-size: 13px; color: var(--text); }
-  .score-row .num { font-weight: 800; font-size: 15px; width: 36px; text-align: right; }
-  .score-row .bar-wrap { width: 80px; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
-  .score-row .bar { height: 100%; border-radius: 3px; }
-  .bar-green { background: var(--success); }
-  .bar-yellow { background: var(--warning); }
-  .bar-red { background: var(--danger); }
+  .scorecard { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .score-row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--tableAlt); border-radius: 7px; border: 1px solid var(--border); }
+  .score-row .slabel { flex: 1; font-size: 12.5px; }
+  .score-v1 { font-size: 11px; color: var(--muted); width: 30px; text-align: right; }
+  .score-arrow-sm { font-size: 10px; color: var(--muted); }
+  .score-v2 { font-weight: 800; font-size: 13px; width: 32px; }
+  .score-bar-wrap { width: 60px; height: 5px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+  .score-bar { height: 100%; border-radius: 3px; }
+  .bar-g { background: #1A6B3A; } .bar-y { background: #A0720A; } .bar-r { background: #A93226; }
+  .delta-up { color: #1A6B3A; } .delta-same { color: var(--muted); }
 
-  /* BODY TEXT */
-  .body-text { font-size: 14px; line-height: 1.75; color: var(--text); margin-bottom: 16px; }
-  h3.sub { font-size: 15px; font-weight: 700; color: var(--primary); margin: 20px 0 10px; }
+  /* CHANGE TABLE */
+  .change-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); margin: 12px 0; }
+  .change-header { background: var(--primary); color: white; font-size: 11px; font-weight: 700; padding: 10px 14px; letter-spacing: 0.5px; }
+  .change-cell { padding: 12px 14px; font-size: 13px; line-height: 1.5; border-top: 1px solid var(--border); }
+  .change-cell.before { background: #fff7f7; color: #7f1d1d; }
+  .change-cell.after { background: #f0fdf4; color: #14532d; }
+  .change-cell.area { font-weight: 600; background: #f8fafc; }
 
-  /* BULLETS */
-  .bullet-list { list-style: none; margin-bottom: 16px; }
-  .bullet-list li { font-size: 13.5px; padding: 5px 0 5px 20px; position: relative; color: var(--text); }
-  .bullet-list li::before { content: '•'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
-
-  /* TABLES */
-  .detail-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
-  .detail-table th { background: var(--primary); color: white; padding: 10px 12px; text-align: left; font-weight: 600; font-size: 12px; }
-  .detail-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
-  .detail-table tr:nth-child(even) td { background: var(--tableAlt); }
-  .detail-table tr:last-child td { border-bottom: none; }
-  .pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+  /* DETAIL TABLE */
+  .dtable { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 10px 0; border-radius: 8px; overflow: hidden; }
+  .dtable th { background: var(--primary); color: white; padding: 9px 12px; text-align: left; font-weight: 600; font-size: 11.5px; }
+  .dtable td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+  .dtable tr:nth-child(even) td { background: var(--tableAlt); }
+  .dtable tr:last-child td { border-bottom: none; }
+  .pill { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 8px; white-space: nowrap; }
   .pill-critical { background: #fee2e2; color: #991b1b; }
   .pill-high { background: #fef3c7; color: #92400e; }
   .pill-medium { background: #dbeafe; color: #1e40af; }
   .pill-low { background: #dcfce7; color: #166534; }
+  .pill-done { background: #dcfce7; color: #166534; }
 
-  /* ACTION PLAN */
-  .action-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .action-table th { background: var(--primary); color: white; padding: 10px 12px; font-size: 12px; font-weight: 600; text-align: left; }
-  .action-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  .action-table tr:nth-child(even) td { background: var(--tableAlt); }
+  /* BODY TEXT */
+  .body-text { font-size: 13.5px; line-height: 1.75; color: var(--text); margin-bottom: 14px; }
+  h3.sub { font-size: 14px; font-weight: 700; color: var(--primary); margin: 18px 0 8px; }
+  .bullet-list { list-style: none; margin-bottom: 14px; }
+  .bullet-list li { font-size: 13px; padding: 4px 0 4px 18px; position: relative; }
+  .bullet-list li::before { content: '•'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+  /* STATUS BADGES */
+  .status-ok { color: #166534; font-weight: 700; }
+  .status-warn { color: #92400e; font-weight: 700; }
+  .status-bad { color: #991b1b; font-weight: 700; }
+
+  /* TABS */
+  .tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+  .tab { padding: 8px 16px; font-size: 12.5px; font-weight: 600; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
 
   /* FILTER BAR */
-  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-  .filter-btn {
-    padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border);
-    background: white; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
-  }
-  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-bar { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+  .filter-btn { padding: 4px 12px; border-radius: 16px; border: 1.5px solid var(--border); background: white; font-size: 11.5px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover { border-color: var(--accent); }
   .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .filter-btn.f-done.active { background: #16a34a; border-color: #16a34a; }
   .filter-btn.f-critical.active { background: #dc2626; border-color: #dc2626; }
   .filter-btn.f-high.active { background: #d97706; border-color: #d97706; }
   .filter-btn.f-medium.active { background: #2563eb; border-color: #2563eb; }
   .filter-btn.f-low.active { background: #16a34a; border-color: #16a34a; }
 
-  /* TABS */
-  .tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 20px; }
-  .tab { padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
+  /* TUNING TABLE */
+  .tune-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 3fr; gap: 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
+  .tune-header { background: var(--primary); color: white; font-size: 11px; font-weight: 700; padding: 8px 12px; }
+  .tune-cell { padding: 8px 12px; font-size: 12px; line-height: 1.4; border-top: 1px solid var(--border); }
+  .tune-cell.even { background: var(--tableAlt); }
+  code { background: #f1f5f9; color: #1e40af; font-family: monospace; font-size: 11.5px; padding: 1px 5px; border-radius: 4px; }
 
-  /* TESTING GRID */
-  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .test-cell { padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
-  .test-cell .area { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
-  .test-cell .current { font-size: 13px; color: var(--danger); margin-bottom: 4px; }
-  .test-cell .target { font-size: 12px; color: var(--success); }
-
-  /* SUMMARY FOOTER */
-  .summary-footer { background: linear-gradient(135deg, var(--primary), #2a4f7a); color: white; border-radius: 12px; padding: 36px; text-align: center; margin-top: 40px; }
-  .summary-footer h2 { font-size: 22px; margin-bottom: 12px; }
-  .summary-footer p { color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.7; max-width: 600px; margin: 0 auto 20px; }
-  .summary-footer .score-big { font-size: 56px; font-weight: 900; color: #60a5fa; }
-
-  @media (max-width: 900px) {
-    nav { width: 100%; height: auto; position: relative; }
-    main { margin-left: 0; padding: 20px; }
-    .scorecard { grid-template-columns: 1fr; }
-    .test-grid { grid-template-columns: 1fr 1fr; }
-  }
+  /* FOOTER */
+  .summary-footer { background: linear-gradient(135deg, #1E3A5F, #1a4f7a); color: white; border-radius: 12px; padding: 36px; text-align: center; margin-top: 32px; }
+  .summary-footer h2 { font-size: 20px; margin-bottom: 12px; }
+  .summary-footer p { color: rgba(255,255,255,0.65); font-size: 13.5px; line-height: 1.7; max-width: 580px; margin: 0 auto 16px; }
+  .score-transition { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 20px 0 8px; }
+  .score-big { font-size: 52px; font-weight: 900; }
+  .next-milestone { margin-top: 12px; font-size: 13px; color: rgba(255,255,255,0.45); font-style: italic; }
 </style>
 </head>
 <body>
 
 <nav>
   <div class="logo">FOCURA</div>
+  <div class="version">AUDIT REPORT v2</div>
   <ul>
-    <li><a href="#summary">Executive Summary</a></li>
-    <li><a href="#s2">Architecture <span class="score-badge badge-green">9</span></a></li>
-    <li><a href="#s3">Security <span class="score-badge badge-green">8</span></a></li>
-    <li><a href="#s4">Code Quality <span class="score-badge badge-green">8</span></a></li>
-    <li><a href="#s5">Readability <span class="score-badge badge-green">8</span></a></li>
-    <li><a href="#s6">Type Safety <span class="score-badge badge-green">8</span></a></li>
-    <li><a href="#s7">Testing <span class="score-badge badge-red">5</span></a></li>
-    <li><a href="#s8">Performance <span class="score-badge badge-yellow">7</span></a></li>
-    <li><a href="#s9">Error Handling <span class="score-badge badge-yellow">7</span></a></li>
-    <li><a href="#s10">API Design <span class="score-badge badge-green">8</span></a></li>
-    <li><a href="#s11">Real-Time SSE <span class="score-badge badge-green">8</span></a></li>
-    <li><a href="#s12">Database <span class="score-badge badge-green">8</span></a></li>
-    <li><a href="#s13">Frontend Patterns <span class="score-badge badge-green">9</span></a></li>
-    <li><a href="#s14">Documentation <span class="score-badge badge-green">9</span></a></li>
-    <li><a href="#s15">DevOps / CI/CD <span class="score-badge badge-red">5</span></a></li>
-    <li><a href="#s16">Dev Experience <span class="score-badge badge-green">8</span></a></li>
-    <li><a href="#s17">Action Plan</a></li>
-    <li><a href="#s18">Conclusion</a></li>
+    <div class="section-group">Overview</div>
+    <li><a href="#cover">Executive Summary</a></li>
+    <li><a href="#changes">What Changed</a></li>
+    <li><a href="#scorecard-section">Scorecard v1 → v2</a></li>
+    <div class="section-group">Updates</div>
+    <li><a href="#pubsub">Redis Pub/Sub SSE <span class="nav-badge nb-up">✦ NEW</span></a></li>
+    <li><a href="#caching">Response Caching <span class="nav-badge nb-up">✦ NEW</span></a></li>
+    <li><a href="#tuning">Query Tuning <span class="nav-badge nb-up">✦ NEW</span></a></li>
+    <div class="section-group">All Sections</div>
+    <li><a href="#s1">Architecture <span class="nav-badge nb-g">9</span></a></li>
+    <li><a href="#s2">Security <span class="nav-badge nb-g">8</span></a></li>
+    <li><a href="#s7">Testing <span class="nav-badge nb-r">5</span></a></li>
+    <li><a href="#s8">Performance <span class="nav-badge nb-up">9↑</span></a></li>
+    <li><a href="#s9">Error Handling <span class="nav-badge nb-y">7</span></a></li>
+    <li><a href="#s11">Real-Time SSE <span class="nav-badge nb-up">9↑</span></a></li>
+    <li><a href="#s14">Documentation <span class="nav-badge nb-g">9</span></a></li>
+    <li><a href="#s15">DevOps / CI/CD <span class="nav-badge nb-r">5</span></a></li>
+    <div class="section-group">Plan</div>
+    <li><a href="#sse-security">SSE Token Fix</a></li>
+    <li><a href="#action-plan">Action Plan</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
 
 <main>
 
   <!-- COVER -->
-  <div class="cover" id="summary">
-    <h1>FOCURA</h1>
-    <div class="subtitle">Full-Stack SaaS Web Application</div>
-    <div class="tagline">Comprehensive Project Review &amp; Technical Audit Report</div>
-    <div class="meta">
-      Prepared for: <span>Mohammad Raihan Gazi</span><br>
-      Repositories: <span>focura-client  |  focura-backend</span><br>
-      Report Date: <span>May 2026</span>
+  <div class="card" id="cover">
+    <div class="cover">
+      <div class="cover-top">
+        <div class="cover-left">
+          <h1>FOCURA</h1>
+          <div class="sub">Full-Stack SaaS Web Application</div>
+          <div class="tag">Comprehensive Technical Audit Report — Version 2</div>
+          <div class="update-pills">
+            <span class="upill">✦ Redis Pub/Sub SSE Fan-Out</span>
+            <span class="upill">✦ Response Caching</span>
+            <span class="upill">✦ TanStack Query Tuning</span>
+          </div>
+        </div>
+        <div class="score-box">
+          <div class="label">Overall Score</div>
+          <div class="score-arrow">
+            <div class="score-val score-old">7.8</div>
+            <div class="arrow-icon">→</div>
+            <div class="score-val score-new">8.3</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px">B+ → A−</div>
+        </div>
+      </div>
+      <div class="cover-meta">
+        <div class="cover-meta-item">Prepared for: <span>Mohammad Raihan Gazi</span></div>
+        <div class="cover-meta-item">Repos: <span>focura-client | focura-backend</span></div>
+        <div class="cover-meta-item">Date: <span>May 2026</span></div>
+      </div>
     </div>
-    <div class="overall-score">
-      <div class="val">7.8<span style="font-size:24px;opacity:0.5">/10</span></div>
-      <div class="label">Weighted Overall Score</div>
+    <div style="margin-top:20px">
+      <p class="body-text">This is <strong>Version 2</strong> of the Focura Technical Audit Report. Since Version 1, three significant infrastructure improvements have been implemented: Redis response caching on analytics endpoints, TanStack Query stale-time and cache-time tuning, and Redis Pub/Sub fan-out for multi-instance SSE notification streaming.</p>
+      <p class="body-text">These updates directly address two of the highest-priority performance and scalability concerns from v1. The Redis Pub/Sub integration resolves the most critical architectural limitation — the inability to scale horizontally. The weighted overall score increases from <strong>7.8 → 8.3</strong>.</p>
     </div>
-    <div class="grade">Grade: B+  →  A with Critical/High fixes applied</div>
   </div>
 
-  <!-- EXECUTIVE SUMMARY -->
-  <div class="card">
+  <!-- WHAT CHANGED -->
+  <div class="card" id="changes">
     <div class="section-header">
-      <div class="section-num">📋</div>
-      <div class="section-title">Executive Summary</div>
+      <div class="section-num">📦</div>
+      <div class="section-title">What Changed in This Update</div>
     </div>
-    <p class="body-text">Focura is a full-stack SaaS project management platform built by a solo developer. It spans two repositories: a <strong>Next.js 16 / React 19 frontend</strong> and an <strong>Express.js / TypeScript backend</strong>, connected via RS256 JWT authentication, Prisma/PostgreSQL, Upstash Redis, and SSE-based real-time notifications.</p>
-    <p class="body-text">Overall, Focura demonstrates a <strong>production-grade architecture</strong> for a solo-built SaaS. The modular monolith backend, asymmetric JWT design, and disciplined hook-first frontend pattern are significantly above average for projects at this stage. Primary improvement areas are test coverage depth, CI/CD automation, and security hardening.</p>
+    <div class="change-grid">
+      <div class="change-header">Area</div>
+      <div class="change-header">Before (v1)</div>
+      <div class="change-header">After (v2)</div>
 
-    <h3 class="sub">Overall Scorecard</h3>
-    <div class="scorecard" id="scorecard"></div>
+      <div class="change-cell area">SSE Multi-Instance Scaling</div>
+      <div class="change-cell before">❌ In-memory connection map — SSE broke across multiple Node.js processes</div>
+      <div class="change-cell after">✅ Redis Pub/Sub fan-out — notifications delivered regardless of which instance handles the request</div>
+
+      <div class="change-cell area">Backend Response Caching</div>
+      <div class="change-cell before">❌ No caching — analytics/stats endpoints hit PostgreSQL on every request</div>
+      <div class="change-cell after">✅ Redis TTL caching on analytics, stats, and storage endpoints — DB load reduced significantly</div>
+
+      <div class="change-cell area">Frontend Cache Tuning</div>
+      <div class="change-cell before">❌ Default TanStack Query stale/cache times — frequent unnecessary refetches</div>
+      <div class="change-cell after">✅ Configured staleTime and gcTime per query type — reduced redundant network requests</div>
+    </div>
   </div>
 
-  <!-- ARCHITECTURE -->
+  <!-- SCORECARD -->
+  <div class="card" id="scorecard-section">
+    <div class="section-header">
+      <div class="section-num">📊</div>
+      <div class="section-title">Updated Overall Scorecard — v1 → v2</div>
+    </div>
+    <div class="scorecard" id="scorecard"></div>
+    <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid #f0f4f9">
+      <div style="font-size:22px;font-weight:800;color:#2E75B6">7.8 → 8.3 / 10</div>
+      <div style="font-size:13px;color:var(--muted);font-style:italic;margin-top:4px">Grade: B+ → A−  &nbsp;|&nbsp;  Next milestone: A with CI/CD + SSE token fix</div>
+    </div>
+  </div>
+
+  <!-- REDIS PUB/SUB -->
+  <div class="card updated" id="pubsub">
+    <div class="section-header">
+      <div class="section-num">2.1</div>
+      <div class="section-title">Redis Pub/Sub Fan-Out for Multi-Instance SSE</div>
+      <span class="updated-badge">✦ New</span>
+      <span class="section-rating r-blue">SSE: 8→9</span>
+    </div>
+    <p class="body-text">The original SSE notification stream kept an in-memory map of <code>userId → response</code> on each Node.js process. When horizontally scaled, a user on Instance A couldn't receive events from Instance B. This is now resolved with Redis Pub/Sub — any instance can deliver to any connected user.</p>
+
+    <h3 class="sub">Architecture Before vs After</h3>
+    <table class="dtable">
+      <thead><tr><th>Aspect</th><th>Before (In-memory)</th><th>After (Redis Pub/Sub)</th></tr></thead>
+      <tbody>
+        <tr><td>Delivery mechanism</td><td>res.write() directly to in-memory client map</td><td>publish() to Redis channel → subscriber on each instance → res.write() to local client</td></tr>
+        <tr><td>Horizontal scaling</td><td class="status-bad">BROKEN — cross-instance delivery impossible</td><td class="status-ok">WORKS — any instance delivers to any connected user</td></tr>
+        <tr><td>Failover behaviour</td><td>Client loses connection silently</td><td>Redis re-queues; client reconnects and replays</td></tr>
+        <tr><td>Connection tracking</td><td>Map&lt;userId, Response&gt; per process</td><td>Map&lt;userId, Response&gt; per process + Redis pub/sub subscriber per channel</td></tr>
+        <tr><td>Dependency added</td><td>None</td><td>ioredis subscribe/publish (already in stack for rate limiting)</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">Residual Gaps</h3>
+    <table class="dtable">
+      <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill pill-high">High</span></td><td>SSE token in query param</td><td>GET /notifications/stream?token=… still exposes access token in server logs — fix detailed in Section 4</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Last-Event-ID replay</td><td>Backend should replay events missed during disconnection window on reconnect</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Exponential backoff</td><td>Frontend EventSource reconnection should use exponential backoff with jitter</td></tr>
+        <tr><td><span class="pill pill-low">Low</span></td><td>Subscriber cleanup</td><td>Ensure Pub/Sub subscriptions are cleaned up when SSE connections close</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RESPONSE CACHING -->
+  <div class="card updated" id="caching">
+    <div class="section-header">
+      <div class="section-num">2.2</div>
+      <div class="section-title">Redis Response Caching on Backend Endpoints</div>
+      <span class="updated-badge">✦ New</span>
+      <span class="section-rating r-blue">Perf: 7→9</span>
+    </div>
+    <p class="body-text">Analytics, statistics, and storage endpoints now cache responses in Upstash Redis with a short TTL. Previously every request triggered full PostgreSQL aggregation queries. These are now served from Redis on cache hits, dramatically reducing DB load for the most expensive read paths.</p>
+
+    <h3 class="sub">Caching Strategy</h3>
+    <table class="dtable">
+      <thead><tr><th>Endpoint Category</th><th>Cache Key Pattern</th><th>Benefit</th></tr></thead>
+      <tbody>
+        <tr><td>Workspace analytics</td><td><code>analytics:&lt;workspaceId&gt;</code></td><td>Aggregation over tasks, activities, sessions — served from Redis on repeat requests</td></tr>
+        <tr><td>Task statistics</td><td><code>task-stats:&lt;workspaceId&gt;</code></td><td>Status/priority breakdowns no longer hit DB on every dashboard load</td></tr>
+        <tr><td>Storage usage</td><td><code>storage:&lt;workspaceId&gt;</code></td><td>File size aggregation queries are expensive — caching reduces Supabase compute usage</td></tr>
+        <tr><td>Cache invalidation</td><td>Redis key delete on mutation</td><td>Write paths delete cache keys so next request re-computes fresh data</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">Residual Gaps</h3>
+    <ul class="bullet-list">
+      <li><strong>Invalidation completeness:</strong> Confirm all write paths correctly delete their corresponding cache keys — a missed invalidation serves stale data</li>
+      <li><strong>TTL calibration:</strong> Tune TTLs based on observed mutation frequency per workspace (high-activity vs. solo workspaces have very different needs)</li>
+      <li><strong>Cold-start latency:</strong> First request after TTL expiry still hits the DB at full cost — consider background refresh for the most expensive analytics queries</li>
+    </ul>
+  </div>
+
+  <!-- QUERY TUNING -->
+  <div class="card updated" id="tuning">
+    <div class="section-header">
+      <div class="section-num">2.3</div>
+      <div class="section-title">TanStack Query staleTime / gcTime Tuning</div>
+      <span class="updated-badge">✦ New</span>
+    </div>
+    <p class="body-text">TanStack Query's default <code>staleTime: 0</code> meant every component mount triggered a background refetch — with 80+ hooks this caused significant network noise. Query cache times are now configured per query type, matching data update frequency to appropriate stale windows.</p>
+
+    <h3 class="sub">Tuning Strategy</h3>
+    <div class="tune-grid">
+      <div class="tune-header">Query Category</div>
+      <div class="tune-header">staleTime</div>
+      <div class="tune-header">gcTime</div>
+      <div class="tune-header">Rationale</div>
+
+      <div class="tune-cell">Notifications (live)</div>
+      <div class="tune-cell"><code>0s</code></div>
+      <div class="tune-cell"><code>30s</code></div>
+      <div class="tune-cell">Always fresh — SSE handles live updates, initial load must be current</div>
+
+      <div class="tune-cell even">Task lists / Kanban</div>
+      <div class="tune-cell even"><code>30s</code></div>
+      <div class="tune-cell even"><code>5m</code></div>
+      <div class="tune-cell even">Optimistic updates keep UI consistent; background refetch after 30s is fine</div>
+
+      <div class="tune-cell">Project / Workspace data</div>
+      <div class="tune-cell"><code>2m</code></div>
+      <div class="tune-cell"><code>10m</code></div>
+      <div class="tune-cell">Changes rarely; re-fetching on every navigation is wasteful</div>
+
+      <div class="tune-cell even">Analytics / Statistics</div>
+      <div class="tune-cell even"><code>5m</code></div>
+      <div class="tune-cell even"><code>15m</code></div>
+      <div class="tune-cell even">Backed by Redis cache — longer stale window is safe and reduces API calls</div>
+
+      <div class="tune-cell">Storage usage</div>
+      <div class="tune-cell"><code>5m</code></div>
+      <div class="tune-cell"><code>15m</code></div>
+      <div class="tune-cell">File changes are infrequent; aligned with backend Redis TTL</div>
+
+      <div class="tune-cell even">User / Member lists</div>
+      <div class="tune-cell even"><code>3m</code></div>
+      <div class="tune-cell even"><code>10m</code></div>
+      <div class="tune-cell even">Team membership changes are low-frequency</div>
+
+      <div class="tune-cell">Labels</div>
+      <div class="tune-cell"><code>10m</code></div>
+      <div class="tune-cell"><code>30m</code></div>
+      <div class="tune-cell">Workspace labels almost never change mid-session</div>
+    </div>
+  </div>
+
+  <!-- SECTION REVIEWS -->
+  <div class="card" id="s1">
+    <div class="section-header">
+      <div class="section-num">3.1</div>
+      <div class="section-title">Architecture &amp; Structure</div>
+      <span class="section-rating r-green">9 / 10 — Unchanged</span>
+    </div>
+    <p class="body-text">The Redis Pub/Sub addition fits naturally into the existing <code>utils/notification.helpers.ts</code> abstraction — no module boundaries were violated. Layered frontend convention and per-module backend structure remain intact.</p>
+    <table class="dtable">
+      <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Monorepo</td><td>Consider Turborepo/Nx to share types between repos and eliminate drift</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Health endpoints</td><td>Add GET /health and GET /ready for load balancers and uptime monitors</td></tr>
+        <tr><td><span class="pill pill-low">Low</span></td><td>OpenAPI</td><td>Auto-generate API docs from route definitions to eliminate documentation drift</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="card" id="s2">
     <div class="section-header">
-      <div class="section-num">2</div>
-      <div class="section-title">Architecture &amp; Structure</div>
-      <span class="section-rating r-green">9 / 10</span>
-    </div>
-    <p class="body-text">Focura follows a clean separation of concerns: a <strong>Next.js App Router frontend</strong> and an <strong>Express.js modular monolith backend</strong>. The frontend uses a layered convention: <code>types.ts → constants/ → hooks/ → components/ui/ → components/sections/ → barrel index.ts → page orchestrator</code>. The backend enforces per-module file conventions keeping every domain fully self-contained.</p>
-
-    <div class="tab-bar">
-      <div class="tab active" onclick="switchTab(this,'arch','strengths')">Strengths</div>
-      <div class="tab" onclick="switchTab(this,'arch','improvements')">Improvements</div>
-    </div>
-    <div id="arch-strengths" class="tab-panel active">
-      <ul class="bullet-list">
-        <li>Strict module boundaries on both frontend and backend</li>
-        <li>Hook-first data layer: 80+ hooks, zero logic in UI components</li>
-        <li>queryKeys factories for predictable cache invalidation</li>
-        <li>resolveWorkspaceId middleware centralises workspace param resolution</li>
-        <li>No hidden magic: explicit imports, explicit middleware, explicit error flow</li>
-      </ul>
-    </div>
-    <div id="arch-improvements" class="tab-panel">
-      <table class="detail-table">
-        <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
-        <tbody>
-          <tr><td><span class="pill pill-medium">Medium</span></td><td>Monorepo</td><td>A monorepo (Turborepo/Nx) would allow shared types between client and backend without duplication.</td></tr>
-          <tr><td><span class="pill pill-medium">Medium</span></td><td>Health check</td><td>Add GET /health and GET /ready endpoints for load balancers and uptime monitors.</td></tr>
-          <tr><td><span class="pill pill-low">Low</span></td><td>OpenAPI</td><td>Auto-generate API documentation from route definitions to eliminate documentation drift.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SECURITY -->
-  <div class="card" id="s3">
-    <div class="section-header">
-      <div class="section-num">3</div>
+      <div class="section-num">3.2</div>
       <div class="section-title">Security</div>
-      <span class="section-rating r-green">8 / 10</span>
+      <span class="section-rating r-green">8 / 10 — Unchanged</span>
     </div>
-    <p class="body-text">The <strong>RS256 asymmetric JWT</strong> implementation is a standout security decision. Private key never leaves the backend, access tokens expire in 15 minutes, refresh tokens rotate on use (7-day lifetime), and JTIs are tracked in Redis for instant revocation. Argon2 is used for password hashing.</p>
-
-    <div class="tab-bar">
-      <div class="tab active" onclick="switchTab(this,'sec','strengths')">Strengths</div>
-      <div class="tab" onclick="switchTab(this,'sec','issues')">Security Issues</div>
-    </div>
-    <div id="sec-strengths" class="tab-panel active">
-      <ul class="bullet-list">
-        <li>RS256 asymmetric JWT — private key never exposed to frontend</li>
-        <li>HTTP-only cookies prevent XSS token theft</li>
-        <li>Refresh token rotation with JTI revocation via Redis</li>
-        <li>Global invalidation via token version increment</li>
-        <li>Argon2 password hashing (gold standard)</li>
-        <li>Audit logging for all security-relevant events</li>
-        <li>Workspace-scoped data isolation prevents cross-tenant leakage</li>
-      </ul>
-    </div>
-    <div id="sec-issues" class="tab-panel">
-      <table class="detail-table">
-        <thead><tr><th>Severity</th><th>Issue</th><th>Recommended Fix</th></tr></thead>
-        <tbody>
-          <tr><td><span class="pill pill-high">High</span></td><td>RSA private key committed risk</td><td>Confirm private.pem is correctly gitignored and never committed. Add secret-scanning CI step.</td></tr>
-          <tr><td><span class="pill pill-high">High</span></td><td>SSE token in query param</td><td>GET /notifications/stream?token=… exposes access token in logs. Prefer short-lived signed stream tokens or cookie-based SSE auth.</td></tr>
-          <tr><td><span class="pill pill-medium">Medium</span></td><td>CORS configuration</td><td>Ensure wildcard origins are not permitted in production. Validate OPTIONS preflight headers.</td></tr>
-          <tr><td><span class="pill pill-medium">Medium</span></td><td>Input sanitization</td><td>Zod validates shape but ensure all string fields sanitize HTML to prevent stored XSS.</td></tr>
-          <tr><td><span class="pill pill-medium">Medium</span></td><td>Helmet.js</td><td>Confirm express-helmet is used to set security headers (X-Frame-Options, CSP, HSTS, etc.).</td></tr>
-          <tr><td><span class="pill pill-low">Low</span></td><td>File upload type validation</td><td>Ensure uploaded files are validated by MIME type and magic bytes — not just extension.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- CODE QUALITY -->
-  <div class="card" id="s4">
-    <div class="section-header">
-      <div class="section-num">4</div>
-      <div class="section-title">Code Quality &amp; Logic</div>
-      <span class="section-rating r-green">8 / 10</span>
-    </div>
-    <p class="body-text">Controllers are correctly kept thin. The query/mutation split cleanly separates reads from writes. The <code>resolveCtx</code> pattern and race condition fixes (token refresh, TOKEN_REPLAY_DETECTED) demonstrate careful engineering.</p>
-    <table class="detail-table">
-      <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+    <p class="body-text">No security regressions were introduced in this update. The SSE query-param token issue was <strong>not</strong> addressed in this release and remains the top security priority.</p>
+    <table class="dtable">
+      <thead><tr><th>Severity</th><th>Issue</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td><span class="pill pill-high">High</span></td><td>N+1 query risk</td><td>Audit all query files to confirm relations are eager-loaded via include/select, not fetched in loops.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Error class standardisation</td><td>Introduce a typed AppError class with status codes for consistent error shape across all modules.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Cron job resilience</td><td>Cron jobs should handle failures gracefully with retry logic and alerting, not just silent catches.</td></tr>
-        <tr><td><span class="pill pill-low">Low</span></td><td>Dead code audit</td><td>Run ts-prune or knip periodically to remove accumulated legacy hooks/utilities.</td></tr>
+        <tr><td><span class="pill pill-high">High</span></td><td>SSE token in query param exposes access token in server logs</td><td class="status-warn">⚠ Still Open</td></tr>
+        <tr><td><span class="pill pill-high">High</span></td><td>RSA private.pem in repo folder — confirm gitignored</td><td class="status-warn">⚠ Verify</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>CORS wildcard origin check in production</td><td class="status-warn">⚠ Still Open</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Input sanitization against stored XSS</td><td class="status-warn">⚠ Still Open</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Helmet.js security headers</td><td class="status-warn">⚠ Confirm present</td></tr>
+        <tr><td><span class="pill pill-low">Low</span></td><td>File upload MIME type validation (magic bytes)</td><td class="status-warn">⚠ Still Open</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- READABILITY -->
-  <div class="card" id="s5">
-    <div class="section-header">
-      <div class="section-num">5</div>
-      <div class="section-title">Readability &amp; Maintainability</div>
-      <span class="section-rating r-green">8 / 10</span>
-    </div>
-    <p class="body-text">Both repositories apply strict, consistent naming conventions. Backend files follow the <code>&lt;domain&gt;.&lt;responsibility&gt;.ts</code> pattern. Frontend uses a clear layered convention, making the codebase navigable even for new contributors.</p>
-    <ul class="bullet-list">
-      <li>Perfectly consistent file naming across 15+ backend modules</li>
-      <li>Barrel index.ts files for clean imports</li>
-      <li>Separate ARCHITECTURE.md and AUTHENTICATION.md documents</li>
-    </ul>
-    <table class="detail-table">
-      <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
-      <tbody>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Inline comments</td><td>Critical patterns like refreshLocks and TOKEN_REPLAY_DETECTED deserve inline comments explaining WHY the code is written that way.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>JSDoc on hooks</td><td>The 80+ custom hooks lack JSDoc annotations. Add param/return docs for IDE autocompletion.</td></tr>
-        <tr><td><span class="pill pill-low">Low</span></td><td>Magic numbers/strings</td><td>Extract token expiry durations, retry counts, and rate limits to named constants in a config file.</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- TYPE SAFETY -->
-  <div class="card" id="s6">
-    <div class="section-header">
-      <div class="section-num">6</div>
-      <div class="section-title">Type Safety</div>
-      <span class="section-rating r-green">8 / 10</span>
-    </div>
-    <p class="body-text">Both repos are written in TypeScript with Zod runtime validation and Prisma-generated types. The <code>ApiResponse&lt;T&gt;</code> generic wrapper is used consistently, though paginated response shape mismatches cause occasional TypeScript errors.</p>
-    <table class="detail-table">
-      <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
-      <tbody>
-        <tr><td><span class="pill pill-high">High</span></td><td>Strict tsconfig</td><td>Enable "strict": true, noUncheckedIndexedAccess, and noImplicitReturns in both tsconfigs.</td></tr>
-        <tr><td><span class="pill pill-high">High</span></td><td>Shared type package</td><td>ApiResponse&lt;T&gt; defined separately in both repos creates drift. Use a shared types package.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Eliminate any</td><td>Audit for any usage and replace with unknown + type guards or proper generics.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Paginated response types</td><td>Define PaginatedResponse&lt;T&gt; and use it consistently across all paginated endpoints.</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- TESTING -->
   <div class="card" id="s7">
     <div class="section-header">
-      <div class="section-num">7</div>
+      <div class="section-num">3.7</div>
       <div class="section-title">Testing</div>
-      <span class="section-rating r-red">5 / 10</span>
+      <span class="section-rating r-red">5 / 10 — Unchanged</span>
     </div>
-    <p class="body-text">Testing infrastructure exists (Vitest, MSW, React Testing Library, Supertest) but overall coverage is limited. The majority of business logic, hooks, and components remain untested.</p>
-    <div class="test-grid">
-      <div class="test-cell"><div class="area">Backend Unit Tests</div><div class="current">⚠ Minimal (mostly integration)</div><div class="target">✓ Target: Mock Prisma, unit test all query/mutation files</div></div>
-      <div class="test-cell"><div class="area">Frontend Hook Tests</div><div class="current">⚠ A few hooks covered</div><div class="target">✓ Target: Cover all 80+ hooks with MSW</div></div>
-      <div class="test-cell"><div class="area">Component Tests</div><div class="current">✗ Not observed</div><div class="target">✓ Target: All /ui components tested</div></div>
-      <div class="test-cell"><div class="area">E2E Tests</div><div class="current">✗ None</div><div class="target">✓ Target: Playwright for critical journeys</div></div>
-      <div class="test-cell"><div class="area">Security / RBAC Tests</div><div class="current">✗ None</div><div class="target">✓ Target: Member cannot delete workspace, etc.</div></div>
-      <div class="test-cell"><div class="area">Performance Tests</div><div class="current">⚠ Benchmark script only</div><div class="target">✓ Target: CI threshold gates (p99 &lt; 500ms)</div></div>
+    <p class="body-text">The new Redis caching and Pub/Sub code has not been mentioned as having test coverage — this is a new gap that must be filled.</p>
+
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab(this,'test','new')">New Gaps (Caching/SSE)</div>
+      <div class="tab" onclick="switchTab(this,'test','existing')">Existing Gaps</div>
+    </div>
+    <div id="test-new" class="tab-panel active">
+      <table class="dtable">
+        <thead><tr><th>Area</th><th>Recommended Tests</th></tr></thead>
+        <tbody>
+          <tr><td>Redis response cache</td><td>Unit test cache-aside: mock Redis hit returns cached data without DB call; mock Redis miss triggers DB query and stores result</td></tr>
+          <tr><td>Cache invalidation</td><td>Integration test: mutate a task → verify the corresponding cache key is deleted from Redis</td></tr>
+          <tr><td>Pub/Sub fan-out</td><td>Integration test: publish notification on Instance A's channel → verify Instance B's SSE client receives and delivers it</td></tr>
+          <tr><td>staleTime tuning</td><td>Verify in hook tests that queries with long staleTime don't re-fetch within the stale window using vi.useFakeTimers()</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="test-existing" class="tab-panel">
+      <table class="dtable">
+        <thead><tr><th>Area</th><th>Current</th><th>Target</th></tr></thead>
+        <tbody>
+          <tr><td>Backend unit tests</td><td class="status-warn">Minimal — mostly integration</td><td>Unit test all query/mutation files with mocked Prisma + Redis</td></tr>
+          <tr><td>Frontend hook tests</td><td class="status-warn">A few hooks covered</td><td>Cover all 80+ hooks with MSW + renderWithProviders</td></tr>
+          <tr><td>Component tests</td><td class="status-bad">Not observed</td><td>Test all /ui components with render + interaction assertions</td></tr>
+          <tr><td>E2E tests</td><td class="status-bad">None</td><td>Playwright E2E for auth, task creation, billing</td></tr>
+          <tr><td>RBAC boundary tests</td><td class="status-bad">None</td><td>MEMBER cannot delete workspace, ADMIN cannot access billing, etc.</td></tr>
+          <tr><td>Performance regression</td><td class="status-warn">Benchmark script only</td><td>CI threshold gates with p99 &lt; 500ms</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- PERFORMANCE -->
-  <div class="card" id="s8">
+  <div class="card updated" id="s8">
     <div class="section-header">
-      <div class="section-num">8</div>
+      <div class="section-num">3.8</div>
       <div class="section-title">Performance &amp; Scalability</div>
-      <span class="section-rating r-yellow">7 / 10</span>
+      <span class="updated-badge">✦ Updated</span>
+      <span class="section-rating r-green">9 / 10 (was 7)</span>
     </div>
-    <p class="body-text">Optimistic updates make mutations feel instant. TanStack Query handles deduplication and stale-while-revalidate caching. SSE is an appropriate choice for real-time in a Node.js monolith but has scaling implications.</p>
-    <table class="detail-table">
+    <p class="body-text">Two of three highest-priority performance concerns from v1 have been resolved. This is the most significant score change in this report.</p>
+
+    <h3 class="sub">Resolved Items</h3>
+    <table class="dtable">
+      <thead><tr><th>Item</th><th>v1 Status</th><th>v2 Status</th></tr></thead>
+      <tbody>
+        <tr><td>Analytics/stats DB hammering</td><td class="status-bad">❌ Every request hits PostgreSQL</td><td class="status-ok">✅ Redis cache with TTL — DB only on cache miss</td></tr>
+        <tr><td>SSE cross-instance delivery</td><td class="status-bad">❌ Broke on horizontal scale</td><td class="status-ok">✅ Redis Pub/Sub fan-out — works across all instances</td></tr>
+        <tr><td>Frontend refetch noise</td><td class="status-bad">❌ Default staleTime=0 everywhere</td><td class="status-ok">✅ Per-query staleTime/gcTime tuned to data frequency</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">Remaining Items</h3>
+    <table class="dtable">
       <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
       <tbody>
-        <tr><td><span class="pill pill-high">High</span></td><td>SSE scalability</td><td>In-memory SSE connections break with horizontal scaling. Use Redis Pub/Sub to fan out events across instances.</td></tr>
-        <tr><td><span class="pill pill-high">High</span></td><td>DB connection pooling</td><td>Confirm connection string uses PgBouncer pooler endpoint for read-heavy queries.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Query optimisation</td><td>Enable Prisma query logging to identify slow queries. Add composite indexes for high-frequency filters.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Response caching</td><td>Add Redis caching with 60s TTL for analytics and statistics endpoints.</td></tr>
-        <tr><td><span class="pill pill-low">Low</span></td><td>Bundle size</td><td>Audit frontend bundle with next build --analyze. Framer Motion, Recharts, Redux Toolkit add weight.</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Cache invalidation completeness</td><td>Audit all mutation files — every write path must delete the correct Redis cache key</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>TTL calibration</td><td>Monitor cache hit rates in production; tune TTLs per workspace activity level</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Cold-start latency</td><td>Consider background refresh for analytics keys near TTL expiry to prevent p99 spikes</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Database index audit</td><td>Run EXPLAIN ANALYZE; add composite indexes for [workspaceId, status, assigneeId]</td></tr>
+        <tr><td><span class="pill pill-low">Low</span></td><td>Bundle size</td><td>Audit with next build --analyze; Framer Motion, Recharts, Redux Toolkit add to TTI</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- ERROR HANDLING -->
   <div class="card" id="s9">
     <div class="section-header">
-      <div class="section-num">9</div>
+      <div class="section-num">3.9</div>
       <div class="section-title">Error Handling</div>
-      <span class="section-rating r-yellow">7 / 10</span>
+      <span class="section-rating r-yellow">7 / 10 — New Gap Added</span>
     </div>
-    <table class="detail-table">
+    <p class="body-text">A new gap from this update: Redis errors in the caching middleware must be caught and logged <strong>without crashing the request</strong>. All <code>cache.get()</code> and <code>cache.set()</code> calls need try/catch with a fallback-to-DB path.</p>
+    <table class="dtable">
       <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
       <tbody>
-        <tr><td><span class="pill pill-high">High</span></td><td>Typed AppError class</td><td>Introduce AppError(code, message, statusCode, details) so all thrown errors have a consistent shape.</td></tr>
-        <tr><td><span class="pill pill-high">High</span></td><td>React Error Boundary</td><td>Add Error Boundary at the root level and per major section to prevent full-page crashes.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Error monitoring</td><td>Integrate Sentry on both frontend and backend for production error capture with stack traces.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Validation error messages</td><td>Map Zod validation errors to user-friendly field-level messages before returning 400 responses.</td></tr>
-        <tr><td><span class="pill pill-low">Low</span></td><td>Network retry</td><td>Add Axios retry logic (axios-retry) for transient network failures on idempotent requests.</td></tr>
+        <tr><td><span class="pill pill-critical">Critical</span></td><td>Redis error fallback</td><td>Wrap all cache operations in try/catch; on Redis failure, fall through to DB — never throw a 500 to the client</td></tr>
+        <tr><td><span class="pill pill-high">High</span></td><td>Typed AppError class</td><td>Introduce AppError(code, statusCode, details) for consistent error serialisation across all modules</td></tr>
+        <tr><td><span class="pill pill-high">High</span></td><td>React Error Boundary</td><td>Add at root and per major section to prevent full-page crashes</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Error monitoring</td><td>Integrate Sentry on both frontend and backend for production error grouping and alerting</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- API DESIGN -->
-  <div class="card" id="s10">
+  <div class="card updated" id="s11">
     <div class="section-header">
-      <div class="section-num">10</div>
-      <div class="section-title">API Design</div>
-      <span class="section-rating r-green">8 / 10</span>
+      <div class="section-num">3.11</div>
+      <div class="section-title">Real-Time (SSE)</div>
+      <span class="updated-badge">✦ Updated</span>
+      <span class="section-rating r-green">9 / 10 (was 8)</span>
     </div>
-    <p class="body-text">The API largely follows REST conventions: plural noun resources, correct HTTP verbs, workspace context in URL path. Responses use a consistent <code>{ success, data, message }</code> envelope. Paginated responses add <code>meta</code> which diverges from the base ApiResponse shape — root cause of type mismatch issues.</p>
-    <table class="detail-table">
-      <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+    <p class="body-text">The Redis Pub/Sub fan-out resolves the most significant architectural weakness of the original SSE implementation. The system is now horizontally scalable.</p>
+
+    <h3 class="sub">Delivery Flow After Update</h3>
+    <table class="dtable">
+      <thead><tr><th>Step</th><th>Description</th></tr></thead>
       <tbody>
-        <tr><td><span class="pill pill-high">High</span></td><td>Paginated response type</td><td>Define PaginatedApiResponse&lt;T&gt; = { success, data: T[], meta: { total, page, limit, totalPages } } everywhere.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>API versioning</td><td>Prefix all routes with /api/v1/ now, before the API is public.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>OpenAPI documentation</td><td>Use tsoa or zod-to-openapi to auto-generate an OpenAPI spec from route definitions.</td></tr>
-        <tr><td><span class="pill pill-low">Low</span></td><td>HATEOAS links</td><td>Consider including _links in responses to make the API self-documenting.</td></tr>
+        <tr><td>1. Notification created</td><td>Backend mutation creates notification in DB via notifyUser() helper</td></tr>
+        <tr><td>2. Redis publish</td><td>Helper calls <code>redis.publish("notify:&lt;userId&gt;", JSON.stringify(payload))</code></td></tr>
+        <tr><td>3. All instances receive</td><td>Every instance's Redis subscriber fires the "message" event for this channel</td></tr>
+        <tr><td>4. Local SSE delivery</td><td>Each instance checks its in-memory SSE client map for this userId and writes the event if connected</td></tr>
+        <tr><td>5. Client receives</td><td>SSE client on browser receives the event; TanStack Query cache is updated; UI re-renders</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- SSE -->
-  <div class="card" id="s11">
-    <div class="section-header">
-      <div class="section-num">11</div>
-      <div class="section-title">Real-Time Architecture (SSE)</div>
-      <span class="section-rating r-green">8 / 10</span>
-    </div>
-    <p class="body-text">SSE is the correct choice for unidirectional notification push in a Node.js monolith. JWT is verified on connection (userId always from token, never URL param). Supports four dispatch patterns: single user, task assignees, workspace members, and @mentions.</p>
-    <table class="detail-table">
-      <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
-      <tbody>
-        <tr><td><span class="pill pill-high">High</span></td><td>Token in query param</td><td>Move stream auth to a short-lived signed stream token or cookie to avoid exposing access tokens in logs.</td></tr>
-        <tr><td><span class="pill pill-high">High</span></td><td>Multi-instance SSE</td><td>In-memory connections break with horizontal scaling. Implement Redis Pub/Sub to fan out across instances.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Reconnection handling</td><td>Add exponential backoff reconnection logic and Last-Event-ID support for event replay.</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- DATABASE -->
-  <div class="card" id="s12">
-    <div class="section-header">
-      <div class="section-num">12</div>
-      <div class="section-title">Database &amp; ORM Design</div>
-      <span class="section-rating r-green">8 / 10</span>
-    </div>
-    <p class="body-text">Prisma ORM with PostgreSQL (Supabase). All queries filtered by workspaceId preventing cross-tenant leaks. Reusable select objects in <code>.selects.ts</code> files. Clean migration discipline demonstrated by BillingEvent providerEventId migration.</p>
-    <table class="detail-table">
-      <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
-      <tbody>
-        <tr><td><span class="pill pill-high">High</span></td><td>Index audit</td><td>Review schema for missing composite indexes on high-frequency query filters (e.g., [workspaceId, status, assigneeId]).</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Soft deletes</td><td>Add deletedAt: DateTime? for soft-delete semantics on tasks, projects, and workspaces.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Connection limits</td><td>Ensure PgBouncer pooling is configured correctly via DIRECT_URL and DATABASE_URL separation.</td></tr>
-        <tr><td><span class="pill pill-low">Low</span></td><td>EXPLAIN ANALYZE</td><td>Run EXPLAIN ANALYZE on the top 10 most-called queries to identify missing indexes or inefficient joins.</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- FRONTEND PATTERNS -->
-  <div class="card" id="s13">
-    <div class="section-header">
-      <div class="section-num">13</div>
-      <div class="section-title">Frontend Patterns</div>
-      <span class="section-rating r-green">9 / 10</span>
-    </div>
-    <p class="body-text">One of the strongest aspects of Focura. Hook-first architecture, TanStack Query integration, optimistic update patterns, and Next.js App Router usage are all at production-ready level.</p>
-    <ul class="bullet-list">
-      <li>80+ custom hooks — every data operation is encapsulated</li>
-      <li>Zero business logic in UI components — pure presentation layer</li>
-      <li>Optimistic updates with multi-cache rollback across all project-level caches</li>
-      <li>queryKeys factories for predictable, structured cache key management</li>
-      <li>Axios interceptors handle token lifecycle transparently</li>
-      <li>NextAuth session + backend JWT synchronisation with race condition fix</li>
-      <li>React Hook Form + Zod for fully type-safe form validation</li>
-      <li>Framer Motion for smooth, production-quality animations</li>
-    </ul>
-  </div>
-
-  <!-- DOCUMENTATION -->
   <div class="card" id="s14">
     <div class="section-header">
-      <div class="section-num">14</div>
+      <div class="section-num">3.14</div>
       <div class="section-title">Documentation</div>
-      <span class="section-rating r-green">9 / 10</span>
+      <span class="section-rating r-green">9 / 10 — New Doc Gap</span>
     </div>
-    <p class="body-text">A major strength. Both repos have detailed READMEs with architecture diagrams, dedicated ARCHITECTURE.md and AUTHENTICATION.md files, and comprehensive environment variable documentation.</p>
+    <p class="body-text">The new caching and Pub/Sub changes have not yet been documented in the README or ARCHITECTURE.md. This should be updated before the changes are forgotten.</p>
     <ul class="bullet-list">
-      <li>Detailed README in both repos with architecture ASCII diagrams</li>
-      <li>Dedicated AUTHENTICATION.md with full auth flow documentation</li>
-      <li>CONTRIBUTING.md and CODE_OF_CONDUCT.md in the client repo</li>
-      <li>Environment variable documentation with examples</li>
+      <li>Update <strong>ARCHITECTURE.md</strong> to document the Redis caching layer: which endpoints are cached, TTL strategy, and invalidation approach</li>
+      <li>Update <strong>ARCHITECTURE.md</strong> to document the Redis Pub/Sub SSE fan-out: channel naming convention, subscriber lifecycle, and multi-instance delivery flow</li>
+      <li>Add a <strong>CACHING.md</strong> or caching section to the backend README explaining the cache-aside pattern, TTL values, and invalidation contract</li>
     </ul>
   </div>
 
-  <!-- DEVOPS -->
   <div class="card" id="s15">
     <div class="section-header">
-      <div class="section-num">15</div>
+      <div class="section-num">3.15</div>
       <div class="section-title">DevOps &amp; CI/CD</div>
-      <span class="section-rating r-red">5 / 10</span>
+      <span class="section-rating r-red">5 / 10 — Unchanged (Most Critical Gap)</span>
     </div>
-    <p class="body-text">Frontend is deployed to Vercel. Backend is deployed to Railway. However, <strong>no GitHub Actions CI pipeline was observed</strong> for automated testing, linting, or coverage enforcement. This is the most critical gap.</p>
-    <table class="detail-table">
+    <p class="body-text">No CI/CD changes were included in this update. The absence of a GitHub Actions test pipeline remains the largest unaddressed gap. The new Redis caching code introduces a new class of bugs (cache invalidation misses) that are hard to catch without automated tests.</p>
+    <table class="dtable">
       <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
       <tbody>
-        <tr><td><span class="pill pill-critical">Critical</span></td><td>CI pipeline</td><td>Add GitHub Actions: run vitest on every push and PR. Tests must pass before merge.</td></tr>
-        <tr><td><span class="pill pill-critical">Critical</span></td><td>Lint + type check</td><td>Add ESLint and tsc --noEmit steps to CI to catch errors before they reach main.</td></tr>
-        <tr><td><span class="pill pill-high">High</span></td><td>Coverage enforcement</td><td>Add vitest coverage step with 60% minimum threshold that fails CI if coverage drops.</td></tr>
-        <tr><td><span class="pill pill-high">High</span></td><td>Secret scanning</td><td>Add truffleHog or detect-secrets to CI. Given RSA key files in repo structure, this is important.</td></tr>
-        <tr><td><span class="pill pill-high">High</span></td><td>Automated migrations</td><td>Add Prisma migration step to deployment pipeline so migrations run automatically on deploy.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Environment parity</td><td>Use Docker Compose for local development (Node, PostgreSQL, Redis) for identical environments.</td></tr>
+        <tr><td><span class="pill pill-critical">Critical</span></td><td>CI test pipeline</td><td>GitHub Actions: run vitest on every PR; tests must pass before merge</td></tr>
+        <tr><td><span class="pill pill-critical">Critical</span></td><td>Lint + type check</td><td>ESLint and tsc --noEmit on every push</td></tr>
+        <tr><td><span class="pill pill-critical">Critical</span></td><td>Secret scanning</td><td>truffleHog or detect-secrets to prevent RSA key / credential commits</td></tr>
+        <tr><td><span class="pill pill-high">High</span></td><td>Coverage enforcement</td><td>vitest coverage with 60%+ threshold failing CI on drop</td></tr>
+        <tr><td><span class="pill pill-high">High</span></td><td>Automated migrations</td><td>Run prisma migrate deploy in the Railway deployment pipeline</td></tr>
+        <tr><td><span class="pill pill-medium">Medium</span></td><td>Docker Compose</td><td>Local PostgreSQL + Redis without cloud accounts — makes cache bugs catchable in dev</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- DEV EXPERIENCE -->
-  <div class="card" id="s16">
+  <!-- SSE SECURITY DEEP DIVE -->
+  <div class="card" id="sse-security">
     <div class="section-header">
-      <div class="section-num">16</div>
-      <div class="section-title">Developer Experience</div>
-      <span class="section-rating r-green">8 / 10</span>
+      <div class="section-num">4</div>
+      <div class="section-title">Security Deep-Dive: SSE Token Issue</div>
+      <span class="section-rating r-red">Still Open — High Priority</span>
     </div>
-    <table class="detail-table">
-      <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+    <p class="body-text">Flagged as High severity in v1 and not addressed in this update. <code>GET /api/notifications/stream?token=&lt;accessToken&gt;</code> exposes a 15-minute RS256 JWT in server access logs, browser history, and any monitoring tool that captures HTTP request URLs.</p>
+
+    <h3 class="sub">Recommended Fix — Short-Lived Stream Token</h3>
+    <table class="dtable">
+      <thead><tr><th>Step</th><th>Action</th></tr></thead>
       <tbody>
-        <tr><td><span class="pill pill-high">High</span></td><td>Local dev setup</td><td>Add docker-compose.yml for local PostgreSQL and Redis so devs don't need Supabase/Upstash accounts.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>Husky pre-commit</td><td>Add Husky + lint-staged to run ESLint and Prettier on staged files before commit.</td></tr>
-        <tr><td><span class="pill pill-medium">Medium</span></td><td>VS Code settings</td><td>Add .vscode/settings.json and .vscode/extensions.json with recommended extensions.</td></tr>
-        <tr><td><span class="pill pill-low">Low</span></td><td>Seed script</td><td>Add prisma/seed.ts with realistic test data so developers can explore a populated app state.</td></tr>
+        <tr><td>1. Add endpoint</td><td><code>POST /api/notifications/stream-token</code> — authenticated via Bearer header, returns a one-time signed stream token valid for 30 seconds</td></tr>
+        <tr><td>2. Modify stream</td><td><code>GET /api/notifications/stream?streamToken=&lt;streamToken&gt;</code> — verify the short-lived token, extract userId, then discard it</td></tr>
+        <tr><td>3. Frontend hook</td><td>useNotifications: first call POST /stream-token to get a stream token, then open EventSource with that token</td></tr>
+        <tr><td>4. Expiry handling</td><td>If EventSource closes, the hook re-requests a new stream token and reconnects — normal reconnect flow</td></tr>
       </tbody>
     </table>
+    <p class="body-text" style="color:var(--muted);font-style:italic;margin-top:12px">This pattern eliminates access tokens from URLs entirely. Stream tokens are single-use, short-lived, and never appear in repeated requests.</p>
   </div>
 
   <!-- ACTION PLAN -->
-  <div class="card" id="s17">
+  <div class="card" id="action-plan">
     <div class="section-header">
-      <div class="section-num">17</div>
-      <div class="section-title">Prioritised Action Plan</div>
+      <div class="section-num">5</div>
+      <div class="section-title">Consolidated Action Plan</div>
     </div>
     <div class="filter-bar">
-      <button class="filter-btn active" onclick="filterActions('all', this)">All</button>
-      <button class="filter-btn f-critical" onclick="filterActions('critical', this)">🔴 Critical</button>
-      <button class="filter-btn f-high" onclick="filterActions('high', this)">🟠 High</button>
-      <button class="filter-btn f-medium" onclick="filterActions('medium', this)">🟡 Medium</button>
-      <button class="filter-btn f-low" onclick="filterActions('low', this)">🟢 Low</button>
+      <button class="filter-btn active" onclick="filterActions('all',this)">All</button>
+      <button class="filter-btn f-done" onclick="filterActions('done',this)">✅ Done</button>
+      <button class="filter-btn f-critical" onclick="filterActions('critical',this)">🔴 Critical</button>
+      <button class="filter-btn f-high" onclick="filterActions('high',this)">🟠 High</button>
+      <button class="filter-btn f-medium" onclick="filterActions('medium',this)">🟡 Medium</button>
+      <button class="filter-btn f-low" onclick="filterActions('low',this)">🟢 Low</button>
     </div>
-    <table class="action-table" id="actionTable">
-      <thead><tr><th width="110">Priority</th><th width="130">Category</th><th>Action Item</th></tr></thead>
+    <table class="dtable" id="actionTable">
+      <thead><tr><th width="120">Priority</th><th width="140">Category</th><th>Action Item</th></tr></thead>
       <tbody id="actionBody"></tbody>
     </table>
   </div>
 
   <!-- CONCLUSION -->
-  <div class="summary-footer" id="s18">
-    <h2>Final Summary &amp; Conclusion</h2>
-    <p>Focura is an impressive solo-built SaaS platform demonstrating professional-grade architectural thinking. The RS256 JWT, modular monolith, hook-first frontend, and comprehensive documentation all reflect a developer operating well above the typical solo-project standard.</p>
-    <p>The most significant gaps are <strong style="color:white">testing coverage, CI/CD automation, and observability</strong>. Addressing Critical and High priority items would bring the overall score from:</p>
-    <div>
-      <span class="score-big">7.8</span>
-      <span style="font-size:32px;color:rgba(255,255,255,0.4);margin:0 12px">→</span>
-      <span class="score-big" style="color:#4ade80">~9.0</span>
+  <div class="summary-footer" id="conclusion">
+    <h2>Final Summary</h2>
+    <p>This update represents a meaningful step forward in Focura's production readiness. The Redis Pub/Sub implementation is architecturally significant — most solo-built SaaS projects never consider horizontal scalability until forced by load. Implementing it proactively means Focura can scale without revisiting the real-time layer.</p>
+    <p>The two areas that most need attention now are <strong style="color:white">CI/CD automation</strong> and the <strong style="color:white">SSE token security issue</strong>. Without a test pipeline, cache invalidation bugs and Pub/Sub subscriber leaks will only surface in production.</p>
+    <div class="score-transition">
+      <div>
+        <div class="score-big" style="color:rgba(255,255,255,0.35)">7.8</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.3)">v1</div>
+      </div>
+      <div style="font-size:28px;color:rgba(255,255,255,0.2)">→</div>
+      <div>
+        <div class="score-big" style="color:#4ade80">8.3</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.4)">v2</div>
+      </div>
+      <div style="font-size:28px;color:rgba(255,255,255,0.2)">→</div>
+      <div>
+        <div class="score-big" style="color:rgba(255,255,255,0.2)">~9.0</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.2)">After Critical/High</div>
+      </div>
     </div>
-    <div style="margin-top:8px;color:rgba(255,255,255,0.5);font-size:14px">Grade: B+  →  A with Critical/High fixes applied</div>
-    <p style="margin-top:20px;font-weight:600;color:rgba(255,255,255,0.9)">The foundation is solid. The path to a truly production-grade codebase is clear and achievable.</p>
+    <div class="next-milestone">Grade: B+ → A−  &nbsp;|&nbsp;  Next milestone: A with CI/CD + SSE token fix applied</div>
   </div>
 
 </main>
 
 <script>
 const scores = [
-  ['Architecture & Structure', 9],
-  ['Security', 8],
-  ['Authentication & Authorization', 9],
-  ['Code Quality & Logic', 8],
-  ['Readability & Maintainability', 8],
-  ['Type Safety', 8],
-  ['Testing', 5],
-  ['Performance & Scalability', 7],
-  ['Error Handling', 7],
-  ['API Design', 8],
-  ['Real-Time (SSE)', 8],
-  ['Database & ORM Design', 8],
-  ['Frontend Patterns', 9],
-  ['Documentation', 9],
-  ['DevOps & CI/CD', 5],
-  ['Developer Experience', 8],
+  ['Architecture & Structure', 9, 9, ''],
+  ['Security', 8, 8, ''],
+  ['Authentication & Authorization', 9, 9, ''],
+  ['Code Quality & Logic', 8, 8, ''],
+  ['Readability & Maintainability', 8, 8, ''],
+  ['Type Safety', 8, 8, ''],
+  ['Testing', 5, 5, ''],
+  ['Performance & Scalability', 7, 9, 'Redis caching + Pub/Sub'],
+  ['Error Handling', 7, 7, ''],
+  ['API Design', 8, 8, ''],
+  ['Real-Time (SSE)', 8, 9, 'Redis Pub/Sub fan-out'],
+  ['Database & ORM Design', 8, 8, ''],
+  ['Frontend Patterns', 9, 9, 'Query cache tuning'],
+  ['Documentation', 9, 9, ''],
+  ['DevOps & CI/CD', 5, 5, ''],
+  ['Developer Experience', 8, 8, ''],
 ];
 
-function scoreClass(s) {
-  return s >= 8 ? 'bar-green' : s >= 6 ? 'bar-yellow' : 'bar-red';
-}
-function scoreColor(s) {
-  return s >= 8 ? '#1E7A4A' : s >= 6 ? '#B8860B' : '#A93226';
-}
+function barClass(s) { return s >= 8 ? 'bar-g' : s >= 6 ? 'bar-y' : 'bar-r'; }
+function numColor(s) { return s >= 8 ? '#1A6B3A' : s >= 6 ? '#A0720A' : '#A93226'; }
 
 const sc = document.getElementById('scorecard');
-scores.forEach(([label, score]) => {
+scores.forEach(([label, v1, v2, note]) => {
+  const delta = v2 - v1;
   const div = document.createElement('div');
   div.className = 'score-row';
   div.innerHTML = `
-    <div class="label">${label}</div>
-    <div class="num" style="color:${scoreColor(score)}">${score}/10</div>
-    <div class="bar-wrap"><div class="bar ${scoreClass(score)}" style="width:${score*10}%"></div></div>
+    <div class="slabel">${label}${note ? `<br><span style="font-size:10px;color:#2E75B6">${note}</span>` : ''}</div>
+    <div class="score-v1">${v1}</div>
+    <div class="score-arrow-sm">→</div>
+    <div class="score-v2 ${delta > 0 ? 'delta-up' : 'delta-same'}" style="color:${numColor(v2)}">${v2}${delta > 0 ? ' ▲' : ''}</div>
+    <div class="score-bar-wrap"><div class="score-bar ${barClass(v2)}" style="width:${v2*10}%"></div></div>
   `;
   sc.appendChild(div);
 });
 
-// Action plan data
 const actions = [
-  ['critical','CI/CD','Add GitHub Actions CI: test, lint, type-check on every PR'],
-  ['critical','CI/CD','Add secret scanning to CI to prevent credential commits'],
-  ['critical','Security','Verify RSA private key is gitignored and has never been committed'],
-  ['critical','Security','Replace SSE query param token with short-lived signed stream token'],
+  ['done','Performance','Redis response caching on analytics, task stats, and storage endpoints'],
+  ['done','Performance','TanStack Query staleTime / gcTime tuned per query type'],
+  ['done','Real-Time','Redis Pub/Sub fan-out for horizontal SSE scalability'],
+  ['critical','CI/CD','GitHub Actions CI: test + lint + type-check on every PR'],
+  ['critical','CI/CD','Secret scanning in CI to prevent RSA key / credential commits'],
+  ['critical','Security','Verify RSA private.pem has never been committed and is gitignored'],
+  ['critical','Error Handling','Redis cache operations must have try/catch with DB fallback — never crash request on Redis failure'],
+  ['high','Security','Replace SSE query-param token with short-lived signed stream token (see Section 4)'],
   ['high','Testing','Write RBAC boundary integration tests for all role-gated routes'],
-  ['high','Testing','Add coverage threshold enforcement (60–70%) to CI'],
-  ['high','Type Safety','Define PaginatedApiResponse<T> and eliminate ApiResponse<T[]> ambiguity'],
-  ['high','Type Safety','Enable strict: true + noUncheckedIndexedAccess in both tsconfigs'],
+  ['high','Testing','Add Redis cache and Pub/Sub unit/integration tests'],
+  ['high','Testing','Add coverage threshold (60–70%) enforcement to CI'],
+  ['high','Type Safety','Define PaginatedApiResponse<T> and resolve label hook type mismatch'],
+  ['high','Type Safety','Enable strict + noUncheckedIndexedAccess in both tsconfigs'],
   ['high','Error Handling','Introduce typed AppError class with code/statusCode/details'],
   ['high','Error Handling','Add React Error Boundary at root and per major section'],
-  ['high','Performance','Audit for N+1 queries with Prisma logging enabled'],
-  ['high','Database','Add composite indexes for high-frequency task query filters'],
-  ['high','DevOps','Automate Prisma migrations in deployment pipeline'],
+  ['high','Database','Add composite indexes for [workspaceId, status], [workspaceId, assigneeId, dueDate] on tasks'],
+  ['high','DevOps','Automate prisma migrate deploy in Railway deployment pipeline'],
+  ['medium','Documentation','Update ARCHITECTURE.md with Redis caching and Pub/Sub SSE architecture'],
+  ['medium','Performance','Monitor cache hit rates; calibrate TTLs per workspace activity level'],
+  ['medium','Performance','Background refresh strategy for analytics cache keys near TTL expiry'],
+  ['medium','Real-Time','Add Last-Event-ID support for missed-event replay on SSE reconnect'],
+  ['medium','Real-Time','Add exponential backoff reconnection in frontend EventSource hook'],
   ['medium','Security','Add Helmet.js security headers if not already present'],
-  ['medium','Security','Sanitize all string inputs to prevent stored XSS'],
-  ['medium','Performance','Add Redis caching (60s TTL) for analytics and statistics endpoints'],
-  ['medium','Architecture','Add GET /health and GET /ready endpoints'],
-  ['medium','API Design','Prefix all routes with /api/v1/ for future versioning'],
-  ['medium','Documentation','Generate OpenAPI specification from routes and Zod validators'],
-  ['medium','DevOps','Add docker-compose.yml for local PostgreSQL + Redis'],
-  ['medium','Developer Experience','Add Husky + lint-staged pre-commit hooks'],
-  ['low','Testing','Add Playwright E2E tests for critical user journeys'],
-  ['low','Performance','Audit frontend bundle with next build --analyze'],
-  ['low','Developer Experience','Add Prisma seed script with realistic test data'],
-  ['low','Documentation','Maintain CHANGELOG.md between releases'],
+  ['medium','Security','Sanitize string inputs to prevent stored XSS'],
+  ['medium','API Design','Prefix all routes /api/v1/ for future versioning'],
+  ['medium','DevOps','docker-compose.yml for local PostgreSQL + Redis'],
+  ['medium','DevOps','Husky + lint-staged pre-commit hooks'],
+  ['low','Testing','Playwright E2E tests for critical user journeys'],
+  ['low','Real-Time','Clean up Redis Pub/Sub subscribers on SSE connection close'],
+  ['low','Documentation','CHANGELOG.md between releases'],
+  ['low','DevOps','Prisma seed script with realistic test data'],
+  ['low','Performance','Bundle size audit with next build --analyze'],
 ];
 
-const pillLabel = { critical:'🔴 Critical', high:'🟠 High', medium:'🟡 Medium', low:'🟢 Low' };
-const pillClass = { critical:'pill-critical', high:'pill-high', medium:'pill-medium', low:'pill-low' };
+const pillMap = {
+  done: '<span class="pill pill-done">✅ Done</span>',
+  critical: '<span class="pill pill-critical">🔴 Critical</span>',
+  high: '<span class="pill pill-high">🟠 High</span>',
+  medium: '<span class="pill pill-medium">🟡 Medium</span>',
+  low: '<span class="pill pill-low">🟢 Low</span>',
+};
 
 function renderActions(filter) {
   const tbody = document.getElementById('actionBody');
   tbody.innerHTML = '';
-  actions.filter(a => filter === 'all' || a[0] === filter).forEach(([pri, cat, action], i) => {
+  actions.filter(a => filter === 'all' || a[0] === filter).forEach(([pri, cat, item]) => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td><span class="pill ${pillClass[pri]}">${pillLabel[pri]}</span></td><td>${cat}</td><td>${action}</td>`;
+    tr.innerHTML = `<td>${pillMap[pri]}</td><td>${cat}</td><td>${item}</td>`;
     tbody.appendChild(tr);
   });
 }
@@ -675,12 +724,13 @@ function switchTab(btn, group, panel) {
   document.getElementById(`${group}-${panel}`).classList.add('active');
 }
 
-// Highlight active nav on scroll
-const sections = document.querySelectorAll('[id]');
+// Nav highlight on scroll
 const navLinks = document.querySelectorAll('nav a');
 window.addEventListener('scroll', () => {
   let current = '';
-  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+  document.querySelectorAll('[id]').forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
   navLinks.forEach(a => {
     a.classList.remove('active');
     if (a.getAttribute('href') === '#' + current) a.classList.add('active');
