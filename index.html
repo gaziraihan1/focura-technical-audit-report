@@ -232,7 +232,7 @@
         <li><a href="#s-api">API Design <span class="nav-badge nb-g">9</span></a></li>
         <li><a href="#s-db">Database <span class="nav-badge nb-g">9</span></a></li>
         <li><a href="#s-docs">Documentation <span class="nav-badge nb-g">9</span></a></li>
-        <li><a href="#s-devops">DevOps / CI/CD <span class="nav-badge nb-y">6</span></a></li>
+        <li><a href="#s-devops">DevOps / CI/CD <span class="nav-badge nb-g">8</span></a></li>
         <li><a href="#s-dx">Dev Experience <span class="nav-badge nb-g">8</span></a></li>
         <div class="section-group">Plan</div>
         <li><a href="#action-plan">Action Plan</a></li>
@@ -265,9 +265,9 @@
                 <div class="arrow-icon">→</div>
                 <div class="score-val score-old3">9.1</div>
                 <div class="arrow-icon">→</div>
-                <div class="score-val score-new">9.3</div>
+                <div class="score-val score-new">9.5</div>
               </div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px">B+ → A− → A → A</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px">B+ → A− → A → A+</div>
             </div>
           </div>
           <div class="cover-meta">
@@ -281,7 +281,7 @@
             This is <strong>Version 4</strong> of the Focura Technical Audit Report, updated against the current codebase. The backend now comprises <strong>29 self-contained domain modules</strong> (including a new AI module powered by Google Gemini) with <strong>279 test files</strong> (199 unit, 26 contract, 16 e2e, 37 integration). The frontend comprises <strong>121 custom hooks</strong>, <strong>39 component directories</strong>, and <strong>885 test files</strong> — totalling <strong>1,164 test files</strong> across both repositories.
           </p>
           <p class="body-text">
-            Key improvements reflected in this update: N+1 query elimination, complete cache invalidation coverage, and comprehensive test suites on both frontend and backend. <strong>Testing moves from 5 to 7</strong> based on actual test file counts and infrastructure maturity. <strong>DevOps moves from 5 to 6</strong> with Docker Compose and performance benchmarking now in place. The overall score moves from <strong>9.1 → 9.3</strong>. The two remaining gaps — CI/CD pipeline and type safety tightening — are now the primary opportunities for reaching A+.
+            Key improvements reflected in this update: N+1 query elimination, complete cache invalidation coverage, comprehensive test suites on both frontend and backend, and <strong>correction of the DevOps score from 5 to 8</strong> based on actual CI pipeline analysis. <strong>Testing moves from 5 to 7</strong> (1,164 test files), <strong>DevOps moves from 5 to 8</strong> (full GitHub Actions CI on both repos). The overall score moves from <strong>9.1 → 9.5</strong>. The remaining gaps — type checking in CI, secret scanning, and E2E tests — are the primary opportunities for reaching A+.
           </p>
         </div>
       </div>
@@ -308,9 +308,9 @@
         </div>
         <div class="scorecard" id="scorecard"></div>
         <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid #f0f4f9">
-          <div style="font-size:22px;font-weight:800;color:#2e75b6">v1: 7.8 → v2: 8.3 → v3: 9.1 → v4: 9.3 / 10</div>
+          <div style="font-size:22px;font-weight:800;color:#2e75b6">v1: 7.8 → v2: 8.3 → v3: 9.1 → v4: 9.5 / 10</div>
           <div style="font-size:13px;color:var(--muted);font-style:italic;margin-top:4px">
-            Grade: A &nbsp;|&nbsp; Path to A+: CI/CD pipeline (DevOps 6→8) + test coverage enforcement (Testing 7→8)
+            Grade: A &nbsp;|&nbsp; Path to A+: Type check + secret scanning in CI (DevOps 8→9) + E2E tests (Testing 7→8)
           </div>
         </div>
       </div>
@@ -814,22 +814,22 @@
           <div class="section-num">4.15</div>
           <div class="section-title">DevOps &amp; CI/CD</div>
           <span class="updated-badge">✦ Updated</span>
-          <span class="section-rating r-yellow">6 / 10 (was 5)</span>
+          <span class="section-rating r-green">8 / 10 (was 5)</span>
         </div>
         <p class="body-text">
-          Updated from 5 to 6: Docker Compose for local PostgreSQL + Redis is now in place, and <strong>autocannon</strong> performance benchmarking scripts (API tests, database tests, service tests, load tests) are available. Deployments run on <strong>Railway</strong> (backend), <strong>Render</strong> (backend backup), and <strong>Vercel</strong> (frontend). The <code>deploy</code> script chains <code>tsc && prisma migrate deploy && node dist/index.js</code>.
+          Major correction: both repos already have <strong>full GitHub Actions CI pipelines</strong>. The backend CI runs on PostgreSQL 15 + Redis 7 service containers, executes lint, tests with coverage thresholds, and even <strong>autocannon performance tests</strong> — all on every push to main/develop and every PR. The frontend CI runs lint, tests (with coverage on PRs), and a full <code>next build</code> verification. Deployments run on <strong>Railway</strong> (backend), <strong>Render</strong> (backend backup), and <strong>Vercel</strong> (frontend). Docker Compose provides local PostgreSQL + Redis.
         </p>
         <p class="body-text">
-          The primary gap remains the absence of a CI/CD pipeline — no GitHub Actions for testing, linting, type checking, or coverage enforcement. This is the single largest improvement opportunity for the project.
+          The score moves from 5→8 because CI pipelines with test enforcement, lint, coverage, and performance testing are already operational. The remaining gaps are type checking in CI, secret scanning, pre-commit hooks, and deployment automation.
         </p>
         <table class="dtable">
           <thead><tr><th>Priority</th><th>Area</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td><span class="pill pill-critical">🔴 Critical</span></td><td>CI test pipeline</td><td>GitHub Actions: vitest on every PR — tests must pass before merge</td></tr>
-            <tr><td><span class="pill pill-critical">🔴 Critical</span></td><td>Lint + type check CI</td><td>ESLint and <code>tsc --noEmit</code> on every push to main</td></tr>
-            <tr><td><span class="pill pill-critical">🔴 Critical</span></td><td>Secret scanning</td><td>truffleHog or detect-secrets to catch credential commits</td></tr>
-            <tr><td><span class="pill pill-high">High</span></td><td>Coverage enforcement</td><td>vitest --coverage with 60–70% threshold failing CI on drop</td></tr>
-            <tr><td><span class="pill pill-medium">Medium</span></td><td>Husky + lint-staged</td><td>ESLint + Prettier on staged files before commit</td></tr>
+            <tr><td><span class="pill pill-high">High</span></td><td>Type check in CI</td><td>Add <code>npx tsc --noEmit</code> step to both CI pipelines — catches type errors before merge</td></tr>
+            <tr><td><span class="pill pill-high">High</span></td><td>Secret scanning</td><td>Add truffleHog or detect-secrets step to CI — catch credential commits before merge</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Husky + lint-staged</td><td>Pre-commit hooks: ESLint + Prettier on staged files — catches issues before they reach CI</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Deployment automation</td><td>Blue-green or canary deployment strategy with automated rollback on health check failure</td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>Branch protection rules</td><td>Require CI passing + 1 review before merge to main</td></tr>
           </tbody>
         </table>
       </div>
@@ -883,7 +883,7 @@
           The project is now in a state where almost everything that can be improved without adding new features has been addressed. The remaining open items fall into two buckets: tooling investment (CI/CD pipeline, coverage enforcement) and incremental hardening (SSE stream token, type safety tightening, composite DB indexes). Neither contains anything that would cause a production incident.
         </p>
         <p>
-          The clearest path to the highest possible score: a <strong style="color:white">GitHub Actions CI pipeline</strong> with test + coverage enforcement (DevOps 6→8), and Playwright E2E tests for critical user flows (Testing 7→8). Those two changes alone bring the overall score to approximately <strong style="color:white">9.6</strong>.
+          The clearest path to the highest possible score: add <strong style="color:white">type checking + secret scanning</strong> to the existing CI pipelines (DevOps 8→9), and write <strong style="color:white">Playwright E2E tests</strong> for critical user flows (Testing 7→8). Those changes bring the overall score to approximately <strong style="color:white">9.5</strong>.
         </p>
         <div class="score-transition">
           <div><div class="score-big" style="color:rgba(255,255,255,0.2)">7.8</div><div style="font-size:11px;color:rgba(255,255,255,0.15)">v1</div></div>
@@ -891,12 +891,11 @@
           <div><div class="score-big" style="color:rgba(255,255,255,0.35)">8.3</div><div style="font-size:11px;color:rgba(255,255,255,0.25)">v2</div></div>
           <div style="font-size:22px;color:rgba(255,255,255,0.15)">→</div>
           <div><div class="score-big" style="color:rgba(255,255,255,0.6)">9.1</div><div style="font-size:11px;color:rgba(255,255,255,0.4)">v3</div></div>
-          <div style="font-size:22px;color:rgba(255,255,255,0.2)">→</div>
-          <div><div class="score-big" style="color:#4ade80">9.3</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">v4</div></div>
+          <div style="font-size:22px;color:rgba(255,255,255,0.2)">→</div>              <div><div class="score-big" style="color:#4ade80">9.5</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">v4</div></div>
           <div style="font-size:22px;color:rgba(255,255,255,0.15)">→</div>
-          <div><div class="score-big" style="color:rgba(255,255,255,0.15)">~9.6</div><div style="font-size:11px;color:rgba(255,255,255,0.12)">After CI/CD + E2E</div></div>
+          <div><div class="score-big" style="color:rgba(255,255,255,0.15)">~9.5</div><div style="font-size:11px;color:rgba(255,255,255,0.12)">After Type Check + E2E</div></div>
         </div>
-        <div class="next-milestone">Grade: A &nbsp;|&nbsp; Next milestone: A+ with CI/CD + E2E Testing + SSE stream token fix</div>
+        <div class="next-milestone">Grade: A &nbsp;|&nbsp; Next milestone: A+ with type checking in CI + secret scanning + E2E tests + SSE stream token fix</div>
       </div>
     </main>
 
@@ -917,7 +916,7 @@
         ['Database & ORM Design',          8, 8,  9,  9, '62 models, 145 indexes, dual clients'],
         ['Frontend Patterns',              9, 9, 10, 10, '121 hooks, 39 dirs, 885 tests'],
         ['Documentation',                  9, 9,  9,  9, ''],
-        ['DevOps & CI/CD',                 5, 5,  5,  6, '✦ Docker Compose + benchmarking'],
+        ['DevOps & CI/CD',                 5, 5,  5,  8, '✦ Full CI pipelines on both repos'],
         ['Developer Experience',           8, 8,  8,  8, 'Docker, autocannon, ngrok'],
       ];
 
@@ -946,7 +945,7 @@
         ['N+1 queries eliminated', 'All 29 backend module query files — relations eager-loaded via Prisma include/select, never fetched in loops', 'High-priority open item', '✅ Resolved', 'Code Quality ▲'],
         ['Cache invalidation complete', 'Every mutation file calls the corresponding Cache.invalidate*() helper — 14 cache namespaces with env-overridable TTLs', 'High-priority open item', '✅ Resolved', 'Code Quality ▲, Performance ▲'],
         ['Testing re-evaluated', 'Backend: 279 tests (199 unit, 26 contract, 16 e2e, 37 integration) across 40 subdirectories. Frontend: 885 tests covering components, hooks, API, lib, utils. Total: 1,164 test files', 'Previously rated 5/10', '✅ Updated to 7/10', 'Testing ▲'],
-        ['DevOps updated', 'Docker Compose for local PostgreSQL + Redis, autocannon performance benchmarking scripts (API, database, service, load tests)', 'Previously rated 5/10', '✅ Updated to 6/10', 'DevOps ▲'],
+        ['DevOps score corrected', 'Both repos have full GitHub Actions CI: backend (Postgres + Redis services, lint, test:coverage, performance tests), frontend (lint, test, build). Docker Compose + autocannon benchmarking also in place', 'Previously rated 5/10', '✅ Updated to 8/10', 'DevOps ▲▲'],
         ['AI module added', 'Google Gemini integration — server-side AI module with task autocomplete, goal breakdown, comment assist, tier-based quota/rate limiting', 'Not present in v3', '✅ New module', 'Architecture'],
         ['FocuraJwtPayload typed', 'auth.ts now uses typed FocuraJwtPayload interface (sub, email, role, jti, version, type, sessionId) instead of decoded: any', 'High-priority type safety gap', '✅ Resolved', 'Type Safety'],
       ];
@@ -980,12 +979,15 @@
         ['done','—','Architecture',  'Graceful shutdown (SIGTERM/SIGINT/uncaughtException/unhandledRejection)'],
         ['done','—','Architecture',  '29 self-contained domain modules with barrel exports'],
         ['done','—','Architecture',  'AI module (Google Gemini) with tier-based quota and rate limiting'],
+        ['done','—','DevOps',        'GitHub Actions CI on backend (Postgres + Redis services, lint, test:coverage, performance tests)'],
+        ['done','—','DevOps',        'GitHub Actions CI on frontend (lint, test:run/test:coverage, build)'],
         ['done','—','DevOps',        'Docker Compose for local PostgreSQL + Redis'],
         ['done','—','DevOps',        'autocannon performance benchmarking (API, database, service, load tests)'],
+        ['done','—','DevOps',        'Artifact upload on CI failure for debugging'],
         ['done','—','Frontend',      '121 custom hooks, 39 component directories, 115 app routes'],
         ['done','—','Frontend',      'Workbox PWA support, jspdf PDF export, Cloudinary uploads, qrcode.react 2FA'],
-        ['critical','🔴 Critical','CI/CD',       'GitHub Actions: test + lint + type-check on every PR'],
-        ['critical','🔴 Critical','CI/CD',       'Secret scanning in CI (truffleHog / detect-secrets)'],
+        ['high','🟠 High','CI/CD',             'Add type checking (tsc --noEmit) to both CI pipelines'],
+        ['high','🟠 High','CI/CD',             'Add secret scanning (truffleHog / detect-secrets) to CI'],
         ['high','🟠 High','Security',            'Replace SSE query-param token with short-lived signed stream token'],
         ['high','🟠 High','Testing',             'RBAC boundary integration tests for all role-gated routes'],
         ['high','🟠 High','Testing',             'Coverage threshold (60–70%) enforced in CI'],
