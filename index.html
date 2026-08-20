@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Focura – Technical Audit Report v3</title>
+    <title>Focura – Technical Audit Report v4</title>
     <style>
       :root {
         --primary: #1e3a5f;
@@ -18,758 +18,222 @@
         --tableAlt: #f0f4f9;
         --white: #fff;
       }
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        font-family: "Segoe UI", Arial, sans-serif;
-        background: #f4f7fb;
-        color: var(--text);
-      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: "Segoe UI", Arial, sans-serif; background: #f4f7fb; color: var(--text); }
 
       nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 240px;
-        height: 100vh;
-        background: var(--primary);
-        overflow-y: auto;
-        z-index: 100;
-        padding: 20px 0;
+        position: fixed; top: 0; left: 0; width: 240px; height: 100vh;
+        background: var(--primary); overflow-y: auto; z-index: 100; padding: 20px 0;
       }
-      nav .logo {
-        color: #fff;
-        font-size: 20px;
-        font-weight: 900;
-        padding: 0 18px 6px;
-        letter-spacing: 3px;
-      }
+      nav .logo { color: #fff; font-size: 20px; font-weight: 900; padding: 0 18px 6px; letter-spacing: 3px; }
       nav .version {
-        color: #60a5fa;
-        font-size: 11px;
-        font-weight: 700;
-        padding: 0 18px 18px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        letter-spacing: 1px;
+        color: #60a5fa; font-size: 11px; font-weight: 700; padding: 0 18px 18px;
+        border-bottom: 1px solid rgba(255,255,255,0.12); letter-spacing: 1px;
       }
-      nav ul {
-        list-style: none;
-        padding: 12px 0;
-      }
+      nav ul { list-style: none; padding: 12px 0; }
       nav ul li a {
-        display: block;
-        padding: 7px 18px;
-        color: rgba(255, 255, 255, 0.7);
-        text-decoration: none;
-        font-size: 12.5px;
-        transition: all 0.15s;
+        display: block; padding: 7px 18px; color: rgba(255,255,255,0.7);
+        text-decoration: none; font-size: 12.5px; transition: all 0.15s;
         border-left: 3px solid transparent;
       }
-      nav ul li a:hover,
-      nav ul li a.active {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.08);
-        border-left-color: #60a5fa;
+      nav ul li a:hover, nav ul li a.active {
+        color: #fff; background: rgba(255,255,255,0.08); border-left-color: #60a5fa;
       }
       .nav-badge {
-        float: right;
-        font-size: 10px;
-        font-weight: 800;
-        padding: 1px 5px;
-        border-radius: 8px;
-        margin-top: 1px;
+        float: right; font-size: 10px; font-weight: 800;
+        padding: 1px 5px; border-radius: 8px; margin-top: 1px;
       }
-      .nb-g {
-        background: rgba(26, 107, 58, 0.3);
-        color: #4ade80;
-      }
-      .nb-y {
-        background: rgba(160, 114, 10, 0.3);
-        color: #fbbf24;
-      }
-      .nb-r {
-        background: rgba(169, 50, 38, 0.3);
-        color: #f87171;
-      }
-      .nb-up {
-        background: rgba(96, 165, 250, 0.25);
-        color: #60a5fa;
-      }
+      .nb-g  { background: rgba(26,107,58,0.3);   color: #4ade80; }
+      .nb-y  { background: rgba(160,114,10,0.3);  color: #fbbf24; }
+      .nb-r  { background: rgba(169,50,38,0.3);   color: #f87171; }
+      .nb-up { background: rgba(96,165,250,0.25); color: #60a5fa; }
       nav .section-group {
-        padding: 6px 18px 2px;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1.5px;
-        color: rgba(255, 255, 255, 0.3);
-        text-transform: uppercase;
-        margin-top: 8px;
+        padding: 6px 18px 2px; font-size: 10px; font-weight: 700;
+        letter-spacing: 1.5px; color: rgba(255,255,255,0.3);
+        text-transform: uppercase; margin-top: 8px;
       }
 
-      main {
-        margin-left: auto;
-        margin-right: auto;
-        padding: 30px;
-        max-width: 960px;
-      }
+      main { margin-left: auto; margin-right: auto; padding: 30px; max-width: 960px; }
 
       .cover {
-        background: linear-gradient(
-          135deg,
-          #1e3a5f 0%,
-          #1a4f7a 60%,
-          #15406a 100%
-        );
-        color: white;
-        border-radius: 16px;
-        padding: 52px 44px;
-        margin-bottom: 32px;
+        background: linear-gradient(135deg,#1e3a5f 0%,#1a4f7a 60%,#15406a 100%);
+        color: white; border-radius: 16px; padding: 52px 44px; margin-bottom: 32px;
       }
-      .cover-top {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 24px;
-      }
-      .cover-left h1 {
-        font-size: 52px;
-        font-weight: 900;
-        letter-spacing: 6px;
-        margin-bottom: 4px;
-      }
-      .cover-left .sub {
-        font-size: 17px;
-        color: rgba(255, 255, 255, 0.7);
-        margin-bottom: 4px;
-      }
-      .cover-left .tag {
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.45);
-        font-style: italic;
-      }
+      .cover-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+      .cover-left h1 { font-size: 52px; font-weight: 900; letter-spacing: 6px; margin-bottom: 4px; }
+      .cover-left .sub { font-size: 17px; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
+      .cover-left .tag { font-size: 13px; color: rgba(255,255,255,0.45); font-style: italic; }
       .score-box {
-        background: rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 14px;
-        padding: 20px 28px;
-        text-align: center;
-        flex-shrink: 0;
+        background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2);
+        border-radius: 14px; padding: 20px 28px; text-align: center; flex-shrink: 0;
       }
-      .score-box .label {
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.5);
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 6px;
-      }
-      .score-chain {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .score-val {
-        font-size: 28px;
-        font-weight: 900;
-      }
-      .score-old1 {
-        color: rgba(255, 255, 255, 0.3);
-      }
-      .score-old2 {
-        color: rgba(255, 255, 255, 0.5);
-      }
-      .score-new {
-        color: #4ade80;
-        font-size: 34px;
-      }
-      .arrow-icon {
-        font-size: 16px;
-        color: rgba(255, 255, 255, 0.25);
-      }
+      .score-box .label { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+      .score-chain { display: flex; align-items: center; gap: 8px; }
+      .score-val { font-size: 28px; font-weight: 900; }
+      .score-old1 { color: rgba(255,255,255,0.25); }
+      .score-old2 { color: rgba(255,255,255,0.4); }
+      .score-old3 { color: rgba(255,255,255,0.55); }
+      .score-new  { color: #4ade80; font-size: 34px; }
+      .arrow-icon { font-size: 16px; color: rgba(255,255,255,0.2); }
       .cover-meta {
-        margin-top: 28px;
-        padding-top: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.12);
-        display: flex;
-        gap: 32px;
-        flex-wrap: wrap;
+        margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12);
+        display: flex; gap: 32px; flex-wrap: wrap;
       }
-      .cover-meta-item {
-        font-size: 12.5px;
-        color: rgba(255, 255, 255, 0.5);
-      }
-      .cover-meta-item span {
-        color: rgba(255, 255, 255, 0.85);
-        font-weight: 600;
-      }
-      .update-pills {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-top: 16px;
-      }
+      .cover-meta-item { font-size: 12.5px; color: rgba(255,255,255,0.5); }
+      .cover-meta-item span { color: rgba(255,255,255,0.85); font-weight: 600; }
+      .update-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
       .upill {
-        background: rgba(96, 165, 250, 0.15);
-        border: 1px solid rgba(96, 165, 250, 0.3);
-        color: #93c5fd;
-        font-size: 11.5px;
-        font-weight: 600;
-        padding: 4px 12px;
-        border-radius: 20px;
+        background: rgba(96,165,250,0.15); border: 1px solid rgba(96,165,250,0.3);
+        color: #93c5fd; font-size: 11.5px; font-weight: 600;
+        padding: 4px 12px; border-radius: 20px;
       }
 
       .card {
-        background: white;
-        border-radius: 12px;
-        padding: 28px 32px;
-        margin-bottom: 24px;
-        box-shadow:
-          0 1px 3px rgba(0, 0, 0, 0.06),
-          0 4px 12px rgba(0, 0, 0, 0.04);
+        background: white; border-radius: 12px; padding: 28px 32px; margin-bottom: 24px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06),0 4px 12px rgba(0,0,0,0.04);
         scroll-margin-top: 20px;
       }
-      .card.updated {
-        border-left: 4px solid #2e75b6;
-      }
+      .card.updated { border-left: 4px solid #2e75b6; }
       .section-header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 20px;
-        padding-bottom: 14px;
-        border-bottom: 2px solid #f0f4f9;
-        flex-wrap: wrap;
+        display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+        padding-bottom: 14px; border-bottom: 2px solid #f0f4f9; flex-wrap: wrap;
       }
       .section-num {
-        background: var(--primary);
-        color: white;
-        width: 32px;
-        height: 32px;
-        border-radius: 7px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 13px;
-        flex-shrink: 0;
+        background: var(--primary); color: white; width: 32px; height: 32px;
+        border-radius: 7px; display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 13px; flex-shrink: 0;
       }
-      .section-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: var(--primary);
-        flex: 1;
-      }
-      .section-rating {
-        font-size: 12px;
-        font-weight: 700;
-        padding: 3px 10px;
-        border-radius: 16px;
-        white-space: nowrap;
-      }
-      .r-green {
-        background: #dcfce7;
-        color: #166534;
-      }
-      .r-yellow {
-        background: #fef3c7;
-        color: #854d0e;
-      }
-      .r-red {
-        background: #fee2e2;
-        color: #991b1b;
-      }
-      .r-blue {
-        background: #dbeafe;
-        color: #1e40af;
-      }
-      .r-perfect {
-        background: #f0fdf4;
-        color: #14532d;
-        border: 1px solid #86efac;
-      }
+      .section-title { font-size: 18px; font-weight: 700; color: var(--primary); flex: 1; }
+      .section-rating { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 16px; white-space: nowrap; }
+      .r-green   { background: #dcfce7; color: #166534; }
+      .r-yellow  { background: #fef3c7; color: #854d0e; }
+      .r-red     { background: #fee2e2; color: #991b1b; }
+      .r-blue    { background: #dbeafe; color: #1e40af; }
+      .r-perfect { background: #f0fdf4; color: #14532d; border: 1px solid #86efac; }
       .updated-badge {
-        background: #dbeafe;
-        color: #1d4ed8;
-        font-size: 11px;
-        font-weight: 700;
-        padding: 2px 8px;
-        border-radius: 10px;
-        white-space: nowrap;
+        background: #dbeafe; color: #1d4ed8; font-size: 11px;
+        font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap;
       }
 
-      /* SCORECARD v1→v2→v3 */
-      .scorecard {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-      }
+      .scorecard { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
       .score-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 9px 12px;
-        background: var(--tableAlt);
-        border-radius: 7px;
-        border: 1px solid var(--border);
+        display: flex; align-items: center; gap: 8px; padding: 9px 12px;
+        background: var(--tableAlt); border-radius: 7px; border: 1px solid var(--border);
       }
-      .score-row .slabel {
-        flex: 1;
-        font-size: 12px;
-      }
-      .score-chain-sm {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        font-size: 10px;
-        color: var(--muted);
-      }
-      .score-chain-sm .sv1,
-      .score-chain-sm .sv2 {
-        opacity: 0.5;
-      }
-      .score-chain-sm .arr {
-        opacity: 0.3;
-      }
-      .score-chain-sm .sv3 {
-        font-weight: 800;
-        font-size: 12px;
-      }
-      .score-bar-wrap {
-        width: 50px;
-        height: 5px;
-        background: #e5e7eb;
-        border-radius: 3px;
-        overflow: hidden;
-      }
-      .score-bar {
-        height: 100%;
-        border-radius: 3px;
-      }
-      .bar-g {
-        background: #1a6b3a;
-      }
-      .bar-y {
-        background: #a0720a;
-      }
-      .bar-r {
-        background: #a93226;
-      }
+      .score-row .slabel { flex: 1; font-size: 12px; }
+      .score-chain-sm { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); }
+      .score-chain-sm .sv1,.score-chain-sm .sv2,.score-chain-sm .sv3 { opacity: 0.45; }
+      .score-chain-sm .arr { opacity: 0.25; }
+      .score-chain-sm .sv4 { font-weight: 800; font-size: 12px; opacity: 1; }
+      .score-bar-wrap { width: 50px; height: 5px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+      .score-bar { height: 100%; border-radius: 3px; }
+      .bar-g { background: #1a6b3a; }
+      .bar-y { background: #a0720a; }
+      .bar-r { background: #a93226; }
 
-      /* CHANGE TABLE */
-      .change-grid {
-        display: grid;
-        grid-template-columns: 1.2fr 2fr 2fr;
-        gap: 0;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        margin: 12px 0;
-      }
-      .change-header {
-        background: var(--primary);
-        color: white;
-        font-size: 11px;
-        font-weight: 700;
-        padding: 10px 14px;
-        letter-spacing: 0.5px;
-      }
-      .change-cell {
-        padding: 11px 14px;
-        font-size: 12.5px;
-        line-height: 1.5;
-        border-top: 1px solid var(--border);
-      }
-      .change-cell.before {
-        background: #fff7f7;
-        color: #7f1d1d;
-      }
-      .change-cell.after {
-        background: #f0fdf4;
-        color: #14532d;
-      }
-      .change-cell.area {
-        font-weight: 600;
-        background: #f8fafc;
-      }
+      .change-grid { display: grid; grid-template-columns: 1.2fr 2fr 2fr; gap: 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); margin: 12px 0; }
+      .change-header { background: var(--primary); color: white; font-size: 11px; font-weight: 700; padding: 10px 14px; letter-spacing: 0.5px; }
+      .change-cell { padding: 11px 14px; font-size: 12.5px; line-height: 1.5; border-top: 1px solid var(--border); }
+      .change-cell.before { background: #fff7f7; color: #7f1d1d; }
+      .change-cell.after  { background: #f0fdf4; color: #14532d; }
+      .change-cell.area   { font-weight: 600; background: #f8fafc; }
 
-      .dtable {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 12.5px;
-        margin: 10px 0;
-        border-radius: 8px;
-        overflow: hidden;
-      }
-      .dtable th {
-        background: var(--primary);
-        color: white;
-        padding: 9px 12px;
-        text-align: left;
-        font-weight: 600;
-        font-size: 11.5px;
-      }
-      .dtable td {
-        padding: 8px 12px;
-        border-bottom: 1px solid var(--border);
-        vertical-align: top;
-        line-height: 1.5;
-      }
-      .dtable tr:nth-child(even) td {
-        background: var(--tableAlt);
-      }
-      .dtable tr:last-child td {
-        border-bottom: none;
-      }
-      .pill {
-        display: inline-block;
-        font-size: 10.5px;
-        font-weight: 700;
-        padding: 2px 7px;
-        border-radius: 8px;
-        white-space: nowrap;
-      }
-      .pill-critical {
-        background: #fee2e2;
-        color: #991b1b;
-      }
-      .pill-high {
-        background: #fef3c7;
-        color: #92400e;
-      }
-      .pill-medium {
-        background: #dbeafe;
-        color: #1e40af;
-      }
-      .pill-low {
-        background: #dcfce7;
-        color: #166534;
-      }
-      .pill-done {
-        background: #dcfce7;
-        color: #166534;
-      }
+      .dtable { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 10px 0; border-radius: 8px; overflow: hidden; }
+      .dtable th { background: var(--primary); color: white; padding: 9px 12px; text-align: left; font-weight: 600; font-size: 11.5px; }
+      .dtable td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+      .dtable tr:nth-child(even) td { background: var(--tableAlt); }
+      .dtable tr:last-child td { border-bottom: none; }
+      .pill { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 8px; white-space: nowrap; }
+      .pill-critical { background: #fee2e2; color: #991b1b; }
+      .pill-high     { background: #fef3c7; color: #92400e; }
+      .pill-medium   { background: #dbeafe; color: #1e40af; }
+      .pill-low      { background: #dcfce7; color: #166534; }
+      .pill-done     { background: #dcfce7; color: #166534; }
 
-      .body-text {
-        font-size: 13.5px;
-        line-height: 1.75;
-        color: var(--text);
-        margin-bottom: 14px;
-      }
-      h3.sub {
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--primary);
-        margin: 18px 0 8px;
-      }
-      .bullet-list {
-        list-style: none;
-        margin-bottom: 14px;
-      }
-      .bullet-list li {
-        font-size: 13px;
-        padding: 4px 0 4px 18px;
-        position: relative;
-        line-height: 1.6;
-      }
-      .bullet-list li::before {
-        content: "•";
-        position: absolute;
-        left: 0;
-        color: var(--accent);
-        font-weight: 700;
-      }
-      .status-ok {
-        color: #166534;
-        font-weight: 700;
-      }
-      .status-warn {
-        color: #92400e;
-        font-weight: 700;
-      }
-      .status-bad {
-        color: #991b1b;
-        font-weight: 700;
-      }
+      .body-text { font-size: 13.5px; line-height: 1.75; color: var(--text); margin-bottom: 14px; }
+      h3.sub { font-size: 14px; font-weight: 700; color: var(--primary); margin: 18px 0 8px; }
+      .bullet-list { list-style: none; margin-bottom: 14px; }
+      .bullet-list li { font-size: 13px; padding: 4px 0 4px 18px; position: relative; line-height: 1.6; }
+      .bullet-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+      .status-ok   { color: #166534; font-weight: 700; }
+      .status-warn { color: #92400e; font-weight: 700; }
+      .status-bad  { color: #991b1b; font-weight: 700; }
 
-      .tab-bar {
-        display: flex;
-        gap: 0;
-        border-bottom: 2px solid var(--border);
-        margin-bottom: 16px;
-      }
-      .tab {
-        padding: 8px 16px;
-        font-size: 12.5px;
-        font-weight: 600;
-        cursor: pointer;
-        color: var(--muted);
-        border-bottom: 2px solid transparent;
-        margin-bottom: -2px;
-        transition: all 0.15s;
-      }
-      .tab.active {
-        color: var(--accent);
-        border-bottom-color: var(--accent);
-      }
-      .tab-panel {
-        display: none;
-      }
-      .tab-panel.active {
-        display: block;
-      }
+      .tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+      .tab { padding: 8px 16px; font-size: 12.5px; font-weight: 600; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+      .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+      .tab-panel { display: none; }
+      .tab-panel.active { display: block; }
 
-      .filter-bar {
-        display: flex;
-        gap: 7px;
-        flex-wrap: wrap;
-        margin-bottom: 14px;
-      }
-      .filter-btn {
-        padding: 4px 12px;
-        border-radius: 16px;
-        border: 1.5px solid var(--border);
-        background: white;
-        font-size: 11.5px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.15s;
-      }
-      .filter-btn:hover {
-        border-color: var(--accent);
-      }
-      .filter-btn.active {
-        background: var(--accent);
-        color: white;
-        border-color: var(--accent);
-      }
-      .filter-btn.f-done.active {
-        background: #16a34a;
-        border-color: #16a34a;
-      }
-      .filter-btn.f-critical.active {
-        background: #dc2626;
-        border-color: #dc2626;
-      }
-      .filter-btn.f-high.active {
-        background: #d97706;
-        border-color: #d97706;
-      }
-      .filter-btn.f-medium.active {
-        background: #2563eb;
-        border-color: #2563eb;
-      }
-      .filter-btn.f-low.active {
-        background: #16a34a;
-        border-color: #16a34a;
-      }
+      .filter-bar { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+      .filter-btn { padding: 4px 12px; border-radius: 16px; border: 1.5px solid var(--border); background: white; font-size: 11.5px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+      .filter-btn:hover { border-color: var(--accent); }
+      .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+      .filter-btn.f-done.active     { background: #16a34a; border-color: #16a34a; }
+      .filter-btn.f-critical.active { background: #dc2626; border-color: #dc2626; }
+      .filter-btn.f-high.active     { background: #d97706; border-color: #d97706; }
+      .filter-btn.f-medium.active   { background: #2563eb; border-color: #2563eb; }
+      .filter-btn.f-low.active      { background: #16a34a; border-color: #16a34a; }
 
-      code {
-        background: #f1f5f9;
-        color: #1e40af;
-        font-family: monospace;
-        font-size: 11.5px;
-        padding: 1px 5px;
-        border-radius: 4px;
-      }
+      code { background: #f1f5f9; color: #1e40af; font-family: monospace; font-size: 11.5px; padding: 1px 5px; border-radius: 4px; }
 
       .summary-footer {
-        background: linear-gradient(135deg, #1e3a5f, #1a4f7a);
-        color: white;
-        border-radius: 12px;
-        padding: 36px;
-        text-align: center;
-        margin-top: 32px;
+        background: linear-gradient(135deg,#1e3a5f,#1a4f7a);
+        color: white; border-radius: 12px; padding: 36px;
+        text-align: center; margin-top: 32px;
       }
-      .summary-footer h2 {
-        font-size: 20px;
-        margin-bottom: 12px;
-      }
-      .summary-footer p {
-        color: rgba(255, 255, 255, 0.65);
-        font-size: 13.5px;
-        line-height: 1.7;
-        max-width: 600px;
-        margin: 0 auto 16px;
-      }
-      .score-transition {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        margin: 20px 0 8px;
-      }
-      .score-big {
-        font-size: 46px;
-        font-weight: 900;
-      }
-      .next-milestone {
-        margin-top: 12px;
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.45);
-        font-style: italic;
-      }
+      .summary-footer h2 { font-size: 20px; margin-bottom: 12px; }
+      .summary-footer p { color: rgba(255,255,255,0.65); font-size: 13.5px; line-height: 1.7; max-width: 600px; margin: 0 auto 16px; }
+      .score-transition { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 20px 0 8px; }
+      .score-big { font-size: 46px; font-weight: 900; }
+      .next-milestone { margin-top: 12px; font-size: 13px; color: rgba(255,255,255,0.45); font-style: italic; }
 
       @media (max-width: 768px) {
-        nav {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          max-height: 60px;
-          display: flex;
-          align-items: center;
-          padding: 0 12px;
-          overflow-x: auto;
-          overflow-y: hidden;
-          white-space: nowrap;
-        }
-        nav .logo,
-        nav .version,
-        nav .section-group {
-          display: none;
-        }
-        nav ul {
-          display: flex;
-          flex-direction: row;
-          gap: 8px;
-          padding: 0;
-        }
-        nav ul li {
-          flex-shrink: 0;
-        }
-        nav ul li a {
-          padding: 8px 12px;
-          font-size: 12px;
-          border-left: none;
-          border-bottom: 2px solid transparent;
-        }
-        nav ul li a.active,
-        nav ul li a:hover {
-          border-bottom-color: #60a5fa;
-          background: transparent;
-        }
-        main {
-          margin-left: 0;
-          margin-top: 72px;
-          padding: 12px;
-          overflow: hidden;
-        }
-        .cover-top {
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-        }
-        .scorecard {
-          grid-template-columns: 1fr;
-        }
-        .cover-left h1 {
-          font-size: 36px;
-        }
-        .change-grid {
-          grid-template-columns: 1fr;
-        }
-        .card {
-          overflow: auto;
-          padding: 14px 14px;
-        }
-        .cover {
-          padding: 32px 24px;
-        }
-        .score-box {
-        padding: 12px 22px;
-        text-align: center;
-        flex-shrink: 0;
-      }
+        nav { position: fixed; top: 0; left: 0; width: 100%; height: auto; max-height: 60px; display: flex; align-items: center; padding: 0 12px; overflow-x: auto; overflow-y: hidden; white-space: nowrap; }
+        nav .logo, nav .version, nav .section-group { display: none; }
+        nav ul { display: flex; flex-direction: row; gap: 8px; padding: 0; }
+        nav ul li { flex-shrink: 0; }
+        nav ul li a { padding: 8px 12px; font-size: 12px; border-left: none; border-bottom: 2px solid transparent; }
+        nav ul li a.active, nav ul li a:hover { border-bottom-color: #60a5fa; background: transparent; }
+        main { margin-left: 0; margin-top: 72px; padding: 12px; overflow: hidden; }
+        .cover-top { flex-direction: column; align-items: center; text-align: center; }
+        .scorecard { grid-template-columns: 1fr; }
+        .cover-left h1 { font-size: 36px; }
+        .change-grid { grid-template-columns: 1fr; }
+        .card { overflow: auto; padding: 14px 14px; }
+        .cover { padding: 32px 24px; }
+        .score-box { padding: 12px 22px; text-align: center; flex-shrink: 0; }
       }
     </style>
   </head>
   <body>
     <nav>
       <div class="logo">FOCURA</div>
-      <div class="version">AUDIT REPORT v3</div>
+      <div class="version">AUDIT REPORT v4</div>
       <ul>
         <div class="section-group">Overview</div>
         <li><a href="#cover">Executive Summary</a></li>
         <li><a href="#changes">What Changed</a></li>
-        <li><a href="#scorecard-section">Scorecard v1→v2→v3</a></li>
-        <div class="section-group">Top Changes</div>
-        <li>
-          <a href="#s-security"
-            >Security <span class="nav-badge nb-up">10↑</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-auth">Auth <span class="nav-badge nb-up">10↑</span></a>
-        </li>
-        <li>
-          <a href="#s-sse"
-            >Real-Time SSE <span class="nav-badge nb-up">10↑</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-frontend"
-            >Frontend <span class="nav-badge nb-up">10↑</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-arch"
-            >Architecture <span class="nav-badge nb-up">10↑</span></a
-          >
-        </li>
+        <li><a href="#scorecard-section">Scorecard v1→v2→v3→v4</a></li>
+        <div class="section-group">Updated in v4</div>
+        <li><a href="#s-code">Code Quality <span class="nav-badge nb-up">9↑</span></a></li>
+        <li><a href="#s-testing">Testing <span class="nav-badge nb-up">7↑</span></a></li>
+        <li><a href="#s-perf">Performance <span class="nav-badge nb-up">10↑</span></a></li>
+        <div class="section-group">Perfect 10s</div>
+        <li><a href="#s-security">Security <span class="nav-badge nb-g">10</span></a></li>
+        <li><a href="#s-auth">Auth <span class="nav-badge nb-g">10</span></a></li>
+        <li><a href="#s-sse">Real-Time SSE <span class="nav-badge nb-g">10</span></a></li>
+        <li><a href="#s-frontend">Frontend <span class="nav-badge nb-g">10</span></a></li>
+        <li><a href="#s-arch">Architecture <span class="nav-badge nb-g">10</span></a></li>
         <div class="section-group">All Sections</div>
-        <li>
-          <a href="#s-code"
-            >Code Quality <span class="nav-badge nb-g">8</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-readability"
-            >Readability <span class="nav-badge nb-g">8</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-types"
-            >Type Safety <span class="nav-badge nb-g">8</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-testing">Testing <span class="nav-badge nb-r">5</span></a>
-        </li>
-        <li>
-          <a href="#s-perf"
-            >Performance <span class="nav-badge nb-g">9</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-errors"
-            >Error Handling <span class="nav-badge nb-up">8↑</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-api"
-            >API Design <span class="nav-badge nb-up">9↑</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-db">Database <span class="nav-badge nb-up">9↑</span></a>
-        </li>
-        <li>
-          <a href="#s-docs"
-            >Documentation <span class="nav-badge nb-g">9</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-devops"
-            >DevOps / CI/CD <span class="nav-badge nb-r">5</span></a
-          >
-        </li>
-        <li>
-          <a href="#s-dx"
-            >Dev Experience <span class="nav-badge nb-g">8</span></a
-          >
-        </li>
+        <li><a href="#s-readability">Readability <span class="nav-badge nb-g">8</span></a></li>
+        <li><a href="#s-types">Type Safety <span class="nav-badge nb-g">8</span></a></li>
+        <li><a href="#s-errors">Error Handling <span class="nav-badge nb-g">8</span></a></li>
+        <li><a href="#s-api">API Design <span class="nav-badge nb-g">9</span></a></li>
+        <li><a href="#s-db">Database <span class="nav-badge nb-g">9</span></a></li>
+        <li><a href="#s-docs">Documentation <span class="nav-badge nb-g">9</span></a></li>
+        <li><a href="#s-devops">DevOps / CI/CD <span class="nav-badge nb-y">6</span></a></li>
+        <li><a href="#s-dx">Dev Experience <span class="nav-badge nb-g">8</span></a></li>
         <div class="section-group">Plan</div>
         <li><a href="#action-plan">Action Plan</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
@@ -784,16 +248,12 @@
             <div class="cover-left">
               <h1>FOCURA</h1>
               <div class="sub">Full-Stack SaaS Web Application</div>
-              <div class="tag">
-                Comprehensive Technical Audit Report — Version 3
-              </div>
+              <div class="tag">Comprehensive Technical Audit Report — Version 4</div>
               <div class="update-pills">
-                <span class="upill">✦ CSRF Protection</span>
-                <span class="upill">✦ Security Headers</span>
-                <span class="upill">✦ Session Binding</span>
-                <span class="upill">✦ Read Replica</span>
-                <span class="upill">✦ SSE Hardening</span>
-                <span class="upill">✦ Health Endpoint</span>
+                <span class="upill">✦ 29 Backend Modules</span>
+                <span class="upill">✦ 1,164 Test Files</span>
+                <span class="upill">✦ AI Integration (Gemini)</span>
+                <span class="upill">✦ N+1 Eliminated</span>
               </div>
             </div>
             <div class="score-box">
@@ -803,46 +263,25 @@
                 <div class="arrow-icon">→</div>
                 <div class="score-val score-old2">8.3</div>
                 <div class="arrow-icon">→</div>
-                <div class="score-val score-new">9.1</div>
+                <div class="score-val score-old3">9.1</div>
+                <div class="arrow-icon">→</div>
+                <div class="score-val score-new">9.3</div>
               </div>
-              <div
-                style="
-                  font-size: 11px;
-                  color: rgba(255, 255, 255, 0.4);
-                  margin-top: 6px;
-                "
-              >
-                B+ → A− → A
-              </div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px">B+ → A− → A → A</div>
             </div>
           </div>
           <div class="cover-meta">
-            <div class="cover-meta-item">
-              Prepared for: <span>Mohammad Raihan Gazi</span>
-            </div>
-            <div class="cover-meta-item">
-              Repos:
-              <span
-                >focura-client (144 commits) | focura-backend (77 commits)</span
-              >
-            </div>
-            <div class="cover-meta-item">Date: <span>May 2026</span></div>
+            <div class="cover-meta-item">Prepared for: <span>Mohammad Raihan Gazi</span></div>
+            <div class="cover-meta-item">Repos: <span>focura-client (299 commits) | focura-backend (142 commits)</span></div>
+            <div class="cover-meta-item">Date: <span>August 2026</span></div>
           </div>
         </div>
-        <div style="margin-top: 20px">
+        <div style="margin-top:20px">
           <p class="body-text">
-            This is <strong>Version 3</strong> of the Focura Technical Audit
-            Report, based on a full read of the actual source files from both
-            repositories. This update reflects a substantially deeper security
-            and infrastructure hardening pass than previous versions.
+            This is <strong>Version 4</strong> of the Focura Technical Audit Report, updated against the current codebase. The backend now comprises <strong>29 self-contained domain modules</strong> (including a new AI module powered by Google Gemini) with <strong>279 test files</strong> (199 unit, 26 contract, 16 e2e, 37 integration). The frontend comprises <strong>121 custom hooks</strong>, <strong>39 component directories</strong>, and <strong>885 test files</strong> — totalling <strong>1,164 test files</strong> across both repositories.
           </p>
           <p class="body-text">
-            Five sections change rating.
-            <strong>Security moves from 8 to 10</strong> — the most significant
-            jump, reflecting genuine defence-in-depth: CSRF, security headers,
-            session binding, Argon2, RS256, rate limiting, and RBAC all
-            implemented correctly and comprehensively. The overall score moves
-            from <strong>8.3 → 9.1</strong>.
+            Key improvements reflected in this update: N+1 query elimination, complete cache invalidation coverage, and comprehensive test suites on both frontend and backend. <strong>Testing moves from 5 to 7</strong> based on actual test file counts and infrastructure maturity. <strong>DevOps moves from 5 to 6</strong> with Docker Compose and performance benchmarking now in place. The overall score moves from <strong>9.1 → 9.3</strong>. The two remaining gaps — CI/CD pipeline and type safety tightening — are now the primary opportunities for reaching A+.
           </p>
         </div>
       </div>
@@ -851,15 +290,11 @@
       <div class="card" id="changes">
         <div class="section-header">
           <div class="section-num">📦</div>
-          <div class="section-title">What Changed in Version 3</div>
+          <div class="section-title">What Changed in Version 4</div>
         </div>
         <table class="dtable">
           <thead>
-            <tr>
-              <th>File / Module</th>
-              <th>What Was Added / Changed</th>
-              <th>Sections Affected</th>
-            </tr>
+            <tr><th>Fix</th><th>Scope</th><th>Was</th><th>Now</th><th>Sections Affected</th></tr>
           </thead>
           <tbody id="changesBody"></tbody>
         </table>
@@ -869,701 +304,387 @@
       <div class="card" id="scorecard-section">
         <div class="section-header">
           <div class="section-num">📊</div>
-          <div class="section-title">
-            Updated Overall Scorecard — v1 → v2 → v3
-          </div>
+          <div class="section-title">Updated Overall Scorecard — v1 → v2 → v3 → v4</div>
         </div>
         <div class="scorecard" id="scorecard"></div>
-        <div
-          style="
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid #f0f4f9;
-          "
-        >
-          <div style="font-size: 22px; font-weight: 800; color: #2e75b6">
-            v1: 7.8 → v2: 8.3 → v3: 9.1 / 10
-          </div>
-          <div
-            style="
-              font-size: 13px;
-              color: var(--muted);
-              font-style: italic;
-              margin-top: 4px;
-            "
-          >
-            Grade: A &nbsp;|&nbsp; Remaining gap: Testing (5) and DevOps/CI-CD
-            (5)
+        <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid #f0f4f9">
+          <div style="font-size:22px;font-weight:800;color:#2e75b6">v1: 7.8 → v2: 8.3 → v3: 9.1 → v4: 9.3 / 10</div>
+          <div style="font-size:13px;color:var(--muted);font-style:italic;margin-top:4px">
+            Grade: A &nbsp;|&nbsp; Path to A+: CI/CD pipeline (DevOps 6→8) + test coverage enforcement (Testing 7→8)
           </div>
         </div>
       </div>
 
-      <!-- SECURITY -->
-      <div class="card updated" id="s-security">
-        <div class="section-header">
-          <div class="section-num">4.2</div>
-          <div class="section-title">Security</div>
-          <span class="updated-badge">✦ Updated</span>
-          <span class="section-rating r-perfect">10 / 10 (was 8)</span>
-        </div>
-        <p class="body-text">
-          This is the most significant rating change in v3. Focura now has
-          defence-in-depth implemented correctly at every layer. Every standard
-          security control expected of a production SaaS is present and
-          correctly implemented.
-        </p>
-
-        <div class="tab-bar">
-          <div class="tab active" onclick="switchTab(this, 'sec', 'audit')">
-            Full Security Audit
-          </div>
-          <div class="tab" onclick="switchTab(this, 'sec', 'why10')">
-            Why This Is a 10
-          </div>
-          <div class="tab" onclick="switchTab(this, 'sec', 'gap')">
-            Remaining Gap
-          </div>
-        </div>
-        <div id="sec-audit" class="tab-panel active">
-          <table class="dtable">
-            <thead>
-              <tr>
-                <th>Control</th>
-                <th>Implementation</th>
-                <th>Quality</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>RS256 JWT</td>
-                <td>
-                  Asymmetric keys, private key server-only, base64 env var for
-                  prod
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>Access token expiry</td>
-                <td>15 min; type: "access" check; version field validated</td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>Refresh token rotation</td>
-                <td>
-                  7-day lifetime, JTI tracked in Redis, replay detection + audit
-                  log
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>Session binding</td>
-                <td>
-                  IP + User-Agent stored per sessionId in Redis; mismatch →
-                  revoke all + auditLog("SESSION_HIJACK_DETECTED")
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>Password hashing</td>
-                <td>Argon2 — gold-standard algorithm</td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>CSRF protection</td>
-                <td>
-                  Double-submit cookie, crypto.randomBytes(32), timingSafeEqual,
-                  Redis-backed, sessionId-scoped, auto-retry on frontend
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>Security headers</td>
-                <td>
-                  CSP, HSTS (prod), X-Frame-Options: DENY, COEP, COOP, CORP,
-                  Permissions-Policy, Referrer-Policy + Helmet
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>Rate limiting</td>
-                <td>
-                  Sliding-window per-user tier (free 60/min, pro 300/min,
-                  enterprise 1000/min), Redis + in-memory fallback
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>RBAC</td>
-                <td>
-                  authorize() middleware per-route; OWNER/ADMIN/MEMBER scopes
-                  enforced
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>Workspace isolation</td>
-                <td>
-                  All queries scoped to workspaceId; cross-tenant reads
-                  impossible
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>Audit logging</td>
-                <td>
-                  Structured JSON logs for all security events via auditLog()
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>CORS</td>
-                <td>
-                  Array of allowed origins, no wildcard, credentials: true
-                </td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>HTTP-only cookies</td>
-                <td>Tokens in NextAuth HTTP-only session cookie</td>
-                <td>Correct</td>
-                <td class="status-ok">✅ Implemented</td>
-              </tr>
-              <tr>
-                <td>Private key gitignore</td>
-                <td>
-                  keys/private.pem listed in README as NEVER commit; gitignored
-                  correctly
-                </td>
-                <td>Confirmed</td>
-                <td class="status-ok">✅ Confirmed safe</td>
-              </tr>
-              <tr>
-                <td>SSE token in query param</td>
-                <td>
-                  GET /notifications/stream?token= exposes access token in
-                  server logs
-                </td>
-                <td>Gap</td>
-                <td class="status-warn">⚠️ Still open — Medium</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="sec-why10" class="tab-panel">
-          <p class="body-text">
-            The CSRF implementation uses timing-safe comparison, session-scoped
-            keys, proper Redis storage, a clean test/dev fallback, and automatic
-            frontend retry on <code>CSRF_VALIDATION_FAILED</code>.
-          </p>
-          <p class="body-text">
-            The security headers cover every major attack vector: clickjacking
-            (X-Frame-Options + CSP frame-ancestors), MIME sniffing, referrer
-            leakage, HSTS for prod, COEP/COOP for process isolation, CORP for
-            cross-origin reads.
-          </p>
-          <p class="body-text">
-            Session binding with hijack detection and automatic full token
-            revocation is an advanced control most production SaaS skip
-            entirely. On mismatch: <code>revokeAllRefreshTokens()</code> is
-            called, a <code>SESSION_HIJACK_DETECTED</code> audit log entry is
-            emitted, and a 401 is returned. This is genuine defence against
-            session token theft.
-          </p>
-        </div>
-        <div id="sec-gap" class="tab-panel">
-          <p class="body-text">
-            <strong
-              >Remaining Gap — SSE Token in Query Param (Medium
-              Severity)</strong
-            >
-          </p>
-          <p class="body-text">
-            <code>GET /api/notifications/stream?token=&lt;accessToken&gt;</code>
-            still exposes the 15-minute access token in server access logs and
-            browser history.
-          </p>
-          <p class="body-text">
-            Fix: <code>POST /api/notifications/stream-token</code> —
-            authenticated via Bearer header, returns a 30-second single-use
-            signed stream token. EventSource opens with that token instead of
-            the full access token. One endpoint, one handler change in
-            <code>useNotifications</code>, and this surface is closed.
-          </p>
-        </div>
-      </div>
-
-      <!-- AUTH -->
-      <div class="card updated" id="s-auth">
-        <div class="section-header">
-          <div class="section-num">4.3</div>
-          <div class="section-title">Authentication &amp; Authorization</div>
-          <span class="updated-badge">✦ Updated</span>
-          <span class="section-rating r-perfect">10 / 10 (was 9)</span>
-        </div>
-        <p class="body-text">
-          Session binding is the addition that pushes this to 10. On every
-          authenticated request, the middleware reads the
-          <code>sessionId</code> from the decoded JWT, fetches stored
-          <code>SessionMetadata</code> (IP + User-Agent) from Redis, calls
-          <code>validateSessionBinding()</code>, and on failure: calls
-          <code>revokeAllRefreshTokens()</code>, emits a
-          <code>SESSION_HIJACK_DETECTED</code> audit log entry, and returns 401.
-        </p>
-        <p class="body-text">
-          All other auth controls confirmed: token type check, version field
-          check, JTI revocation check, <code>emailVerified</code> guard,
-          <code>bannedAt</code> guard, RS256 algorithm enforcement in
-          <code>jwt.verify</code> options. <code>lastActivity</code> updated on
-          valid requests to keep sessions alive.
-        </p>
-        <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>SSE stream token</td>
-              <td>
-                Replace access token in SSE query param with short-lived signed
-                stream token
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-low">Low</span></td>
-              <td>Refresh token audit log</td>
-              <td>
-                Log successful token refreshes (not just failures) to build a
-                full session activity timeline
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- REAL-TIME SSE -->
-      <div class="card updated" id="s-sse">
-        <div class="section-header">
-          <div class="section-num">4.11</div>
-          <div class="section-title">Real-Time (SSE)</div>
-          <span class="updated-badge">✦ Updated</span>
-          <span class="section-rating r-perfect">10 / 10 (was 9)</span>
-        </div>
-        <p class="body-text">
-          Reading the actual source confirms the SSE implementation is
-          production-grade. The <strong>channelState machine</strong> is the
-          most important detail: it tracks three states per Redis channel (<code
-            >pending | active | pending-unsub</code
-          >) to ensure correct behaviour during concurrent subscribe/unsubscribe
-          calls. Critically, <code>subscribeToChannel()</code> is
-          <strong>awaited</strong> inside <code>addClient()</code> before the
-          <code>"connected"</code> handshake event is written — guaranteeing no
-          PUBLISH can be missed.
-        </p>
-
-        <div class="tab-bar">
-          <div class="tab active" onclick="switchTab(this, 'sse', 'audit')">
-            Implementation Audit
-          </div>
-          <div class="tab" onclick="switchTab(this, 'sse', 'gaps')">
-            Remaining Gaps
-          </div>
-        </div>
-        <div id="sse-audit" class="tab-panel active">
-          <table class="dtable">
-            <thead>
-              <tr>
-                <th>Aspect</th>
-                <th>Implementation</th>
-                <th>Assessment</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Channel naming</td>
-                <td>
-                  <code>sse:user:&lt;userId&gt;</code> via typed
-                  <code>userChannel()</code> helper — consistent across stream
-                  handler and notification helpers
-                </td>
-                <td class="status-ok">✅ Correct</td>
-              </tr>
-              <tr>
-                <td>Subscribe timing</td>
-                <td>
-                  <code>await addClient()</code> before
-                  <code>res.write("connected")</code> — channel guaranteed
-                  active in Redis before handshake
-                </td>
-                <td class="status-ok">✅ Critical and correct</td>
-              </tr>
-              <tr>
-                <td>State machine</td>
-                <td>
-                  <code>channelState: pending → active → pending-unsub</code> —
-                  prevents duplicate subscribes and race conditions on reconnect
-                </td>
-                <td class="status-ok">✅ Correct</td>
-              </tr>
-              <tr>
-                <td>Unsubscribe cleanup</td>
-                <td>
-                  <code>removeClient()</code> deletes from localClients; when
-                  Set is empty, <code>unsubscribeFromChannel()</code> called;
-                  rollback on error
-                </td>
-                <td class="status-ok">✅ Correct</td>
-              </tr>
-              <tr>
-                <td>Heartbeat</td>
-                <td>
-                  25-second interval write to all local clients; broken pipe
-                  caught silently
-                </td>
-                <td class="status-ok">✅ Correct</td>
-              </tr>
-              <tr>
-                <td>Redis failure isolation</td>
-                <td>
-                  Subscribe error logged; stream continues; client sees
-                  notifications on reconnect
-                </td>
-                <td class="status-ok">✅ Correct</td>
-              </tr>
-              <tr>
-                <td>Multi-instance delivery</td>
-                <td>
-                  PUBLISH to Redis channel; every subscribed instance fans out
-                  to its local Response objects
-                </td>
-                <td class="status-ok">✅ Correct</td>
-              </tr>
-              <tr>
-                <td>Duplicate guard (frontend)</td>
-                <td>
-                  <code>alreadyExists</code> check on SSE prepend prevents
-                  duplicates on reconnect replay
-                </td>
-                <td class="status-ok">✅ Correct</td>
-              </tr>
-              <tr>
-                <td>Reconnect backoff</td>
-                <td>
-                  5-second setTimeout on EventSource.onerror — prevents
-                  reconnect storms
-                </td>
-                <td class="status-ok">✅ Correct</td>
-              </tr>
-              <tr>
-                <td>Metrics</td>
-                <td>
-                  <code>getLocalConnectionCount()</code> exported for monitoring
-                  integration
-                </td>
-                <td class="status-ok">✅ Good</td>
-              </tr>
-              <tr>
-                <td>SSE token in query param</td>
-                <td>
-                  GET /stream?token=&lt;accessToken&gt; exposes access token in
-                  server logs
-                </td>
-                <td class="status-warn">⚠️ Still open</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="sse-gaps" class="tab-panel">
-          <table class="dtable">
-            <thead>
-              <tr>
-                <th>Priority</th>
-                <th>Area</th>
-                <th>Recommendation</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="pill pill-high">High</span></td>
-                <td>SSE token in query param</td>
-                <td>
-                  POST /api/notifications/stream-token endpoint (30s TTL,
-                  single-use) → EventSource opens with that token
-                </td>
-              </tr>
-              <tr>
-                <td><span class="pill pill-medium">Medium</span></td>
-                <td>Last-Event-ID replay</td>
-                <td>
-                  Backend should replay events missed during disconnection
-                  window on reconnect
-                </td>
-              </tr>
-              <tr>
-                <td><span class="pill pill-medium">Medium</span></td>
-                <td>Exponential backoff</td>
-                <td>
-                  Current 5s fixed backoff is fine for now; exponential with
-                  jitter preferred for high-traffic
-                </td>
-              </tr>
-              <tr>
-                <td><span class="pill pill-low">Low</span></td>
-                <td>Subscriber cleanup</td>
-                <td>
-                  Confirm Pub/Sub subscriptions are cleaned up when SSE
-                  connections close (removeClient rollback covers most cases)
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- FRONTEND -->
-      <div class="card updated" id="s-frontend">
-        <div class="section-header">
-          <div class="section-num">4.13</div>
-          <div class="section-title">Frontend Patterns</div>
-          <span class="updated-badge">✦ Updated</span>
-          <span class="section-rating r-perfect">10 / 10 (was 9)</span>
-        </div>
-        <p class="body-text">
-          The CSRF integration is seamless: <code>getCsrfToken()</code> is
-          called in the request interceptor for all mutating methods, the token
-          is cached for 55 minutes (aligned with the 1-hour server TTL), and
-          <code>CSRF_VALIDATION_FAILED</code> triggers an automatic token
-          refresh and single retry. CSRF token expiry is completely transparent
-          to the application layer.
-        </p>
-        <p class="body-text">
-          The <code>useNotifications</code> hook is the most sophisticated hook
-          in the codebase — managing cursor-based infinite scroll, live SSE
-          connection with reconnect backoff, duplicate guard on SSE prepend,
-          unread count badge management, and a full mutation suite with
-          optimistic cache updates. All with zero business logic in any
-          component.
-        </p>
-        <h3 class="sub">Confirmed Strengths</h3>
-        <ul class="bullet-list">
-          <li>
-            <strong>lib/csrf.ts:</strong>
-            <code>getCsrfToken(forceRefresh)</code>,
-            <code>invalidateCsrfToken()</code>, 55-min client-side cache
-          </li>
-          <li>
-            <strong>axios.ts:</strong> CSRF auto-attached on mutating requests,
-            <code>CSRF_VALIDATION_FAILED</code> retry,
-            <code>TOKEN_REPLAY_DETECTED</code> handler,
-            <code>backendToken</code> validation after refresh
-          </li>
-          <li>
-            <strong>useNotifications:</strong> infinite scroll, SSE, duplicate
-            guard, badge count, full mutations, reconnect backoff — all in one
-            hook
-          </li>
-          <li>
-            Token cache (10-min TTL) in axios interceptor eliminates redundant
-            <code>getSession()</code> calls on high-frequency pages
-          </li>
-          <li>
-            Graceful degradation: SSE connection failure returns EMPTY_PAGE, not
-            an error state
-          </li>
-        </ul>
-        <table class="dtable" style="margin-top: 12px">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>React Error Boundary</td>
-              <td>
-                Add at root and per major dashboard section to prevent full-page
-                crashes
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Suspense boundaries</td>
-              <td>
-                Add around data-dependent sections for skeleton loading states
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-low">Low</span></td>
-              <td>Accessibility (a11y)</td>
-              <td>
-                ARIA roles, keyboard navigation, focus-visible consistency audit
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- ARCHITECTURE -->
-      <div class="card updated" id="s-arch">
-        <div class="section-header">
-          <div class="section-num">4.1</div>
-          <div class="section-title">Architecture &amp; Structure</div>
-          <span class="updated-badge">✦ Updated</span>
-          <span class="section-rating r-perfect">10 / 10 (was 9)</span>
-        </div>
-        <p class="body-text">
-          The backend now has a mature internal library structure under
-          <code>lib/</code> with clearly separated concerns:
-          <code>lib/auth/</code> (token signing, revocation, audit, session
-          binding), <code>lib/cache/</code> (CacheClient, domain invalidation
-          helpers), <code>lib/redis/</code> (ioredis cache client),
-          <code>lib/sse/</code> (typed channel contract). The
-          <code>redis/</code> directory holds pub/sub singletons separately from
-          the cache client — a subscribed ioredis client cannot send regular
-          commands, so this separation is required for correctness.
-        </p>
-        <h3 class="sub">What pushed this to 10</h3>
-        <ul class="bullet-list">
-          <li>
-            <strong>lib/sse/sse.channels.ts:</strong> typed SSEEventType,
-            SSEPayload, NotificationPayload — single source of truth eliminates
-            string drift across modules
-          </li>
-          <li>
-            <strong>lib/cache/cache.client.ts:</strong> named CACHE_KEYS,
-            env-overridable CACHE_TTL, domain-scoped invalidation helpers
-          </li>
-          <li>
-            <strong>lib/prisma.ts:</strong> dual Prisma clients with documented
-            pool sizing formula
-          </li>
-          <li>
-            <strong>redis/redis.pubsub.ts:</strong> separated from cache client;
-            named connections; autoResubscribe
-          </li>
-          <li>
-            <strong>GET /health:</strong> DB ping + uptime + env info — load
-            balancers and uptime monitors can verify liveness
-          </li>
-          <li>
-            <strong>Graceful shutdown:</strong> <code>server.close()</code> →
-            <code>prisma.$disconnect()</code> with 30s force-kill timeout
-          </li>
-        </ul>
-        <table class="dtable" style="margin-top: 12px">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>API versioning</td>
-              <td>
-                Add /api/v1/ prefix now, before any public API consumers exist
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Monorepo</td>
-              <td>
-                Shared types (NotificationPayload, ApiResponse&lt;T&gt;)
-                duplicated across repos — Turborepo or shared npm package
-                eliminates drift
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-low">Low</span></td>
-              <td>OpenAPI generation</td>
-              <td>
-                tsoa or zod-to-openapi to auto-generate API spec from route
-                definitions
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- CODE QUALITY -->
-      <div class="card" id="s-code">
+      <!-- CODE QUALITY — UPDATED -->
+      <div class="card updated" id="s-code">
         <div class="section-header">
           <div class="section-num">4.4</div>
           <div class="section-title">Code Quality &amp; Logic</div>
-          <span class="section-rating r-green">8 / 10 — Unchanged</span>
+          <span class="updated-badge">✦ Updated</span>
+          <span class="section-rating r-green">9 / 10 (was 8)</span>
+        </div>
+
+        <div class="tab-bar">
+          <div class="tab active" onclick="switchTab(this,'code','n1')">N+1 Fix</div>
+          <div class="tab" onclick="switchTab(this,'code','cache')">Cache Invalidation</div>
+          <div class="tab" onclick="switchTab(this,'code','stats')">Codebase Stats</div>
+          <div class="tab" onclick="switchTab(this,'code','remain')">Remaining</div>
+        </div>
+
+        <div id="code-n1" class="tab-panel active">
+          <p class="body-text">
+            All backend query files now use Prisma <code>include</code>/<code>select</code> to eager-load related data in a single query rather than fetching relations in loops. This is the correct approach for an ORM-backed codebase: a single Prisma query with nested <code>include</code> generates one SQL JOIN rather than N+1 individual SELECTs per record.
+          </p>
+          <p class="body-text">
+            The practical impact is significant on pages with large datasets: a workspace with 50 tasks previously generated 50+ DB round-trips for assignee data alone. With eager-loading, that collapses to 1. On the read replica path (<code>prismaRead</code>), this also reduces connection hold time, improving throughput under concurrent load.
+          </p>
+          <h3 class="sub">What this closes</h3>
+          <ul class="bullet-list">
+            <li>All relations eager-loaded in query files — no loops fetching relations post-query</li>
+            <li>prismaRead (pool=10) throughput improved — shorter connection hold time per request</li>
+            <li>Analytics and task list endpoints now produce a fixed, predictable number of DB queries regardless of dataset size</li>
+          </ul>
+        </div>
+
+        <div id="code-cache" class="tab-panel">
+          <p class="body-text">
+            Every mutation file now calls the appropriate <code>Cache.invalidate*()</code> helper after its write operation. This was the more subtle of the two fixes — cache invalidation completeness is hard to verify without reading every mutation file individually.
+          </p>
+          <p class="body-text">
+            The consequence of a missing invalidation is stale data being served from Redis without any error signal — one of the hardest bugs to catch in production. With all mutations covered, the cache-aside pattern is now fully correct end-to-end: reads serve from cache (or populate on miss), and every write path clears the affected keys so the next read re-populates with fresh data.
+          </p>
+          <table class="dtable">
+            <thead><tr><th>Mutation Category</th><th>Invalidation Called</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Task create / update / delete</td><td><code>AnalyticsCache.invalidateWorkspace()</code></td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>Workspace update / delete</td><td><code>WorkspaceCache.invalidateWorkspace()</code></td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>Member join / leave / role change</td><td><code>WorkspaceCache.invalidateMembers()</code></td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>Label create / update / delete</td><td><code>LabelCache.invalidateLabelList()</code></td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>File upload / delete</td><td><code>StorageCache.invalidateAll()</code></td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>Project mutations</td><td><code>AnalyticsCache.invalidateWorkspace()</code></td><td class="status-ok">✅ Complete</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="code-stats" class="tab-panel">
+          <p class="body-text">Backend codebase metrics based on file-system analysis:</p>
+          <table class="dtable">
+            <thead><tr><th>Metric</th><th>Count</th><th>Details</th></tr></thead>
+            <tbody>
+              <tr><td>Domain modules</td><td><strong>29</strong></td><td>activity, ai, analytics, announcement, apikey, attachment, automation, billing, calendar, comment, contact, dailyTask, feature, file, focusSession, integration, job, label, meeting, notification, project, resource, storage, task (+ subtask), templates, timeEntry, upload, workspace, workspaceUsage</td></tr>
+              <tr><td>Module TypeScript files</td><td><strong>304</strong></td><td>Across all 29 modules — routes, controllers, queries, mutations, types, validators, access, activity, notifications, filters, analytics, cron, service, repository files</td></tr>
+              <tr><td>Error classes</td><td><strong>21</strong></td><td>AppError base + 20 subclasses (ValidationError, BadRequestError, NotFoundError, ForbiddenError, UnauthorizedError, TokenExpiredError, TokenRevokedError, InvalidTokenError, SessionHijackError, AccountBannedError, EmailNotVerifiedError, ConflictError, RateLimitError, etc.)</td></tr>
+              <tr><td>Middleware files</td><td><strong>10</strong></td><td>auth, csrf, securityHeaders, sessionTimeout, rateLimiter, apiRateLimiter, dbMonitoring, focuraAdmin, upload, errorHandler</td></tr>
+              <tr><td>BullMQ queues</td><td><strong>7</strong></td><td>email, notification, activity, calendar, analytics, integration, automation — each with dedicated worker</td></tr>
+              <tr><td>Cron jobs</td><td><strong>8</strong></td><td>Task reminders, overdue alerts, notification cleanup, daily task reset, wellness monitoring, burnout signals, task recurrence, and calendar pre-computation</td></tr>
+              <tr><td>Cache namespaces</td><td><strong>14</strong></td><td>WorkspaceCache, LabelCache, AnalyticsCache, StorageCache, ProjectCache, TaskCache, AutomationCache, ActivityCache, CalendarCache, FocusSessionCache, UserCache, ExternalApiCache, NotificationCache, AccessControlCache</td></tr>
+              <tr><td>Audit event types</td><td><strong>40+</strong></td><td>LOGIN_SUCCESS, SESSION_HIJACK_DETECTED, TOKEN_REPLAY_DETECTED, CSRF_VALIDATION_FAILED, MALWARE_DETECTED, WORKSPACE_CREATED, MEMBER_ADDED, ROLE_CHANGED, and 30+ more</td></tr>
+              <tr><td>API endpoints</td><td><strong>~133</strong></td><td>Across auth, user, csrf, workspaces, projects, templates, automations, tasks, subtasks, comments, attachments, labels, notifications, calendar, focus sessions, analytics, storage, files, upload, activity, daily tasks, meetings, announcements, features, billing, integrations, admin, resources, contact, jobs, subscribe</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="code-remain" class="tab-panel">
+          <table class="dtable">
+            <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><span class="pill pill-medium">Medium</span></td>
+                <td>Cron job resilience</td>
+                <td>Add retry logic and alerting on cron job failures — silent catches are insufficient for production cron jobs</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-low">Low</span></td>
+                <td>Dead code audit</td>
+                <td>Run <code>knip</code> or <code>ts-prune</code> periodically to surface unused hooks or utilities across 441+ combined commits</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TESTING — UPDATED -->
+      <div class="card updated" id="s-testing">
+        <div class="section-header">
+          <div class="section-num">4.7</div>
+          <div class="section-title">Testing</div>
+          <span class="updated-badge">✦ Updated</span>
+          <span class="section-rating r-green">7 / 10 (was 5)</span>
         </div>
         <p class="body-text">
-          The cache-aside pattern in <code>CacheClient.getOrSet()</code> is
-          clean — single call site, typed generic, falls through to fetcher on
-          miss, repopulates automatically. Dual Prisma client usage is correctly
-          separated: mutation files use <code>prisma</code> (primary),
-          read-heavy query files use <code>prismaRead</code> (replica).
+          Re-evaluated against the actual codebase. The backend has <strong>279 test files</strong> (199 unit, 26 contract, 16 e2e, 37 integration) across 40 unit subdirectories covering all 29 modules. The frontend has <strong>885 test files</strong> covering components, hooks, API handlers, lib utilities, constants, context providers, and integration tests. Total: <strong>1,164 test files</strong> with Vitest + Supertest + MSW + React Testing Library infrastructure.
+        </p>
+
+        <div class="tab-bar">
+          <div class="tab active" onclick="switchTab(this,'test','backend')">Backend Tests</div>
+          <div class="tab" onclick="switchTab(this,'test','frontend')">Frontend Tests</div>
+          <div class="tab" onclick="switchTab(this,'test','infra')">Infrastructure</div>
+          <div class="tab" onclick="switchTab(this,'test','gaps')">Remaining Gaps</div>
+        </div>
+
+        <div id="test-backend" class="tab-panel active">
+          <table class="dtable">
+            <thead><tr><th>Category</th><th>Count</th><th>Scope</th></tr></thead>
+            <tbody>
+              <tr><td>Unit tests</td><td><strong>199</strong></td><td>40 subdirectories covering activity, admin, ai, analytics, announcement, apikey, attachment, auth, automation, billing, calendar, comment, contact, controllers, dailyTask, errors, feature, file, focusSession, integration, job, label, lib, meeting, middleware, notification, payment, project, queue, resource, security, sockets, storage, task, templates, timeEntry, upload, user, utils, workspace, workspaceUsage</td></tr>
+              <tr><td>Contract tests</td><td><strong>26</strong></td><td>API contract tests with Zod validation for activity, admin, analytics, announcement, auth, billing, calendar, contact, dailyTask, feature, fileManagement, focusSession, job, label, meeting, notification, project, resource, storage, task, templates, twoFactor, upload, user, workspace, workspaceUsage</td></tr>
+              <tr><td>E2E tests</td><td><strong>16</strong></td><td>End-to-end workflow tests: admin, analytics, auth_security, billing, calendar_analytics, communication, dailyTasks_labels_focus, e2e, growth, support, task_recurrence, tasks_advanced, templates, user_journeys, webhook, workspace_advanced</td></tr>
+              <tr><td>Integration tests</td><td><strong>37</strong></td><td>Module integration tests with real DB: activity, admin, ai, analytics, announcement, apiRateLimit, app, attachment.quota, auth, automation, calendar, comment, contact, csrf, dailyTasks, db-pool, feature, fileManagement, focusSession, job, label, meeting, notification, plan.middleware, project, resource, security, storage, task, templates, timeEntries, upload, user, userData, webhook, workspace, workspaceUsage</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="test-frontend" class="tab-panel">
+          <table class="dtable">
+            <thead><tr><th>Category</th><th>Count</th><th>Scope</th></tr></thead>
+            <tbody>
+              <tr><td>Component tests</td><td><strong>600+</strong></td><td>About, Access, Activity, AdminDashboard, AI, Analytics, ApiDocs, Authentication, Avatar, Billing, Calendar, Capacity, Consent, Contact, Cookies, Dashboard, DevGuides, Features, Footer, ForgetPassword, Guides, Help, Home, Labels, Navbar, Notifications, Pricing, Privacy, Resources, Roadmap, Settings, Shared, Solutions, Tasks, Templates, Terms, Themes, UI, VerifyEmail, Wrapper</td></tr>
+              <tr><td>Hook tests</td><td><strong>100+</strong></td><td>Custom React hooks: useWorkspace, useTask, useProject, useCalendar, useKanbanBoard, useNotifications, useLabels, useFocusSession, useAnalytics, useBilling, useStorage, useAdmin, useUser, useTheme, usePagination, useComment, useDailyTasks, useFeatures, useMeeting, and 100+ page-specific hooks</td></tr>
+              <tr><td>API / lib / utils tests</td><td><strong>180+</strong></td><td>API route handlers, auth helpers, axios interceptors, CSRF integration, utility functions, constants, context providers</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="test-infra" class="tab-panel">
+          <table class="dtable">
+            <thead><tr><th>Layer</th><th>Backend</th><th>Frontend</th></tr></thead>
+            <tbody>
+              <tr><td>Framework</td><td>Vitest 3.2.4 (node env, globals)</td><td>Vitest 4.1.2 (jsdom env)</td></tr>
+              <tr><td>HTTP testing</td><td>Supertest 7.2.2</td><td>MSW 2.12.14 (mock service worker)</td></tr>
+              <tr><td>Component testing</td><td>—</td><td>React Testing Library 16.3.2 + user-event 14.6.1</td></tr>
+              <tr><td>Mocking</td><td>vi.mock (Redis, Cloudinary, Stripe, nodemailer)</td><td>MSW handlers + vi.mock</td></tr>
+              <tr><td>Test factories</td><td>Custom factories (555 lines) for User, Workspace, Project, Task, Meeting, Announcement, Label, FeatureRequest, Activity, JobPosting</td><td>Mock data builders + MSW handlers</td></tr>
+              <tr><td>Setup</td><td>RSA key gen, Prisma schema push, per-file DB cleanup with FK-safe ordering</td><td>jsdom polyfills, MSW server start/stop</td></tr>
+              <tr><td>Pool strategy</td><td>forks with singleFork: true (PG prepared statement safety)</td><td>—</td></tr>
+              <tr><td>Coverage</td><td>v8 provider, 70% lines / 70% functions / 60% branches thresholds</td><td>v8 provider configured</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="test-gaps" class="tab-panel">
+          <table class="dtable">
+            <thead><tr><th>Area</th><th>Current</th><th>Target</th></tr></thead>
+            <tbody>
+              <tr><td>Coverage enforcement in CI</td><td class="status-warn">Thresholds defined but not enforced</td><td>CI fails on coverage drop below thresholds</td></tr>
+              <tr><td>RBAC boundary tests</td><td class="status-warn">CSRF + auth integration tests exist</td><td>Dedicated MEMBER-vs-OWNER boundary tests for all role-gated routes</td></tr>
+              <tr><td>Performance regression</td><td class="status-warn">autocannon benchmark scripts exist</td><td>CI threshold gates with p99 &lt; 500ms</td></tr>
+              <tr><td>Playwright E2E</td><td class="status-bad">None</td><td>Full E2E for auth, task creation, billing, and workspace flows</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PERFORMANCE — UPDATED -->
+      <div class="card updated" id="s-perf">
+        <div class="section-header">
+          <div class="section-num">4.8</div>
+          <div class="section-title">Performance &amp; Scalability</div>
+          <span class="updated-badge">✦ Updated</span>
+          <span class="section-rating r-perfect">10 / 10 (was 9)</span>
+        </div>
+        <p class="body-text">
+          With complete cache invalidation confirmed across all mutation files, the caching layer is fully correct — moving Performance to 10. The backend uses <strong>14 cache namespaces</strong> with env-overridable TTLs ranging from 30 seconds (activity feed) to 1 hour (workspace metadata). The <code>CacheClient.getOrSet()</code> pattern ensures reads serve from cache or populate on miss, and every write path clears affected keys.
+        </p>
+        <p class="body-text">
+          Combined with the N+1 fix, the database access layer is optimised at both levels: expensive reads are cached in Redis with domain-scoped TTLs and granular invalidation, and the underlying Prisma queries that populate the cache on miss are themselves efficient (single JOIN instead of N+1 round-trips).
+        </p>
+
+        <div class="tab-bar">
+          <div class="tab active" onclick="switchTab(this,'perf','stack')">Full Stack Status</div>
+          <div class="tab" onclick="switchTab(this,'perf','cache')">Cache TTLs</div>
+          <div class="tab" onclick="switchTab(this,'perf','remain')">Remaining</div>
+        </div>
+
+        <div id="perf-stack" class="tab-panel active">
+          <table class="dtable">
+            <thead><tr><th>Layer</th><th>Implementation</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Redis response caching</td><td><code>CacheClient.getOrSet()</code> on all analytics, workspace, label, storage, project, task, activity, calendar, and focus session endpoints; 14 namespaces with env-overridable TTLs</td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>Cache invalidation</td><td><code>WorkspaceCache</code>, <code>LabelCache</code>, <code>AnalyticsCache</code>, <code>StorageCache</code>, <code>ProjectCache</code>, <code>TaskCache</code> helpers called in all mutation files</td><td class="status-ok">✅ Complete (v4)</td></tr>
+              <tr><td>N+1 elimination</td><td>All query files use Prisma <code>include</code>/<code>select</code> — no relation fetching in loops</td><td class="status-ok">✅ Complete (v4)</td></tr>
+              <tr><td>Read replica</td><td><code>prismaRead</code> (pool=10) for all read-heavy paths; <code>prisma</code> (pool=5) for writes and consistency-critical reads</td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>Cron dedup keys</td><td><code>notif:sent:&lt;taskId&gt;:&lt;userId&gt;:&lt;type&gt;:&lt;label&gt;</code> with 25h TTL prevents double-firing across cron runs</td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>Redis Pub/Sub fan-out</td><td>SSE works across multiple Node.js instances; no in-memory Map limitation</td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>TanStack Query cache tuning</td><td><code>staleTime</code>/<code>gcTime</code> tuned per query type — aligned with backend Redis TTLs</td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>BullMQ job queues</td><td>7 queues (email, notification, activity, calendar, analytics, integration, automation) with dedicated workers and concurrency limits</td><td class="status-ok">✅ Complete</td></tr>
+              <tr><td>deletePattern risk</td><td><code>redis.keys()</code> is O(N) — should be replaced with SCAN for large keyspaces</td><td class="status-warn">⚠️ Open — Low</td></tr>
+              <tr><td>Bundle size audit</td><td><code>next build --analyze</code> not yet run</td><td class="status-warn">⚠️ Open — Low</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="perf-cache" class="tab-panel">
+          <p class="body-text">All cache TTLs are env-overridable. Current defaults:</p>
+          <table class="dtable">
+            <thead><tr><th>Resource</th><th>TTL</th><th>Invalidated by</th></tr></thead>
+            <tbody>
+              <tr><td>Workspace metadata</td><td>1 hour</td><td>Workspace update/delete</td></tr>
+              <tr><td>Workspace overview</td><td>1 hour</td><td>Workspace update</td></tr>
+              <tr><td>Label list</td><td>30 min</td><td>Label create/update/delete</td></tr>
+              <tr><td>Analytics dashboard</td><td>1 hour</td><td>Task/project mutations</td></tr>
+              <tr><td>Storage overview</td><td>1 min</td><td>File upload/delete</td></tr>
+              <tr><td>Storage largest files</td><td>2 min</td><td>File upload/delete</td></tr>
+              <tr><td>Project metadata</td><td>30 min</td><td>Project update/delete</td></tr>
+              <tr><td>Task stats</td><td>2 min</td><td>Task mutations</td></tr>
+              <tr><td>Activity feed</td><td>30 sec</td><td>Activity creation</td></tr>
+              <tr><td>Calendar aggregates</td><td>5 min</td><td>Calendar mutations</td></tr>
+              <tr><td>Focus session stats</td><td>30 min</td><td>Focus session mutations</td></tr>
+              <tr><td>Automation list</td><td>5 min</td><td>Automation mutations</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="perf-remain" class="tab-panel">
+          <table class="dtable">
+            <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><span class="pill pill-medium">Medium</span></td>
+                <td>deletePattern → SCAN</td>
+                <td>Replace <code>redis.keys()</code> in <code>CacheClient.deletePattern()</code> with cursor-based SCAN iteration to avoid blocking the Redis event loop on large keyspaces</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-medium">Medium</span></td>
+                <td>Cold-start mitigation</td>
+                <td>For analytics keys near TTL expiry, consider a background refresh strategy to prevent p99 spikes on first cache miss after expiry</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-low">Low</span></td>
+                <td>Bundle size audit</td>
+                <td><code>next build --analyze</code>; Framer Motion, Recharts, Redux Toolkit, and Workbox are the likely largest contributors to initial load time</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECURITY — unchanged at 10 -->
+      <div class="card" id="s-security">
+        <div class="section-header">
+          <div class="section-num">4.2</div>
+          <div class="section-title">Security</div>
+          <span class="section-rating r-perfect">10 / 10 — Unchanged</span>
+        </div>
+        <p class="body-text">
+          All security controls remain in place and unchanged. Defence-in-depth is fully implemented: CSRF at the transport layer, session binding at the authentication layer, security headers at the HTTP layer, RBAC at the application layer, workspace isolation at the data layer. The backend has <strong>40+ structured audit event types</strong> covering login, token, session, CSRF, security, data, and workspace events.
+        </p>
+        <p class="body-text">
+          The only remaining open item is the <strong>SSE token in query param</strong> (Medium severity) — <code>GET /api/notifications/stream?token=&lt;accessToken&gt;</code> exposes the 15-minute access token in server logs and browser history. Fix: <code>POST /api/notifications/stream-token</code> returning a 30-second single-use signed token.
         </p>
         <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Control</th><th>Status</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>N+1 query audit</td>
-              <td>
-                Audit all query files for missing Prisma includes — replica
-                queries are no exception
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>Cache invalidation completeness</td>
-              <td>
-                Every mutation must call the corresponding
-                <code>Cache.invalidate*()</code> helper — audit all mutation
-                files
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>AppError typed class</td>
-              <td>
-                Introduce AppError(code, statusCode, details) so all thrown
-                errors serialise consistently
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Cron resilience</td>
-              <td>
-                Add retry logic and alerting on cron job failures — silent catch
-                is insufficient
-              </td>
-            </tr>
+            <tr><td>RS256 JWT, 15-min access tokens, 7-day rotating refresh with JTI revocation</td><td class="status-ok">✅ Implemented</td></tr>
+            <tr><td>Session binding (IP + UA) — mismatch → revoke all + SESSION_HIJACK_DETECTED audit log</td><td class="status-ok">✅ Implemented</td></tr>
+            <tr><td>CSRF double-submit cookie — timingSafeEqual, Redis-backed, sessionId-scoped, auto-retry</td><td class="status-ok">✅ Implemented</td></tr>
+            <tr><td>Security headers — CSP, HSTS, X-Frame-Options: DENY, COEP, COOP, CORP, Permissions-Policy</td><td class="status-ok">✅ Implemented</td></tr>
+            <tr><td>Argon2 password hashing, rate limiting per-user tier (free=60, pro=300, enterprise=1000 req/min), RBAC (18 permissions, 5 roles), workspace isolation, 40+ audit event types</td><td class="status-ok">✅ Implemented</td></tr>
+            <tr><td>Account lockout — 10 failed attempts → 15-minute lockout via Redis</td><td class="status-ok">✅ Implemented</td></tr>
+            <tr><td>AES-256-GCM token encryption at rest</td><td class="status-ok">✅ Implemented</td></tr>
+            <tr><td>Input sanitization — DOMPurify + escape-html + recursive object sanitization</td><td class="status-ok">✅ Implemented</td></tr>
+            <tr><td>SSE token in query param — access token exposed in server logs</td><td class="status-warn">⚠️ Still open — Medium</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- AUTH — unchanged at 10 -->
+      <div class="card" id="s-auth">
+        <div class="section-header">
+          <div class="section-num">4.3</div>
+          <div class="section-title">Authentication &amp; Authorization</div>
+          <span class="section-rating r-perfect">10 / 10 — Unchanged</span>
+        </div>
+        <p class="body-text">
+          The authentication system is production-grade: HMAC-SHA256 exchange proof, RS256 token pair (15-min access, 7-day refresh), atomic token rotation via Redis Lua script, replay detection on rotated JTIs, device fingerprinting with <code>FocuraJwtPayload</code> typed interface, concurrent session management (max 5), distributed refresh lock, and 10-failure account lockout. The <code>enforceSessionBinding()</code> middleware runs on <strong>every</strong> authenticated request — including ones served from the auth-result cache.
+        </p>
+        <p class="body-text">
+          RBAC covers 5 roles (ADMIN, WORKSPACE_OWNER, WORKSPACE_ADMIN, WORKSPACE_MEMBER, WORKSPACE_VIEWER) with 18 granular permissions across workspace, project, task, and billing domains. The <code>authorize()</code> middleware correctly returns structured error codes (<code>NOT_AUTHENTICATED</code>, <code>FORBIDDEN</code>) that the frontend handles programmatically.
+        </p>
+        <table class="dtable">
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>SSE stream token</td><td>Replace access token in SSE query param with short-lived signed stream token</td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>Refresh token audit log</td><td>Log successful token refreshes (not just failures) for a full session activity timeline per user</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SSE — unchanged at 10 -->
+      <div class="card" id="s-sse">
+        <div class="section-header">
+          <div class="section-num">4.11</div>
+          <div class="section-title">Real-Time (SSE)</div>
+          <span class="section-rating r-perfect">10 / 10 — Unchanged</span>
+        </div>
+        <p class="body-text">
+          The SSE system is built on Redis Pub/Sub for cross-instance fan-out, with a typed <code>channelState</code> machine (<code>pending | active | pending-unsub</code>), subscribe-before-handshake guarantee, 25-second heartbeat, write-with-retry (3 attempts), delivery tracking (Redis persistence 1h TTL + in-memory log max 1000 entries), and per-user connection limit (5) with global cap (10,000). The frontend <code>useNotifications</code> hook implements cursor-based infinite scroll, duplicate guard, unread count badge, and reconnect backoff.
+        </p>
+        <p class="body-text">
+          Notification dispatch helpers (<code>notifyUser</code>, <code>notifyTaskAssignees</code>, <code>notifyWorkspaceMembers</code>, <code>notifyMentions</code>) write to Postgres first for durability, then PUBLISH to Redis — ensuring no notification is lost even if Redis is temporarily unavailable.
+        </p>
+        <table class="dtable">
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pill-high">High</span></td><td>SSE token in query param</td><td><code>POST /api/notifications/stream-token</code> endpoint (30s TTL, single-use) → EventSource opens with that token instead of the full access token</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Last-Event-ID replay</td><td>Backend should replay events missed during disconnection window on reconnect</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Exponential backoff</td><td>Current 5s fixed backoff is fine for now; exponential with jitter preferred for high-traffic</td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>Subscriber cleanup</td><td>Confirm Pub/Sub subscriptions are cleaned up on SSE connection close (removeClient rollback covers most cases)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FRONTEND — unchanged at 10 -->
+      <div class="card" id="s-frontend">
+        <div class="section-header">
+          <div class="section-num">4.13</div>
+          <div class="section-title">Frontend Patterns</div>
+          <span class="section-rating r-perfect">10 / 10 — Unchanged</span>
+        </div>
+        <p class="body-text">
+          The frontend is built on <strong>Next.js 16.3.0</strong> (App Router) + <strong>React 19.2.0</strong> + <strong>TypeScript 5.x</strong> with <strong>Tailwind CSS 4</strong>, <strong>Framer Motion 12.23</strong>, <strong>Recharts 3.7</strong>, and <strong>TanStack Query 5.90</strong>. State management uses <strong>Redux Toolkit 2.11</strong> for global state and TanStack Query for server state caching. The codebase comprises <strong>121 custom hooks</strong>, <strong>39 component directories</strong>, <strong>115 app route directories</strong>, and <strong>885 test files</strong>.
+        </p>
+        <p class="body-text">
+          <code>lib/csrf.ts</code>, <code>lib/axios.ts</code> CSRF integration with auto-retry, and <code>useNotifications</code> (cursor-based infinite scroll, SSE with duplicate guard, unread count badge, full mutation suite, reconnect backoff) all remain unchanged. Zero business logic in any UI component. Additional integrations: <strong>Cloudinary</strong> file uploads, <strong>Workbox</strong> PWA support, <strong>jspdf + html-to-image</strong> for PDF export, <strong>next-themes</strong> dark/light mode, <strong>qrcode.react</strong> for 2FA QR codes, and <strong>Google Gemini AI</strong> integration.
+        </p>
+        <table class="dtable">
+          <thead><tr><th>Metric</th><th>Count</th></tr></thead>
+          <tbody>
+            <tr><td>Custom React hooks</td><td><strong>121</strong></td></tr>
+            <tr><td>Component directories</td><td><strong>39</strong> (About, AdminDashboard, AI, Analytics, ApiDocs, Authentication, Careers, Consent, Contact, Cookies, Dashboard, DevGuides, Features, Footer, ForgetPassword, Guides, Help, Home, Labels, Navbar, Notifications, Pricing, Privacy, Resources, Roadmap, Settings, Shared, Solutions, Tasks, Templates, Terms, Themes, UI, VerifyEmail, Wrapper)</td></tr>
+            <tr><td>App route directories</td><td><strong>115</strong></td></tr>
+            <tr><td>TypeScript type files</td><td><strong>29</strong></td></tr>
+            <tr><td>Lib utility files</td><td><strong>29</strong></td></tr>
+            <tr><td>Test files</td><td><strong>885</strong></td></tr>
+          </tbody>
+        </table>
+        <table class="dtable">
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>React Error Boundary</td><td>Add at root and per major dashboard section to prevent full-page crashes</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Suspense boundaries</td><td>Add around data-dependent sections for skeleton loading states</td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>Accessibility (a11y)</td><td>ARIA roles, keyboard navigation, focus-visible consistency audit</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ARCHITECTURE — unchanged at 10 -->
+      <div class="card" id="s-arch">
+        <div class="section-header">
+          <div class="section-num">4.1</div>
+          <div class="section-title">Architecture &amp; Structure</div>
+          <span class="section-rating r-perfect">10 / 10 — Unchanged</span>
+        </div>
+        <p class="body-text">
+          The modular monolith pattern is fully realised: <strong>29 self-contained domain modules</strong>, each with its own routes, controllers, queries, mutations, types, validators, access checks, activity logging, notification dispatch, and barrel export. Cross-module communication flows through shared helpers (<code>notification.helpers.ts</code>, <code>CacheClient</code>), not direct imports between modules.
+        </p>
+        <p class="body-text">
+          <code>lib/auth/</code>, <code>lib/redis/</code>, <code>lib/sse/</code>, <code>lib/security/</code> — clean sub-directory separation. Dual Prisma clients with separate connection pools, typed SSE contract, named cache keys with env-overridable TTLs, <code>GET /health</code> and <code>/health/db-pool</code> endpoints, graceful shutdown covering SIGTERM/SIGINT/uncaughtException/unhandledRejection, and correct pub/sub singleton separation (publisher + subscriber as separate TCP connections).
+        </p>
+        <table class="dtable">
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Monorepo</td><td>Shared types duplicated across repos — Turborepo or shared npm package eliminates drift</td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>OpenAPI generation</td><td>tsoa or zod-to-openapi to auto-generate API spec from route definitions</td></tr>
           </tbody>
         </table>
       </div>
@@ -1576,45 +697,14 @@
           <span class="section-rating r-green">8 / 10 — Unchanged</span>
         </div>
         <p class="body-text">
-          The <code>lib/</code> sub-directory structure dramatically improves
-          navigability. The channelState machine uses an explicit string union
-          type (<code>"pending" | "active" | "pending-unsub"</code>) which is
-          far more readable than boolean flags. CACHE_TTL constants are named
-          and env-overridable — exactly the right pattern.
+          The <code>lib/</code> sub-directory structure, channelState machine explicit string union, and env-overridable CACHE_TTL constants (28 named TTLs across workspace, label, analytics, storage, project, task, activity, calendar, and focus session domains) all remain strengths. The module-per-directory pattern with barrel exports makes navigation intuitive. No documentation or naming changes in this update.
         </p>
         <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>channelState comments</td>
-              <td>
-                The three-state subscription lifecycle deserves a block comment
-                explaining each state and the race condition it prevents
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>JSDoc on hooks</td>
-              <td>
-                The 80+ custom hooks still lack param/return documentation
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-low">Low</span></td>
-              <td>CSRF retry logic comment</td>
-              <td>
-                The <code>_csrfRetried</code> flag pattern in axios interceptor
-                is non-obvious; add a comment explaining the single-retry
-                contract
-              </td>
-            </tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>channelState comments</td><td>The three-state subscription lifecycle deserves a block comment explaining each state and the race condition it prevents</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>JSDoc on hooks</td><td>The 121 custom hooks still lack param/return documentation</td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>CSRF retry logic comment</td><td>The <code>_csrfRetried</code> flag pattern in axios interceptor is non-obvious; add a comment explaining the single-retry contract</td></tr>
           </tbody>
         </table>
       </div>
@@ -1627,430 +717,74 @@
           <span class="section-rating r-green">8 / 10 — Unchanged</span>
         </div>
         <p class="body-text">
-          <code>SSEPayload</code>, <code>NotificationPayload</code>,
-          <code>SSEEventType</code>, and <code>SessionMetadata</code> types are
-          all correctly defined and used. <code>CacheClient</code> is generic
-          (<code>get&lt;T&gt;</code>, <code>getOrSet&lt;T&gt;</code>). The
-          <code>any</code> type in auth.ts middleware (<code>decoded: any</code
-          >) is a notable gap — the JWT payload should be a typed interface.
+          SSEPayload, NotificationPayload, SSEEventType, SessionMetadata, FocuraJwtPayload types all correctly defined and used. CacheClient is generic (<code>get&lt;T&gt;</code>, <code>getOrSet&lt;T&gt;</code>). The <code>FocuraJwtPayload</code> interface in auth.ts is now properly typed (sub, email, role, jti, version, type, sessionId) — resolving the previous <code>decoded: any</code> concern. The <code>AuthRequest</code> interface extends Express Request with a typed <code>user</code> property.
         </p>
         <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>Type decoded JWT payload</td>
-              <td>
-                Replace <code>decoded: any</code> in auth.ts with a typed
-                <code>JwtPayload</code> interface (sub, jti, type, version,
-                sessionId, role)
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>PaginatedApiResponse&lt;T&gt;</td>
-              <td>
-                Define and use consistently — root cause of label hook type
-                mismatch
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>Strict tsconfig</td>
-              <td>
-                Enable strict, noUncheckedIndexedAccess, noImplicitReturns in
-                both repos
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Eliminate any</td>
-              <td>
-                Audit both repos — each any is a type safety hole, especially in
-                middleware
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- TESTING -->
-      <div class="card" id="s-testing">
-        <div class="section-header">
-          <div class="section-num">4.7</div>
-          <div class="section-title">Testing</div>
-          <span class="section-rating r-red"
-            >5 / 10 — Unchanged (Largest Gap)</span
-          >
-        </div>
-        <p class="body-text">
-          The new CSRF, session binding, security headers, and cache
-          invalidation code has no mentioned test coverage. These are exactly
-          the security controls most valuable to test. Infrastructure (Vitest,
-          Supertest, MSW) is in place — the gap is coverage breadth.
-        </p>
-
-        <div class="tab-bar">
-          <div class="tab active" onclick="switchTab(this, 'test', 'new')">
-            New Test Targets (v3)
-          </div>
-          <div class="tab" onclick="switchTab(this, 'test', 'existing')">
-            Existing Gaps
-          </div>
-        </div>
-        <div id="test-new" class="tab-panel active">
-          <table class="dtable">
-            <thead>
-              <tr>
-                <th>Area</th>
-                <th>What to Test</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>CSRF middleware</td>
-                <td>
-                  Valid token passes; missing token → 403; invalid token → 403;
-                  GET exempt; webhook exempt; token refresh on
-                  CSRF_VALIDATION_FAILED
-                </td>
-              </tr>
-              <tr>
-                <td>Session binding</td>
-                <td>
-                  Matching IP+UA passes; mismatched IP → 401 +
-                  SESSION_HIJACK_DETECTED; revokeAllRefreshTokens called on
-                  hijack
-                </td>
-              </tr>
-              <tr>
-                <td>Cache invalidation</td>
-                <td>
-                  Create task → analytics cache key deleted; update workspace →
-                  workspace cache deleted; delete file → storage cache deleted
-                </td>
-              </tr>
-              <tr>
-                <td>SSE lifecycle</td>
-                <td>
-                  channelState transitions: unsubscribed → pending → active →
-                  pending-unsub; missed PUBLISH cannot occur after "connected"
-                  handshake
-                </td>
-              </tr>
-              <tr>
-                <td>Security headers</td>
-                <td>
-                  Response includes CSP, X-Frame-Options: DENY,
-                  X-Content-Type-Options, HSTS (prod)
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="test-existing" class="tab-panel">
-          <table class="dtable">
-            <thead>
-              <tr>
-                <th>Area</th>
-                <th>Current</th>
-                <th>Target</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Backend unit tests</td>
-                <td class="status-warn">Minimal — mostly integration</td>
-                <td>
-                  Unit test all query/mutation files with mocked Prisma + Redis
-                </td>
-              </tr>
-              <tr>
-                <td>Frontend hook tests</td>
-                <td class="status-warn">A few hooks covered</td>
-                <td>Cover all 80+ hooks with MSW + renderWithProviders</td>
-              </tr>
-              <tr>
-                <td>Component tests</td>
-                <td class="status-bad">Not observed</td>
-                <td>
-                  Test all /ui components with render + interaction assertions
-                </td>
-              </tr>
-              <tr>
-                <td>E2E tests</td>
-                <td class="status-bad">None</td>
-                <td>Playwright E2E for auth, task creation, billing</td>
-              </tr>
-              <tr>
-                <td>RBAC boundary tests</td>
-                <td class="status-bad">None</td>
-                <td>
-                  MEMBER cannot delete workspace, ADMIN cannot access billing,
-                  etc.
-                </td>
-              </tr>
-              <tr>
-                <td>Performance regression</td>
-                <td class="status-warn">Benchmark script only</td>
-                <td>CI threshold gates with p99 &lt; 500ms</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- PERFORMANCE -->
-      <div class="card" id="s-perf">
-        <div class="section-header">
-          <div class="section-num">4.8</div>
-          <div class="section-title">Performance &amp; Scalability</div>
-          <span class="section-rating r-green">9 / 10 — Unchanged</span>
-        </div>
-        <p class="body-text">
-          Dual Prisma client confirmed: <code>prismaRead</code> (pool=10)
-          handles read-heavy paths (notification list, analytics, activity
-          feeds, calendar, storage stats); <code>prisma</code> (pool=5) handles
-          writes and consistency-critical reads (unread count badge). Connection
-          limit formula (<code
-            >pool ≤ (max_connections − 3) / num_instances</code
-          >) is documented in the README.
-        </p>
-        <p class="body-text">
-          Cache TTLs are env-overridable
-          (<code>CACHE_TTL_WORKSPACE_METADATA</code>,
-          <code>CACHE_TTL_STORAGE_OVERVIEW</code>, etc.) so tuning requires no
-          code deploy. Granular invalidation helpers
-          (<code>StorageCache.invalidateAll()</code>,
-          <code>WorkspaceCache.invalidateWorkspace()</code>,
-          <code>AnalyticsCache.invalidateWorkspace()</code>) make cache
-          invalidation explicit and auditable per mutation.
-        </p>
-        <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>Cache invalidation completeness</td>
-              <td>
-                Audit every mutation file to confirm all relevant cache keys are
-                invalidated on write
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Cold-start mitigation</td>
-              <td>
-                Background refresh for analytics keys near TTL expiry to avoid
-                p99 spikes on first cache miss
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>deletePattern in production</td>
-              <td>
-                <code>redis.keys()</code> is O(N) and blocks the Redis event
-                loop. Use SCAN with cursor iteration instead
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-low">Low</span></td>
-              <td>Bundle size audit</td>
-              <td>
-                <code>next build --analyze</code> to surface heavy deps (Framer
-                Motion, Recharts, Redux Toolkit)
-              </td>
-            </tr>
+            <tr><td><span class="pill pill-high">High</span></td><td>PaginatedApiResponse&lt;T&gt;</td><td>Define and use consistently — root cause of label hook type mismatch</td></tr>
+            <tr><td><span class="pill pill-high">High</span></td><td>Strict tsconfig</td><td>Enable strict, noUncheckedIndexedAccess, noImplicitReturns in both repos</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Eliminate any</td><td>Audit both repos — each any is a type safety hole, especially in middleware</td></tr>
           </tbody>
         </table>
       </div>
 
       <!-- ERROR HANDLING -->
-      <div class="card updated" id="s-errors">
+      <div class="card" id="s-errors">
         <div class="section-header">
           <div class="section-num">4.9</div>
           <div class="section-title">Error Handling</div>
-          <span class="updated-badge">✦ Updated</span>
-          <span class="section-rating r-green">8 / 10 (was 7)</span>
+          <span class="section-rating r-green">8 / 10 — Unchanged</span>
         </div>
         <p class="body-text">
-          Redis failure handling in <code>notification.helpers.ts</code> is
-          correct: DB write first (durable), Redis PUBLISH in try/catch, failure
-          logged but never propagated. Same pattern in
-          <code>CacheClient</code> — <code>get()</code> returns null on Redis
-          error, <code>set()</code> logs but does not throw. Application
-          degrades gracefully on Redis unavailability rather than returning
-          500s.
-        </p>
-        <p class="body-text">
-          Graceful shutdown covers all process exit signals: SIGTERM, SIGINT,
-          uncaughtException, unhandledRejection. Each calls
-          <code>gracefulShutdown()</code>: <code>server.close()</code> →
-          <code>prisma.$disconnect()</code> with 30-second force-kill timeout.
+          The <code>AppError</code> hierarchy provides 21 typed error classes with consistent shape (statusCode, code, meta, isOperational) for the global error handler. Redis failure handling follows DB-first philosophy (Redis PUBLISH in try/catch, never propagated), CacheClient returns graceful null on error, and graceful shutdown covers SIGTERM/SIGINT/uncaughtException/unhandledRejection. <strong>Sentry integration</strong> (<code>@sentry/node 10.62</code>) is configured on the backend with user context, breadcrumbs, and exception capture.
         </p>
         <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>Typed AppError class</td>
-              <td>
-                Introduce AppError(code, statusCode, details) so all thrown
-                errors have consistent shape for the global error handler
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>React Error Boundary</td>
-              <td>
-                Add at root and per major dashboard section to prevent full-page
-                crashes
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Error monitoring</td>
-              <td>
-                Integrate Sentry on both frontend and backend for production
-                error grouping, stack traces, and alerting
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Zod error mapping</td>
-              <td>
-                Map Zod validation errors to user-friendly field-level messages
-                before returning 400 responses
-              </td>
-            </tr>
+            <tr><td><span class="pill pill-high">High</span></td><td>React Error Boundary</td><td>Add at root and per major dashboard section to prevent full-page crashes</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Frontend Sentry</td><td>Extend Sentry to frontend for full-stack error grouping and alerting</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Zod error mapping</td><td>Map Zod validation errors to user-friendly field-level messages before returning 400 responses</td></tr>
           </tbody>
         </table>
       </div>
 
       <!-- API DESIGN -->
-      <div class="card updated" id="s-api">
+      <div class="card" id="s-api">
         <div class="section-header">
           <div class="section-num">4.10</div>
           <div class="section-title">API Design</div>
-          <span class="updated-badge">✦ Updated</span>
-          <span class="section-rating r-green">9 / 10 (was 8)</span>
+          <span class="section-rating r-green">9 / 10 — Unchanged</span>
         </div>
         <p class="body-text">
-          The API table in the backend README now includes Auth and CSRF columns
-          for every route — reflecting the actual middleware stack. The
-          <code>/health</code> endpoint returns structured JSON (status,
-          timestamp, uptime, environment, database, csrfEnabled). The
-          notifications module has a complete endpoint suite with cursor-based
-          pagination, all correctly CSRF-protected where mutating.
+          Approximately <strong>133 API endpoints</strong> across 15+ route groups, all following consistent patterns: <code>/api/v1/</code> prefix, CSRF on mutations (exempt: GET, SSE, auth, public, webhooks), cursor-based pagination on notifications, and <code>/health</code> + <code>/health/db-pool</code> liveness endpoints. The payment webhook endpoint (<code>POST /webhooks/billing</code>) uses raw body for Stripe/Paddle signature verification. All mutating authenticated routes require <code>X-CSRF-Token</code> header.
         </p>
         <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>PaginatedApiResponse&lt;T&gt;</td>
-              <td>
-                Define and adopt consistently to resolve label hook type
-                mismatch
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>API versioning /api/v1/</td>
-              <td>Add now before any external consumers</td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>OpenAPI spec</td>
-              <td>Auto-generate from route definitions and Zod validators</td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-low">Low</span></td>
-              <td>Cache-Control headers</td>
-              <td>
-                Return <code>Cache-Control: max-age=&lt;TTL&gt;</code> on cached
-                endpoints so CDN/proxy layers can participate
-              </td>
-            </tr>
+            <tr><td><span class="pill pill-high">High</span></td><td>PaginatedApiResponse&lt;T&gt;</td><td>Define and adopt consistently to resolve label hook type mismatch</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>OpenAPI spec</td><td>Auto-generate from route definitions and Zod validators</td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>Cache-Control headers</td><td>Return <code>Cache-Control: max-age=&lt;TTL&gt;</code> on cached endpoints so CDN/proxy layers can participate</td></tr>
           </tbody>
         </table>
       </div>
 
       <!-- DATABASE -->
-      <div class="card updated" id="s-db">
+      <div class="card" id="s-db">
         <div class="section-header">
           <div class="section-num">4.12</div>
           <div class="section-title">Database &amp; ORM Design</div>
-          <span class="updated-badge">✦ Updated</span>
-          <span class="section-rating r-green">9 / 10 (was 8)</span>
+          <span class="section-rating r-green">9 / 10 — Unchanged</span>
         </div>
         <p class="body-text">
-          Dual Prisma client confirmed: <code>prismaRead</code> (pool=10) for
-          notification list, analytics, activity feeds, calendar aggregates,
-          storage stats. <code>prisma</code> (pool=5) for all writes and the
-          unread count badge (consistency-critical: must reflect exact
-          post-write state). Fallback to <code>DATABASE_URL</code> when
-          <code>READ_DATABASE_URL</code> is unset means graceful degradation in
-          single-node deployments.
+          PostgreSQL 16 with Prisma 5.22 ORM: <strong>62 models</strong>, <strong>50 enums</strong>, and <strong>145 indexes</strong>. Dual Prisma clients with separate connection pools (primary pool=5 for mutations, read replica pool=10 for analytics, notifications, activity feeds, calendar aggregates, storage stats). Workspace-scoped isolation enforced on every query. Reusable <code>.selects.ts</code> objects per module prevent Prisma select/include duplication. Connection limit formula documented: <code>connection_limit ≤ (max_connections − 3) / num_instances</code>.
         </p>
         <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>Index audit</td>
-              <td>
-                EXPLAIN ANALYZE on top 10 most-called queries; add composite
-                indexes for [workspaceId, status], [workspaceId, assigneeId,
-                dueDate] on tasks
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Soft deletes</td>
-              <td>
-                <code>deletedAt: DateTime?</code> on tasks, projects, workspaces
-                for recovery and audit trail
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-low">Low</span></td>
-              <td>deletePattern risk</td>
-              <td>
-                <code>redis.keys()</code> in StorageCache is O(N) — replace with
-                SCAN iteration for large keyspaces
-              </td>
-            </tr>
+            <tr><td><span class="pill pill-high">High</span></td><td>Index audit</td><td>EXPLAIN ANALYZE on top 10 most-called queries; add composite indexes for [workspaceId, status], [workspaceId, assigneeId, dueDate] on tasks</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Soft deletes</td><td><code>deletedAt: DateTime?</code> on tasks, projects, workspaces for recovery and audit trail</td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>deletePattern risk</td><td><code>redis.keys()</code> in CacheClient is O(N) — replace with SCAN iteration for large keyspaces</td></tr>
           </tbody>
         </table>
       </div>
@@ -2063,44 +797,13 @@
           <span class="section-rating r-green">9 / 10 — Unchanged</span>
         </div>
         <p class="body-text">
-          The backend README has been substantially updated: tech stack table
-          now includes Pub/Sub (ioredis), CSRF Protection, and separate Caching
-          row; the CSRF section documents the full double-submit flow and exempt
-          routes; security headers table lists every header with its value and
-          purpose; SSE section documents the subscribe-before-handshake
-          guarantee; API overview table now has Auth and CSRF columns.
+          Comprehensive documentation suite: README.md (1194 lines), ARCHITECTURE.md (1189 lines), AUTHENTICATION.md (907 lines), CONTRIBUTING.md, CODE_OF_CONDUCT.md, CHANGELOG.md, DEPLOYMENT_SECURITY_AUDIT.md, FRONTEND_ANALYSIS.md, FRONTEND_AUTH_GUIDE.md, PROJECT_FEATURES_GUIDE.md, AI_IMPLEMENTATION_GUIDE.md, and 10+ additional analysis documents. Both repos have thorough setup instructions with Docker Compose, Prisma migration, and seed scripts.
         </p>
         <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>ADR files</td>
-              <td>
-                Document key decisions (RS256, modular monolith, SSE over
-                WebSocket, read replica, CSRF approach) as Architecture Decision
-                Records in <code>docs/decisions/</code>
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>OpenAPI spec</td>
-              <td>
-                Machine-readable API documentation generated from route
-                definitions
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-low">Low</span></td>
-              <td>CHANGELOG.md</td>
-              <td>Keep a Changelog format between releases</td>
-            </tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>ADR files</td><td>Document key decisions (RS256, modular monolith, SSE over WebSocket, read replica, CSRF approach) as Architecture Decision Records in <code>docs/decisions/</code></td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>CHANGELOG.md</td><td>Keep a Changelog format between releases</td></tr>
           </tbody>
         </table>
       </div>
@@ -2110,67 +813,23 @@
         <div class="section-header">
           <div class="section-num">4.15</div>
           <div class="section-title">DevOps &amp; CI/CD</div>
-          <span class="section-rating r-red"
-            >5 / 10 — Unchanged (Most Critical Gap)</span
-          >
+          <span class="updated-badge">✦ Updated</span>
+          <span class="section-rating r-yellow">6 / 10 (was 5)</span>
         </div>
         <p class="body-text">
-          No CI/CD changes in this update. This remains the largest single gap.
-          Vercel auto-deploy on main push and Railway are the only automation.
-          No GitHub Actions pipeline for testing, linting, type checking, or
-          coverage enforcement.
+          Updated from 5 to 6: Docker Compose for local PostgreSQL + Redis is now in place, and <strong>autocannon</strong> performance benchmarking scripts (API tests, database tests, service tests, load tests) are available. Deployments run on <strong>Railway</strong> (backend), <strong>Render</strong> (backend backup), and <strong>Vercel</strong> (frontend). The <code>deploy</code> script chains <code>tsc && prisma migrate deploy && node dist/index.js</code>.
+        </p>
+        <p class="body-text">
+          The primary gap remains the absence of a CI/CD pipeline — no GitHub Actions for testing, linting, type checking, or coverage enforcement. This is the single largest improvement opportunity for the project.
         </p>
         <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Priority</th><th>Area</th><th>Action</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill pill-critical">🔴 Critical</span></td>
-              <td>CI test pipeline</td>
-              <td>
-                GitHub Actions: vitest on every PR — tests must pass before
-                merge
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-critical">🔴 Critical</span></td>
-              <td>Lint + type check CI</td>
-              <td>ESLint and tsc --noEmit on every push to main</td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-critical">🔴 Critical</span></td>
-              <td>Secret scanning</td>
-              <td>truffleHog or detect-secrets to catch credential commits</td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>Coverage enforcement</td>
-              <td>vitest --coverage with 60% threshold failing CI on drop</td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>Automated migrations</td>
-              <td>prisma migrate deploy in Railway deployment pipeline</td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Docker Compose</td>
-              <td>
-                Local PostgreSQL + Redis (primary + pub/sub) without cloud
-                accounts — essential now that there are two separate Redis
-                clients
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>Husky + lint-staged</td>
-              <td>ESLint + Prettier on staged files before commit</td>
-            </tr>
+            <tr><td><span class="pill pill-critical">🔴 Critical</span></td><td>CI test pipeline</td><td>GitHub Actions: vitest on every PR — tests must pass before merge</td></tr>
+            <tr><td><span class="pill pill-critical">🔴 Critical</span></td><td>Lint + type check CI</td><td>ESLint and <code>tsc --noEmit</code> on every push to main</td></tr>
+            <tr><td><span class="pill pill-critical">🔴 Critical</span></td><td>Secret scanning</td><td>truffleHog or detect-secrets to catch credential commits</td></tr>
+            <tr><td><span class="pill pill-high">High</span></td><td>Coverage enforcement</td><td>vitest --coverage with 60–70% threshold failing CI on drop</td></tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>Husky + lint-staged</td><td>ESLint + Prettier on staged files before commit</td></tr>
           </tbody>
         </table>
       </div>
@@ -2183,47 +842,13 @@
           <span class="section-rating r-green">8 / 10 — Unchanged</span>
         </div>
         <p class="body-text">
-          The <code>lib/</code> subdirectory structure significantly improves
-          navigability. CACHE_TTL constants with env-override are excellent for
-          DX — tuning cache behaviour requires no code change. Named Redis
-          connections (<code>connectionName: "publisher" / "subscriber"</code>)
-          make debugging easier. The <code>/api/debug/auth</code> endpoint
-          (disabled in production) is a practical DX tool during local
-          development.
+          The <code>lib/</code> subdirectory structure, env-overridable CACHE_TTL constants (28 named TTLs), named Redis connections, and <code>/api/debug/auth</code> endpoint (disabled in prod) all remain DX strengths. Docker Compose provides local PostgreSQL + Redis without cloud accounts. <strong>autocannon</strong> benchmarking scripts enable quick performance regression checks. <strong>ngrok</strong> support (<code>@ngrok/ngrok 1.7</code>) enables local webhook testing with Stripe, Paddle, and third-party integrations.
         </p>
         <table class="dtable">
-          <thead>
-            <tr>
-              <th>Priority</th>
-              <th>Area</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Priority</th><th>Area</th><th>Recommendation</th></tr></thead>
           <tbody>
-            <tr>
-              <td><span class="pill pill-high">High</span></td>
-              <td>Docker Compose</td>
-              <td>
-                Local PostgreSQL + ioredis (pub/sub) + Upstash emulator without
-                cloud accounts — essential with two separate Redis clients
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-medium">Medium</span></td>
-              <td>VS Code workspace config</td>
-              <td>
-                .vscode/settings.json + extensions.json for consistent editor
-                setup
-              </td>
-            </tr>
-            <tr>
-              <td><span class="pill pill-low">Low</span></td>
-              <td>Prisma seed script</td>
-              <td>
-                prisma/seed.ts with realistic test data for immediate
-                populated-app exploration
-              </td>
-            </tr>
+            <tr><td><span class="pill pill-medium">Medium</span></td><td>VS Code workspace config</td><td>.vscode/settings.json + extensions.json for consistent editor setup</td></tr>
+            <tr><td><span class="pill pill-low">Low</span></td><td>Prisma seed script</td><td>prisma/seed.ts with realistic test data for immediate populated-app exploration</td></tr>
           </tbody>
         </table>
       </div>
@@ -2232,52 +857,18 @@
       <div class="card" id="action-plan">
         <div class="section-header">
           <div class="section-num">5</div>
-          <div class="section-title">Consolidated Action Plan — v3 Status</div>
+          <div class="section-title">Consolidated Action Plan — v4 Status</div>
         </div>
         <div class="filter-bar">
-          <button
-            class="filter-btn active"
-            onclick="filterActions('all', this)"
-          >
-            All
-          </button>
-          <button
-            class="filter-btn f-done"
-            onclick="filterActions('done', this)"
-          >
-            ✅ Done
-          </button>
-          <button
-            class="filter-btn f-critical"
-            onclick="filterActions('critical', this)"
-          >
-            🔴 Critical
-          </button>
-          <button
-            class="filter-btn f-high"
-            onclick="filterActions('high', this)"
-          >
-            🟠 High
-          </button>
-          <button
-            class="filter-btn f-medium"
-            onclick="filterActions('medium', this)"
-          >
-            🟡 Medium
-          </button>
-          <button class="filter-btn f-low" onclick="filterActions('low', this)">
-            🟢 Low
-          </button>
+          <button class="filter-btn active"    onclick="filterActions('all',this)">All</button>
+          <button class="filter-btn f-done"    onclick="filterActions('done',this)">✅ Done</button>
+          <button class="filter-btn f-critical" onclick="filterActions('critical',this)">🔴 Critical</button>
+          <button class="filter-btn f-high"    onclick="filterActions('high',this)">🟠 High</button>
+          <button class="filter-btn f-medium"  onclick="filterActions('medium',this)">🟡 Medium</button>
+          <button class="filter-btn f-low"     onclick="filterActions('low',this)">🟢 Low</button>
         </div>
         <table class="dtable" id="actionTable">
-          <thead>
-            <tr>
-              <th width="90">Status</th>
-              <th width="110">Priority</th>
-              <th width="130">Category</th>
-              <th>Action Item</th>
-            </tr>
-          </thead>
+          <thead><tr><th width="90">Status</th><th width="120">Priority</th><th width="130">Category</th><th>Action Item</th></tr></thead>
           <tbody id="actionBody"></tbody>
         </table>
       </div>
@@ -2286,469 +877,185 @@
       <div class="summary-footer" id="conclusion">
         <h2>Final Summary</h2>
         <p>
-          Version 3 represents the most significant quality jump across all
-          three audit cycles. The security layer is now genuinely comprehensive
-          — CSRF at the transport layer, session binding at the authentication
-          layer, security headers at the HTTP layer, RBAC at the application
-          layer, and workspace isolation at the data layer. This is
-          defence-in-depth done right.
+          Version 4 reflects a comprehensive re-analysis of both repositories. The backend comprises 29 self-contained modules with 304 TypeScript files, 133+ API endpoints, 7 BullMQ queues, 8 cron jobs, 14 cache namespaces, and 40+ audit event types. The frontend comprises 121 custom hooks, 39 component directories, 115 app routes, and 885 test files. Combined test coverage: 1,164 test files across unit, contract, e2e, and integration categories.
         </p>
         <p>
-          The SSE implementation, when read in full source, is better than the
-          README suggested. The channelState machine, the
-          subscribe-before-handshake guarantee, and the clean separation of
-          publisher and subscriber singletons are all production-grade
-          decisions. The frontend CSRF module and
-          <code>useNotifications</code> hook are the strongest parts of the
-          entire frontend codebase.
+          The project is now in a state where almost everything that can be improved without adding new features has been addressed. The remaining open items fall into two buckets: tooling investment (CI/CD pipeline, coverage enforcement) and incremental hardening (SSE stream token, type safety tightening, composite DB indexes). Neither contains anything that would cause a production incident.
         </p>
         <p>
-          The two areas holding the overall score below a perfect 10 are now
-          clearly <strong style="color: white">Testing (5/10)</strong> and
-          <strong style="color: white">DevOps/CI-CD (5/10)</strong>. The path to
-          9.5+ is straightforward: a GitHub Actions pipeline with test + lint +
-          coverage enforcement, and coverage pushed to 60%+.
+          The clearest path to the highest possible score: a <strong style="color:white">GitHub Actions CI pipeline</strong> with test + coverage enforcement (DevOps 6→8), and Playwright E2E tests for critical user flows (Testing 7→8). Those two changes alone bring the overall score to approximately <strong style="color:white">9.6</strong>.
         </p>
         <div class="score-transition">
-          <div>
-            <div class="score-big" style="color: rgba(255, 255, 255, 0.25)">
-              7.8
-            </div>
-            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.2)">
-              v1
-            </div>
-          </div>
-          <div style="font-size: 22px; color: rgba(255, 255, 255, 0.15)">→</div>
-          <div>
-            <div class="score-big" style="color: rgba(255, 255, 255, 0.45)">
-              8.3
-            </div>
-            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.3)">
-              v2
-            </div>
-          </div>
-          <div style="font-size: 22px; color: rgba(255, 255, 255, 0.2)">→</div>
-          <div>
-            <div class="score-big" style="color: #4ade80">9.1</div>
-            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.5)">
-              v3
-            </div>
-          </div>
-          <div style="font-size: 22px; color: rgba(255, 255, 255, 0.2)">→</div>
-          <div>
-            <div class="score-big" style="color: rgba(255, 255, 255, 0.15)">
-              ~9.6
-            </div>
-            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.15)">
-              After CI/CD + Tests
-            </div>
-          </div>
+          <div><div class="score-big" style="color:rgba(255,255,255,0.2)">7.8</div><div style="font-size:11px;color:rgba(255,255,255,0.15)">v1</div></div>
+          <div style="font-size:22px;color:rgba(255,255,255,0.12)">→</div>
+          <div><div class="score-big" style="color:rgba(255,255,255,0.35)">8.3</div><div style="font-size:11px;color:rgba(255,255,255,0.25)">v2</div></div>
+          <div style="font-size:22px;color:rgba(255,255,255,0.15)">→</div>
+          <div><div class="score-big" style="color:rgba(255,255,255,0.6)">9.1</div><div style="font-size:11px;color:rgba(255,255,255,0.4)">v3</div></div>
+          <div style="font-size:22px;color:rgba(255,255,255,0.2)">→</div>
+          <div><div class="score-big" style="color:#4ade80">9.3</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">v4</div></div>
+          <div style="font-size:22px;color:rgba(255,255,255,0.15)">→</div>
+          <div><div class="score-big" style="color:rgba(255,255,255,0.15)">~9.6</div><div style="font-size:11px;color:rgba(255,255,255,0.12)">After CI/CD + E2E</div></div>
         </div>
-        <div class="next-milestone">
-          Grade: A &nbsp;|&nbsp; Next milestone: A+ with CI/CD + Testing + SSE
-          stream token fix
-        </div>
+        <div class="next-milestone">Grade: A &nbsp;|&nbsp; Next milestone: A+ with CI/CD + E2E Testing + SSE stream token fix</div>
       </div>
     </main>
 
     <script>
+      // ── Scorecard data v1→v2→v3→v4 ──────────────────────────────────────────
       const scores = [
-        ["Architecture & Structure", 9, 9, 10, ""],
-        ["Security", 8, 8, 10, "✦ CSRF, session binding, security headers"],
-        [
-          "Authentication & Authorization",
-          9,
-          9,
-          10,
-          "✦ Session binding + hijack detection",
-        ],
-        ["Code Quality & Logic", 8, 8, 8, ""],
-        ["Readability & Maintainability", 8, 8, 8, ""],
-        ["Type Safety", 8, 8, 8, ""],
-        ["Testing", 5, 5, 5, ""],
-        ["Performance & Scalability", 7, 9, 9, ""],
-        [
-          "Error Handling",
-          7,
-          7,
-          8,
-          "✦ Redis failure isolation, graceful shutdown",
-        ],
-        ["API Design", 8, 8, 9, "✦ /health, CSRF columns, cursor pagination"],
-        [
-          "Real-Time (SSE)",
-          8,
-          9,
-          10,
-          "✦ channelState machine, subscribe timing",
-        ],
-        ["Database & ORM Design", 8, 8, 9, "✦ Dual Prisma clients confirmed"],
-        [
-          "Frontend Patterns",
-          9,
-          9,
-          10,
-          "✦ CSRF module, useNotifications, axios",
-        ],
-        ["Documentation", 9, 9, 9, ""],
-        ["DevOps & CI/CD", 5, 5, 5, ""],
-        ["Developer Experience", 8, 8, 8, ""],
+        ['Architecture & Structure',      9, 9, 10, 10, '29 modules, 304 TS files'],
+        ['Security',                       8, 8, 10, 10, '40+ audit events, RBAC 18 perms'],
+        ['Authentication & Authorization', 9, 9, 10, 10, 'RS256, session binding, lockout'],
+        ['Code Quality & Logic',           8, 8,  8,  9, '✦ N+1 eliminated, cache complete'],
+        ['Readability & Maintainability',  8, 8,  8,  8, ''],
+        ['Type Safety',                    8, 8,  8,  8, 'FocuraJwtPayload typed'],
+        ['Testing',                        5, 5,  5,  7, '✦ 1,164 test files (279 BE + 885 FE)'],
+        ['Performance & Scalability',      7, 9,  9, 10, '✦ 14 cache namespaces, 7 queues'],
+        ['Error Handling',                 7, 7,  8,  8, '21 error classes, Sentry integrated'],
+        ['API Design',                     8, 8,  9,  9, '~133 endpoints'],
+        ['Real-Time (SSE)',                8, 9, 10, 10, 'Redis Pub/Sub, channelState machine'],
+        ['Database & ORM Design',          8, 8,  9,  9, '62 models, 145 indexes, dual clients'],
+        ['Frontend Patterns',              9, 9, 10, 10, '121 hooks, 39 dirs, 885 tests'],
+        ['Documentation',                  9, 9,  9,  9, ''],
+        ['DevOps & CI/CD',                 5, 5,  5,  6, '✦ Docker Compose + benchmarking'],
+        ['Developer Experience',           8, 8,  8,  8, 'Docker, autocannon, ngrok'],
       ];
 
-      function barClass(s) {
-        return s >= 9 ? "bar-g" : s >= 7 ? "bar-y" : "bar-r";
-      }
-      function numColor(s) {
-        return s >= 9 ? "#1A6B3A" : s >= 7 ? "#A0720A" : "#A93226";
-      }
+      const barClass = s => s >= 9 ? 'bar-g' : s >= 7 ? 'bar-y' : 'bar-r';
+      const numColor = s => s >= 9 ? '#1A6B3A' : s >= 7 ? '#A0720A' : '#A93226';
 
-      const sc = document.getElementById("scorecard");
-      scores.forEach(([label, v1, v2, v3, note]) => {
-        const delta = v3 - v2;
-        const div = document.createElement("div");
-        div.className = "score-row";
+      const sc = document.getElementById('scorecard');
+      scores.forEach(([label, v1, v2, v3, v4, note]) => {
+        const delta = v4 - v3;
+        const div = document.createElement('div');
+        div.className = 'score-row';
         div.innerHTML = `
-    <div class="slabel">${label}${note ? `<br><span style="font-size:10px;color:#2E75B6">${note}</span>` : ""}</div>
-    <div class="score-chain-sm">
-      <span class="sv1">${v1}</span>
-      <span class="arr">→</span>
-      <span class="sv2">${v2}</span>
-      <span class="arr">→</span>
-      <span class="sv3" style="color:${numColor(v3)}">${v3}${delta > 0 ? " ▲" : ""}</span>
-    </div>
-    <div class="score-bar-wrap"><div class="score-bar ${barClass(v3)}" style="width:${v3 * 10}%"></div></div>
-  `;
+          <div class="slabel">${label}${note ? `<br><span style="font-size:10px;color:#2E75B6">${note}</span>` : ''}</div>
+          <div class="score-chain-sm">
+            <span class="sv1">${v1}</span><span class="arr">→</span>
+            <span class="sv2">${v2}</span><span class="arr">→</span>
+            <span class="sv3">${v3}</span><span class="arr">→</span>
+            <span class="sv4" style="color:${numColor(v4)}">${v4}${delta > 0 ? ' ▲' : ''}</span>
+          </div>
+          <div class="score-bar-wrap"><div class="score-bar ${barClass(v4)}" style="width:${v4*10}%"></div></div>`;
         sc.appendChild(div);
       });
 
-      // Changes table
+      // ── Changes table ────────────────────────────────────────────────────────
       const changes = [
-        [
-          "middleware/csrf.ts",
-          "Double-submit CSRF token — crypto.randomBytes, Redis-backed (ioredis), timingSafeEqual, test/dev fallback, sessionId-scoped keys, 1h TTL",
-          "Security ▲, Auth ▲, API ▲",
-        ],
-        [
-          "middleware/securityHeaders.ts",
-          "Full CSP, X-Frame-Options: DENY, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, HSTS (prod), COEP, COOP, CORP",
-          "Security ▲",
-        ],
-        [
-          "middleware/auth.ts",
-          'Session binding: IP + User-Agent stored in Redis; mismatch → revokeAllRefreshTokens + auditLog("SESSION_HIJACK_DETECTED")',
-          "Security ▲, Auth ▲",
-        ],
-        [
-          "lib/auth/sessionBinding.ts",
-          "New file: getClientIp(), validateSessionBinding(), SessionMetadata type",
-          "Security ▲",
-        ],
-        [
-          "lib/cache/cache.client.ts",
-          "CacheClient (get/set/delete/deletePattern/getOrSet), CACHE_KEYS (20+ named keys), CACHE_TTL (env-overridable), WorkspaceCache, LabelCache, AnalyticsCache, StorageCache invalidation helpers",
-          "Performance ▲, Architecture ▲",
-        ],
-        [
-          "lib/prisma.ts",
-          "Dual Prisma clients: prisma (pool=5, primary) + prismaRead (pool=10, replica); falls back to DATABASE_URL if READ_DATABASE_URL not set",
-          "Performance ▲, Architecture ▲",
-        ],
-        [
-          "lib/sse/sse.channels.ts",
-          "Typed userChannel(), SSEEventType, SSEPayload, NotificationPayload — single source of truth for SSE contract",
-          "Real-Time ▲, Architecture ▲",
-        ],
-        [
-          "redis/redis.pubsub.ts",
-          "Singleton publisher + subscriber (ioredis), autoResubscribe, keepAlive 10s, retryStrategy, named connections",
-          "Real-Time ▲",
-        ],
-        [
-          "sockets/notification.stream.ts",
-          'channelState machine (pending/active/pending-unsub), subscribe awaited before "connected" handshake, 25s heartbeat, removeClient cleanup, getLocalConnectionCount()',
-          "Real-Time ▲",
-        ],
-        [
-          "index.ts",
-          "GET /health with DB ping, Helmet, graceful shutdown (SIGTERM/SIGINT/uncaughtException/unhandledRejection), CSRF routes, CORS allows X-CSRF-Token",
-          "Architecture ▲, API ▲, Security ▲",
-        ],
-        [
-          "lib/csrf.ts (frontend)",
-          "getCsrfToken(forceRefresh), invalidateCsrfToken(), 55-min client-side cache, fetches with backendToken from NextAuth session",
-          "Frontend ▲, Security ▲",
-        ],
-        [
-          "lib/axios.ts (frontend)",
-          "CSRF token auto-attached on POST/PATCH/PUT/DELETE; CSRF_VALIDATION_FAILED triggers token refresh + retry; TOKEN_REPLAY_DETECTED handler",
-          "Frontend ▲, Security ▲",
-        ],
-        [
-          "hooks/useNotifications.ts",
-          "Cursor-based infinite scroll, duplicate guard on SSE prepend, 5s reconnect backoff, unread count badge, full mutation suite",
-          "Real-Time ▲, Frontend ▲",
-        ],
+        ['N+1 queries eliminated', 'All 29 backend module query files — relations eager-loaded via Prisma include/select, never fetched in loops', 'High-priority open item', '✅ Resolved', 'Code Quality ▲'],
+        ['Cache invalidation complete', 'Every mutation file calls the corresponding Cache.invalidate*() helper — 14 cache namespaces with env-overridable TTLs', 'High-priority open item', '✅ Resolved', 'Code Quality ▲, Performance ▲'],
+        ['Testing re-evaluated', 'Backend: 279 tests (199 unit, 26 contract, 16 e2e, 37 integration) across 40 subdirectories. Frontend: 885 tests covering components, hooks, API, lib, utils. Total: 1,164 test files', 'Previously rated 5/10', '✅ Updated to 7/10', 'Testing ▲'],
+        ['DevOps updated', 'Docker Compose for local PostgreSQL + Redis, autocannon performance benchmarking scripts (API, database, service, load tests)', 'Previously rated 5/10', '✅ Updated to 6/10', 'DevOps ▲'],
+        ['AI module added', 'Google Gemini integration — server-side AI module with task autocomplete, goal breakdown, comment assist, tier-based quota/rate limiting', 'Not present in v3', '✅ New module', 'Architecture'],
+        ['FocuraJwtPayload typed', 'auth.ts now uses typed FocuraJwtPayload interface (sub, email, role, jti, version, type, sessionId) instead of decoded: any', 'High-priority type safety gap', '✅ Resolved', 'Type Safety'],
       ];
-      const cb = document.getElementById("changesBody");
-      changes.forEach((row, i) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td><code>${row[0]}</code></td><td>${row[1]}</td><td><span style="font-size:11px;color:#2E75B6;font-weight:600">${row[2]}</span></td>`;
+      const cb = document.getElementById('changesBody');
+      changes.forEach(([fix, scope, was, now, affected]) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><strong>${fix}</strong></td><td style="font-size:12px">${scope}</td><td style="color:#7f1d1d;font-size:12px">${was}</td><td style="color:#14532d;font-weight:700;font-size:12px">${now}</td><td><span style="font-size:11px;color:#2E75B6;font-weight:600">${affected}</span></td>`;
         cb.appendChild(tr);
       });
 
-      // Action plan
+      // ── Action plan ──────────────────────────────────────────────────────────
       const actions = [
-        [
-          "done",
-          "—",
-          "Security",
-          "CSRF double-submit cookie (backend + frontend)",
-        ],
-        [
-          "done",
-          "—",
-          "Security",
-          "Security headers (CSP, HSTS, X-Frame-Options, COEP, COOP, CORP)",
-        ],
-        [
-          "done",
-          "—",
-          "Security",
-          "Session binding (IP + UA) with hijack detection and full token revocation",
-        ],
-        ["done", "—", "Security", "Helmet applied in index.ts"],
-        [
-          "done",
-          "—",
-          "Performance",
-          "Redis response caching with granular domain invalidation helpers",
-        ],
-        [
-          "done",
-          "—",
-          "Performance",
-          "Dual Prisma clients (primary pool=5 + read replica pool=10)",
-        ],
-        [
-          "done",
-          "—",
-          "Performance",
-          "TanStack Query staleTime/gcTime tuned per query type",
-        ],
-        [
-          "done",
-          "—",
-          "Real-Time",
-          "Redis Pub/Sub SSE fan-out with channelState machine",
-        ],
-        [
-          "done",
-          "—",
-          "Real-Time",
-          'Subscribe awaited before "connected" handshake — no missed PUBLISH',
-        ],
-        [
-          "done",
-          "—",
-          "Architecture",
-          "GET /health endpoint with DB liveness check",
-        ],
-        [
-          "done",
-          "—",
-          "Architecture",
-          "Graceful shutdown (SIGTERM/SIGINT/uncaughtException)",
-        ],
-        ["done", "—", "Architecture", "lib/sse/sse.channels.ts typed contract"],
-        [
-          "critical",
-          "🔴 Critical",
-          "CI/CD",
-          "GitHub Actions: test + lint + type-check on every PR",
-        ],
-        [
-          "critical",
-          "🔴 Critical",
-          "CI/CD",
-          "Secret scanning in CI to prevent RSA key / credential commits",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Security",
-          "Replace SSE query-param token with short-lived signed stream token",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Testing",
-          "RBAC boundary integration tests for all role-gated routes",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Testing",
-          "CSRF, session binding, and cache invalidation tests",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Testing",
-          "Coverage threshold (60–70%) enforced in CI",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Type Safety",
-          "Type the decoded JWT payload (replace decoded: any)",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Type Safety",
-          "Define PaginatedApiResponse<T> consistently",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Type Safety",
-          "Enable strict + noUncheckedIndexedAccess in both tsconfigs",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Error Handling",
-          "Typed AppError class (code, statusCode, details)",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Error Handling",
-          "React Error Boundary at root and per major section",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Error Handling",
-          "Sentry integration on frontend + backend",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "Database",
-          "Composite index audit: [workspaceId, status], [workspaceId, assigneeId, dueDate]",
-        ],
-        [
-          "high",
-          "🟠 High",
-          "DevOps",
-          "Automated prisma migrate deploy in Railway pipeline",
-        ],
-        [
-          "medium",
-          "🟡 Medium",
-          "Performance",
-          "Replace redis.keys() in deletePattern() with SCAN iteration",
-        ],
-        ["medium", "🟡 Medium", "API Design", "Prefix all routes /api/v1/"],
-        [
-          "medium",
-          "🟡 Medium",
-          "DevOps",
-          "Docker Compose for local PostgreSQL + Redis (both clients)",
-        ],
-        [
-          "medium",
-          "🟡 Medium",
-          "DevOps",
-          "Husky + lint-staged pre-commit hooks",
-        ],
-        [
-          "low",
-          "🟢 Low",
-          "Testing",
-          "Playwright E2E for auth, task creation, billing",
-        ],
-        [
-          "low",
-          "🟢 Low",
-          "Documentation",
-          "ADR files for key architectural decisions",
-        ],
-        [
-          "low",
-          "🟢 Low",
-          "Performance",
-          "next build --analyze bundle size audit",
-        ],
-        [
-          "low",
-          "🟢 Low",
-          "Real-Time",
-          "Confirm Pub/Sub subscriber cleanup on SSE connection close",
-        ],
+        ['done','—','Security',      'CSRF double-submit cookie (backend + frontend)'],
+        ['done','—','Security',      'Security headers (CSP, HSTS, X-Frame-Options, COEP, COOP, CORP)'],
+        ['done','—','Security',      'Session binding (IP + UA) with hijack detection and full token revocation'],
+        ['done','—','Security',      'Account lockout — 10 failed attempts → 15-minute lockout via Redis'],
+        ['done','—','Security',      '40+ structured audit event types covering login, token, session, CSRF, security, data, workspace events'],
+        ['done','—','Performance',   'N+1 queries eliminated — all relations eager-loaded in query files'],
+        ['done','—','Performance',   'Cache invalidation complete on all mutation files — 14 cache namespaces'],
+        ['done','—','Performance',   'Redis response caching with 28 named TTLs, env-overridable per resource'],
+        ['done','—','Performance',   'Dual Prisma clients (primary pool=5 + read replica pool=10)'],
+        ['done','—','Performance',   'TanStack Query staleTime/gcTime tuned per query type'],
+        ['done','—','Performance',   '7 BullMQ queues with dedicated workers (email, notification, activity, calendar, analytics, integration, automation)'],
+        ['done','—','Testing',       'Backend: 279 test files (199 unit, 26 contract, 16 e2e, 37 integration) across 40 subdirectories'],
+        ['done','—','Testing',       'Frontend: 885 test files covering components, hooks, API, lib, utils, constants, context'],
+        ['done','—','Testing',       'Test infrastructure: Vitest, Supertest, MSW, React Testing Library, test factories, global setup'],
+        ['done','—','Real-Time',     'Redis Pub/Sub SSE fan-out with channelState machine (pending | active | pending-unsub)'],
+        ['done','—','Real-Time',     'Subscribe awaited before "connected" handshake — no missed PUBLISH'],
+        ['done','—','Real-Time',     'Per-user connection limit (5), global cap (10,000), delivery tracking, 25s heartbeat'],
+        ['done','—','Architecture',  'GET /health + /health/db-pool endpoints'],
+        ['done','—','Architecture',  'Graceful shutdown (SIGTERM/SIGINT/uncaughtException/unhandledRejection)'],
+        ['done','—','Architecture',  '29 self-contained domain modules with barrel exports'],
+        ['done','—','Architecture',  'AI module (Google Gemini) with tier-based quota and rate limiting'],
+        ['done','—','DevOps',        'Docker Compose for local PostgreSQL + Redis'],
+        ['done','—','DevOps',        'autocannon performance benchmarking (API, database, service, load tests)'],
+        ['done','—','Frontend',      '121 custom hooks, 39 component directories, 115 app routes'],
+        ['done','—','Frontend',      'Workbox PWA support, jspdf PDF export, Cloudinary uploads, qrcode.react 2FA'],
+        ['critical','🔴 Critical','CI/CD',       'GitHub Actions: test + lint + type-check on every PR'],
+        ['critical','🔴 Critical','CI/CD',       'Secret scanning in CI (truffleHog / detect-secrets)'],
+        ['high','🟠 High','Security',            'Replace SSE query-param token with short-lived signed stream token'],
+        ['high','🟠 High','Testing',             'RBAC boundary integration tests for all role-gated routes'],
+        ['high','🟠 High','Testing',             'Coverage threshold (60–70%) enforced in CI'],
+        ['high','🟠 High','Testing',             'Playwright E2E for auth, task creation, billing, and workspace flows'],
+        ['high','🟠 High','Type Safety',         'Define PaginatedApiResponse<T> consistently across all paginated endpoints'],
+        ['high','🟠 High','Type Safety',         'Enable strict + noUncheckedIndexedAccess in both tsconfigs'],
+        ['high','🟠 High','Error Handling',      'React Error Boundary at root and per major section'],
+        ['high','🟠 High','Database',            'Composite index audit: [workspaceId, status], [workspaceId, assigneeId, dueDate]'],
+        ['medium','🟡 Medium','Performance',     'Replace redis.keys() with SCAN iteration in CacheClient.deletePattern()'],
+        ['medium','🟡 Medium','API Design',      'Auto-generate OpenAPI spec from route definitions and Zod validators'],
+        ['medium','🟡 Medium','DevOps',          'Husky + lint-staged pre-commit hooks'],
+        ['medium','🟡 Medium','Documentation',   'ADR files for key architectural decisions (RS256, modular monolith, SSE, CSRF)'],
+        ['medium','🟡 Medium','Error Handling',  'Extend Sentry to frontend for full-stack error grouping'],
+        ['low','🟢 Low','Performance',           'next build --analyze bundle size audit (Framer Motion, Recharts, Redux Toolkit)'],
+        ['low','🟢 Low','Documentation',         'Keep a Changelog format between releases'],
+        ['low','🟢 Low','Developer Exp',         'VS Code workspace config (.vscode/settings.json + extensions.json)'],
       ];
 
       const statusMap = {
-        done: '<span class="pill pill-done">✅ Done</span>',
-        critical:
-          '<span class="pill" style="background:#fee2e2;color:#991b1b">⚠️ Open</span>',
-        high: '<span class="pill" style="background:#fff7ed;color:#92400e">⚠️ Open</span>',
-        medium:
-          '<span class="pill" style="background:#eff6ff;color:#1e40af">⚠️ Open</span>',
-        low: '<span class="pill" style="background:#f0fdf4;color:#166534">⚠️ Open</span>',
+        done:     '<span class="pill pill-done">✅ Done</span>',
+        critical: '<span class="pill" style="background:#fee2e2;color:#991b1b">⚠️ Open</span>',
+        high:     '<span class="pill" style="background:#fff7ed;color:#92400e">⚠️ Open</span>',
+        medium:   '<span class="pill" style="background:#eff6ff;color:#1e40af">⚠️ Open</span>',
+        low:      '<span class="pill" style="background:#f0fdf4;color:#166534">⚠️ Open</span>',
       };
       const pillMap = {
-        done: "—",
+        done:     '—',
         critical: '<span class="pill pill-critical">🔴 Critical</span>',
-        high: '<span class="pill pill-high">🟠 High</span>',
-        medium: '<span class="pill pill-medium">🟡 Medium</span>',
-        low: '<span class="pill pill-low">🟢 Low</span>',
+        high:     '<span class="pill pill-high">🟠 High</span>',
+        medium:   '<span class="pill pill-medium">🟡 Medium</span>',
+        low:      '<span class="pill pill-low">🟢 Low</span>',
       };
 
       function renderActions(filter) {
-        const tbody = document.getElementById("actionBody");
-        tbody.innerHTML = "";
+        const tbody = document.getElementById('actionBody');
+        tbody.innerHTML = '';
         actions
-          .filter((a) => filter === "all" || a[0] === filter)
+          .filter(a => filter === 'all' || a[0] === filter)
           .forEach(([pri, pLabel, cat, item]) => {
-            const tr = document.createElement("tr");
+            const tr = document.createElement('tr');
             tr.innerHTML = `<td>${statusMap[pri]}</td><td>${pillMap[pri]}</td><td>${cat}</td><td>${item}</td>`;
             tbody.appendChild(tr);
           });
       }
-      renderActions("all");
+      renderActions('all');
 
       function filterActions(f, btn) {
-        document
-          .querySelectorAll(".filter-btn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         renderActions(f);
       }
 
       function switchTab(btn, group, panel) {
-        const card = btn.closest(".card");
-        card
-          .querySelectorAll(".tab")
-          .forEach((t) => t.classList.remove("active"));
-        card
-          .querySelectorAll(".tab-panel")
-          .forEach((p) => p.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(`${group}-${panel}`).classList.add("active");
+        const card = btn.closest('.card');
+        card.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        card.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`${group}-${panel}`).classList.add('active');
       }
 
-      const navLinks = document.querySelectorAll("nav a");
-      window.addEventListener("scroll", () => {
-        let current = "";
-        document.querySelectorAll("[id]").forEach((s) => {
+      // ── Nav scroll spy ───────────────────────────────────────────────────────
+      const navLinks = document.querySelectorAll('nav a');
+      window.addEventListener('scroll', () => {
+        let current = '';
+        document.querySelectorAll('[id]').forEach(s => {
           if (window.scrollY >= s.offsetTop - 80) current = s.id;
         });
-        navLinks.forEach((a) => {
-          a.classList.remove("active");
-          if (a.getAttribute("href") === "#" + current)
-            a.classList.add("active");
+        navLinks.forEach(a => {
+          a.classList.remove('active');
+          if (a.getAttribute('href') === '#' + current) a.classList.add('active');
         });
       });
     </script>
